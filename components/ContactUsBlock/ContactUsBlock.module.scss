@@ -1,0 +1,79 @@
+.wrapperToLimitContentWidth {
+  width: 100%;
+  height: 1200px;
+  background-image: url("https://new-client-website.s3.us-east-2.amazonaws.com/contact-us-background-image.jpg");
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: contain;
+}
+.wrapper {
+  max-width: 1329px;
+  height: 100%;
+  margin: 0px auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.formContainer {
+  max-width: 407px;
+}
+.titlesContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.planningAnEventTitle,
+.contactUsTitle {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 150%;
+  color: #000000;
+}
+// .planningAnEventTitle {
+//   margin-bottom: 12px;
+// }
+.inputsAndButtonContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+// .form {
+// }
+.firstName,
+.lastName,
+.email,
+.phone {
+  width: 100%;
+  height: 20px;
+  margin-bottom: 22px;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid black;
+  text-indent: 8px;
+}
+
+.lastName {
+}
+.email {
+}
+.phone {
+}
+.textArea {
+  width: 100%;
+  height: 149px;
+  margin-bottom: 22px;
+  outline: none;
+  resize: none;
+}
+.submitButton {
+  width: 217px;
+  height: 41px;
+  background: #2096eb;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 38px;
+  color: #ffffff;
+  border: none;
+}

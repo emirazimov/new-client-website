@@ -1,0 +1,59 @@
+.wrapper {
+  width: 100%;
+
+  height: auto;
+  margin: 0px auto;
+  background: rgb(16, 16, 32);
+  padding-top: 33.82px;
+  padding-left: 52px;
+  padding-right: 52px;
+  padding-bottom: 17.68px;
+  filter: opacity(89%);
+}
+.logoAndSocialmediaIconsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  position: relative;
+  width: 186.71px;
+  height: 34.3px;
+}
+.socialmediaIconsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.facebook,
+.twitter,
+.instagram,
+.linkedin {
+  position: relative;
+  width: 21.33px;
+  height: 21.33px;
+  margin-right: 26.67px;
+}
+.facebook {
+}
+.twitter {
+}
+.instagram {
+}
+.linkedin {
+}
+.copyrightContainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 4.5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+
+  & > p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    color: #ffffff;
+  }
+}

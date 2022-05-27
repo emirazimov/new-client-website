@@ -1,0 +1,62 @@
+.wrapperToLimitContentWidth {
+  //   width: 200px;
+
+  height: 980px;
+
+  background-image: url("https://new-client-website.s3.us-east-2.amazonaws.com/main-block-background.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.wrapper {
+  max-width: 1329px;
+  margin: 0px auto;
+}
+
+.letsGetStartedAndMainTextContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 39.35px;
+}
+
+.letsGetStartedContainer {
+  display: flex;
+  flex-direction: column;
+  margin-right: 137px;
+}
+.letsGetStartedTitle {
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 24px;
+  margin-bottom: 14px;
+  color: #0b0b0b;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.backButton,
+.nextButton {
+  width: 125px;
+  height: 33.51px;
+  background: #2096eb;
+  border-radius: 4.78722px;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 14px;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+}
+.backButton {
+  margin-right: 8px;
+}
+.mainText {
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 55px;
+  color: #000000;
+}
