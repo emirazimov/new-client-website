@@ -2,99 +2,199 @@ import style from "./WidgetThirdPage.module.scss"
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 
+import { MinusIcon, PlusIcon } from "../../public/Assets"
+import { useDispatch, useSelector } from "react-redux"
+import {
+  setBoosterSeatCount,
+  setHourlySwitch,
+  setHoursCount,
+  setSafetySeatCount,
+  setSafetySeatSwitch,
+} from "../../reduxToolkit/slices/formData"
+
 export const WidgetThirdPage = () => {
-  const carsList = [
-    {
-      typeOfVehicle: "SEDAN",
-      image: "sedanImg.png",
-      capacity: "3",
-      luggage: "2",
-      price: "140.30",
-    },
-    {
-      typeOfVehicle: "SUV",
-      image: "suvImg.png",
-      capacity: "6",
-      luggage: "2",
-      price: "140.30",
-    },
-    {
-      typeOfVehicle: "MINI BUS",
-      image: "miniBus.png",
-      capacity: "3",
-      luggage: "2",
-      price: "140.30",
-    },
-    {
-      typeOfVehicle: "LIMOUSINE",
-      image: "limousine.png",
-      capacity: "3",
-      luggage: "2",
-      price: "140.30",
-    },
+  const [youthBoosterSeat, setYouthBoosterSeat] = useState(0)
+  const [infantChildSafetySeat, setInfantChildSafetySeat] = useState(0)
+  const [hours, setHours] = useState(0)
 
-    {
-      typeOfVehicle: "LIMOUSINE",
-      image: "limousine.png",
-      capacity: "3",
-      luggage: "2",
-      price: "140.30",
-    },
-    {
-      typeOfVehicle: "LIMOUSINE",
-      image: "limousine.png",
-      capacity: "3",
-      luggage: "2",
-      price: "140.30",
-    },
-    {
-      typeOfVehicle: "LIMOUSINE",
-      image: "limousine.png",
-      capacity: "3",
-      luggage: "2",
-      price: "140.30",
-    },
-    {
-      typeOfVehicle: "LIMOUSINE",
-      image: "limousine.png",
-      capacity: "3",
-      luggage: "2",
-      price: "140.30",
-    },
-  ]
+  // const [safetySeatSwitch, setSafetySeatSwitch] = useState(false)
+  // const [hourlySwitch, setHourlySwitch] = useState(false)
 
-  function imageLoader({ src, width, height }) {
-    // const relativeSrc = (src) => src.split("/").pop()
+  const formData = useSelector((state) => state.formData)
 
-    return `https://new-client-website.s3.us-east-2.amazonaws.com/${src}`
-  }
+  const dispatch = useDispatch()
+
+  // useEffect(() => {
+  //   if (formData.hourly) {
+  //     if (firstAirline) {
+  //       setBookingType(3)
+  //     } else {
+  //       setBookingType(2)
+  //     }
+  //     // setDisableHourly(true)
+  //   } else {
+  //     if (firstAirline) {
+  //       setBookingType(3)
+  //     } else {
+  //       setBookingType(1)
+  //     }
+  //   }
+  // })
 
   return (
-    <div className={style.wrapperWithBlackBorder}>
-      <div className={style.wrapper}>
-        {carsList.map((car, index) => {
-          return (
-            <div className={style.carContainer}>
-              <div className={style.typeAndImageContainer}>
-                <p className={style.typeOfVehicle}>{car.typeOfVehicle}</p>
-                <div className={style.carImage}>
-                  <Image
-                    loader={imageLoader}
-                    src={car.image}
-                    alt={car.typeOfVehicle}
-                    layout="fill"
-                  ></Image>
-                </div>
-              </div>
-              <div className={style.detailsContainer}>
-                <p className={style.carPrice}>{car.price} USD</p>
-                <p className={style.carCapacity}>CAPACITY-{car.capacity}</p>
-                <p className={style.carLuggage}>LUGGAGE-{car.luggage}</p>
-              </div>
-            </div>
-          )
-        })}
+    <>
+      <div className={style.inputsBackgroundWithOpacitySafetySeat}>
+        <div className={style.safetySeatSwitchInput}>
+          <p className={style.safetySeatPlaceholder}>Safety Seat</p>
+          <div className={style.switchWrapper}>
+            <input
+              type="checkbox"
+              name={`switchSafetySeat`}
+              className={style.switchSelf}
+              id={`switchSafetySeat`}
+              defaultChecked={formData.showCarsWithSafetySeat}
+              onClick={() => {
+                dispatch(setSafetySeatSwitch(!formData.showCarsWithSafetySeat))
+              }}
+            />
+            <label for={`switchSafetySeat`}></label>
+          </div>
+        </div>
       </div>
-    </div>
+
+      <div className={style.inputsBackgroundWithOpacityYouthBoosterSeat}>
+        <div className={style.youthBoosterSeatCountInput}>
+          <p className={style.youthBoosterSeatPlaceholder}>
+            Youth Booster Seat
+          </p>
+          <div className={style.counterContainer}>
+            <div
+              className={style.minusButton}
+              onClick={() => {
+                if (formData.boosterSeatCount === 0) {
+                  return
+                }
+                dispatch(setBoosterSeatCount(formData.boosterSeatCount - 1))
+                // setYouthBoosterSeat((youthBoosterSeat) => youthBoosterSeat - 1)
+              }}
+            >
+              <MinusIcon />
+            </div>
+            <input
+              className={style.counterInput}
+              value={formData.boosterSeatCount}
+            />
+            <div
+              className={style.plusButton}
+              onClick={() => {
+                if (formData.boosterSeatCount === 14) {
+                  return
+                }
+                dispatch(setBoosterSeatCount(formData.boosterSeatCount + 1))
+                // setYouthBoosterSeat((youthBoosterSeat) => youthBoosterSeat + 1)
+              }}
+            >
+              <PlusIcon />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className={style.inputsBackgroundWithOpacityInfantChildSafetySeat}>
+        <div className={style.infantChildSafetySeatCountInput}>
+          <p className={style.infantChildSafetySeatPlaceholder}>
+            Infant & Child Safety Seat
+          </p>
+          <div className={style.counterContainer}>
+            <div
+              className={style.minusButton}
+              onClick={() => {
+                if (formData.safetySeatCount === 0) {
+                  return
+                }
+                dispatch(setSafetySeatCount(formData.safetySeatCount - 1))
+                // setInfantChildSafetySeat(
+                //   (infantChildSafetySeat) => infantChildSafetySeat - 1
+                // )
+              }}
+            >
+              <MinusIcon />
+            </div>
+            <input
+              className={style.counterInput}
+              value={formData.safetySeatCount}
+            />
+            <div
+              className={style.plusButton}
+              onClick={() => {
+                if (formData.safetySeatCount === 14) {
+                  return
+                }
+
+                dispatch(setSafetySeatCount(formData.safetySeatCount + 1))
+
+                // setInfantChildSafetySeat(
+                //   (infantChildSafetySeat) => infantChildSafetySeat + 1
+                // )
+              }}
+            >
+              <PlusIcon />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className={style.inputsBackgroundWithOpacityHourly}>
+        <div className={style.hourlySwitchInput}>
+          <p className={style.hourlyPlaceholder}>Hourly</p>
+          <div className={style.switchWrapper}>
+            <input
+              type="checkbox"
+              name={`switchHourly`}
+              className={style.switchSelf}
+              id={`switchHourly`}
+              defaultChecked={formData.hourly}
+              onClick={() => {
+                // setHourlySwitch(!hourlySwitch)
+                dispatch(setHourlySwitch(!formData.hourly))
+              }}
+            />
+            <label for={`switchHourly`}></label>
+          </div>
+        </div>
+      </div>
+
+      <div className={style.inputsBackgroundWithOpacityHoursCount}>
+        <div className={style.hoursCountInput}>
+          <p className={style.hoursPlaceholder}>Hours</p>
+          <div className={style.counterContainer}>
+            <div
+              className={style.minusButton}
+              onClick={() => {
+                if (formData.hours === 0) {
+                  return
+                }
+                dispatch(setHoursCount(formData.hours - 1))
+                // setHours((hours) => hours - 1)
+              }}
+            >
+              <MinusIcon />
+            </div>
+            <input className={style.counterInput} value={formData.hours} />
+            <div
+              className={style.plusButton}
+              onClick={() => {
+                if (formData.hours === 14) {
+                  return
+                }
+                dispatch(setHoursCount(formData.hours + 1))
+                // setHours((hours) => hours + 1)
+              }}
+            >
+              <PlusIcon />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   )
 }

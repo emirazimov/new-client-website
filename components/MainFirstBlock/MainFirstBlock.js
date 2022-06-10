@@ -7,6 +7,8 @@ import { WidgetSecondPage } from "../WidgetSecondPage/WidgetSecondPage"
 import { WidgetThirdPage } from "../WidgetThirdPage/WidgetThirdPage"
 import { useSelector, useDispatch } from "react-redux"
 import { decrement, increment } from "../../reduxToolkit/slices/counterSlice"
+import { WidgetFourthPage } from "../WidgetFourthPage/WidgetFourthPage"
+import WidgetFifthPage from "../WidgetFifthPage/WidgetFifthPage"
 
 // almost on finish line, need to create redux toolkit store, and synchronize with ui
 
@@ -22,7 +24,9 @@ const MainFirstBlock = () => {
       case 3:
         return <WidgetThirdPage />
       case 4:
-        return <div>Fourth Page</div>
+        return <WidgetFourthPage />
+      case 5:
+        return <WidgetFifthPage />
       default:
         break
     }
@@ -34,14 +38,14 @@ const MainFirstBlock = () => {
   return (
     <div className={style.wrapperToLimitContentWidth}>
       <Header />
-      <button
+      {/* <button
         onClick={() => {
           dispatch(increment())
         }}
       >
         Click me
       </button>
-      <h2>{count}</h2>
+      <h2>{count}</h2> */}
       <div className={style.wrapper}>
         <div className={style.letsGetStartedAndMainTextContainer}>
           <div className={style.letsGetStartedContainer}>

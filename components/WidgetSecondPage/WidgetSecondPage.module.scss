@@ -1,10 +1,7 @@
+.inputsBackgroundWithOpacityAirlines,
+.inputsBackgroundWithOpacityFlightNumber,
 .inputsBackgroundWithOpacityLuggageCount,
-.inputsBackgroundWithOpacityYouthBoosterSeat,
-.inputsBackgroundWithOpacityInfantChildSafetySeat,
-.inputsBackgroundWithOpacityHoursCount,
 .inputsBackgroundWithOpacityMeetAndGreetLuggageAssist,
-.inputsBackgroundWithOpacitySafetySeat,
-.inputsBackgroundWithOpacityHourly,
 .inputsBackgroundWithOpacityNumberOfPassengers {
   width: auto;
   height: auto;
@@ -17,12 +14,7 @@
 }
 
 .meetAndGreetLuggageAssistPlaceholder,
-.luggageCountPlaceholder,
-.safetySeatPlaceholder,
-.youthBoosterSeatPlaceholder,
-.infantChildSafetySeatPlaceholder,
-.hourlyPlaceholder,
-.hoursPlaceholder {
+.luggageCountPlaceholder {
   font-weight: 400;
   font-size: 16px;
   line-height: 14px;
@@ -47,12 +39,7 @@
 // }
 
 .luggageCountInput,
-.youthBoosterSeatCountInput,
-.infantChildSafetySeatCountInput,
-.hoursCountInput,
 .MeetAndGreetLuggageAssistSwitchInput,
-.safetySeatSwitchInput,
-.hourlySwitchInput,
 .numberOfPassengersInput {
   width: 368px;
   height: 34px;
@@ -69,6 +56,25 @@
   padding: 11px;
 
   //   padding-top: 0px;
+}
+
+.airlinesInput,
+.flightNumberInput {
+  width: 368px;
+  height: 34px;
+  outline: none;
+  border: none;
+  border-radius: 4.78722px;
+  font-size: 16px;
+  padding: 11px;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  [type="number"] {
+    -moz-appearance: textfield;
+  }
 }
 
 .counterContainer {

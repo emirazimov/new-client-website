@@ -11,6 +11,22 @@ import CalendarPicker from "@mui/lab/CalendarPicker"
 import AdapterDateFns from "@mui/lab/AdapterDateFns"
 import LocalizationProvider from "@mui/lab/LocalizationProvider"
 import { MinusIcon, PlusIcon } from "../../public/Assets"
+import { useDispatch, useSelector } from "react-redux"
+import {
+  addToLocation,
+  removeToLocation,
+  setAMPM,
+  setBookingType,
+  setFromOrderAddressDetails,
+  setFromRideCheckpoint,
+  setOrderAddressDetails,
+  setOrderDate,
+  setOrderDateTime,
+  setOrderTime,
+  // setToAdditionalRideCheckpoints,
+  setToOrderAddressDetails,
+  setToRideCheckpoint,
+} from "../../reduxToolkit/slices/formData"
 
 export const WidgetFirstPage = () => {
   const [showHoursInput, setshowHoursInput] = useState(false)
@@ -79,7 +95,7 @@ export const WidgetFirstPage = () => {
   //   )
   //   const { toggleIsHourlyCheckboxEnabled } = createReservationSlice.actions
 
-  const [fromAddress, setFromAddress] = useState("")
+  const [fromAddress, setFromAddress] = useState([])
   const [toAddress, setToAddress] = useState("")
   const [toDestinations, setToDestinations] = useState([
     {
@@ -91,9 +107,50 @@ export const WidgetFirstPage = () => {
     },
   ])
 
+  const formData = useSelector((state) => state.formData)
+
+  const [fromLocation, ...toLocations] = formData.orderAddressDetails
+  const [isAirline, setIsAirline] = useState(false)
+
+  const handleSelectFromLocation = async (address, index) => {
+    let selectedArray = null
+    setFromAddress(address, index)
+    const results = await geocodeByAddress(address)
+    const latLng = await getLatLng(results[0])
+    const placeId = results[0].place_id
+    let placeType = 0
+    if (results[0].types.some((types) => types === "airport")) {
+      placeType = 2
+    }
+    selectedArray = fromLocation
+    selectedArray = {
+      // ...selectedArray[index],
+      rideCheckPoint: address,
+      latitude: latLng.lat,
+      longitude: latLng.lng,
+      placeId: placeId,
+      placeType: placeType,
+    }
+    setFromAddress(selectedArray)
+    dispatch(setFromOrderAddressDetails(selectedArray))
+    let firstAirline =
+      fromLocation?.rideCheckPoint?.match(/(^|\W)Airport($|\W)/)
+
+    if (firstAirline) {
+      setIsAirline(true)
+      // setBookingType(3)
+      dispatch(setBookingType(3))
+      // fetchAirlines()
+      // setDisableHourly(true)
+    } else {
+      setIsAirline(false)
+      //   setDisableHourly(false)
+    }
+  }
+
   const addToDestination = () => {
     let newArrWithAddedToDestination = [
-      ...toDestinations,
+      ...toLocations,
       {
         rideCheckPoint: "",
         latitude: 0,
@@ -104,13 +161,14 @@ export const WidgetFirstPage = () => {
     ]
     setToDestinations(newArrWithAddedToDestination)
   }
+
   const setToAddressHandler = (adress, index) => {
-    let newArr = [...toDestinations]
-    newArr[index].rideCheckPoint = adress
-    setToDestinations(newArr)
+    // let newArr = [...toLocations]
+    // newArr[index].rideCheckPoint = adress
+    // setToDestinations(newArr)
   }
 
-  const handleSelect = async (address, index) => {
+  const handleSelectToDestination = async (address, index) => {
     let selectedArray = null
     setToAddressHandler(address, index)
     const results = await geocodeByAddress(address)
@@ -120,29 +178,31 @@ export const WidgetFirstPage = () => {
     if (results[0].types.some((types) => types === "airport")) {
       placeType = 2
     }
-    selectedArray = [...toDestinations]
-    selectedArray[index] = {
-      ...selectedArray[index],
+
+    // selectedArray = [...toLocations]
+    selectedArray = {
+      // ...selectedArray[index],
+      rideCheckPoint: address,
       latitude: latLng.lat,
       longitude: latLng.lng,
       placeId: placeId,
       placeType: placeType,
     }
-
     setToDestinations(selectedArray)
+    dispatch(
+      setToOrderAddressDetails({
+        selectedRideCheckPoint: selectedArray,
+        index: index,
+      })
+    )
   }
 
   const removeToDestination = (index) => {
-    let newArrayWithRemovedDestination = [...toDestinations]
+    let newArrayWithRemovedDestination = [...toLocations]
     newArrayWithRemovedDestination.splice(index, 1)
     setToDestinations(newArrayWithRemovedDestination)
   }
 
-  function imageLoader({ src, width, height }) {
-    // const relativeSrc = (src) => src.split("/").pop()
-
-    return `https://new-client-website.s3.us-east-2.amazonaws.com/${src}`
-  }
   const [airlines, setAirlines] = useState([])
 
   const fetchAirlines = async () => {
@@ -171,7 +231,7 @@ export const WidgetFirstPage = () => {
   }
   const [date, setDate] = useState(null)
   const [time, setTime] = useState("")
-  const [AMPM, setAMPM] = useState("")
+  const [AMPMLocal, setAMPMLocal] = useState("")
 
   const inputCard = useRef()
   const startsWithTwo = time[0] === "2"
@@ -197,8 +257,9 @@ export const WidgetFirstPage = () => {
         }${timeValue[2]}${timeValue[3]}`
 
     setTime(inputCard.current.value)
+    dispatch(setOrderTime(inputCard.current.value))
     // setTimeForDefaultValue(inputCard.current.value)
-    console.log(timeValue)
+    // console.log(timeValue)
   }
 
   const handleChangeTimeInRoundTripSecondField = () => {
@@ -231,18 +292,20 @@ export const WidgetFirstPage = () => {
   const handleChangeAMPM = (event, newAlignment) => {
     if (newAlignment !== null) {
       //   setTimeForDefaultValueAMPM(event.target.textContent)
-      setAMPM(event.target.textContent)
+      // setAMPMLocal(event.target.textContent)
+      dispatch(setAMPM(event.target.textContent))
     }
     // setAMPM(event.target.textContent)
 
     // setTimeForDefaultValueAMPM(event.target.textContent)
-    console.log(event.target.textContent)
+    console.log(formData.timeForDefaultValueAMPMalignment.ampm)
   }
 
   const handleChangeAMPMInRoundTripSecondField = (event, newAlignment) => {
     if (newAlignment !== null) {
       //   setTimeForDefaultValueAMPM(event.target.textContent)
-      setAMPM(event.target.textContent)
+      // setAMPMLocal(event.target.textContent)
+      dispatch(setAMPM(event.target.textContent))
     }
     // setAMPM(event.target.textContent)
 
@@ -250,55 +313,66 @@ export const WidgetFirstPage = () => {
     console.log(event.target.textContent)
   }
 
-  const [isAirline, setIsAirline] = useState(false)
   const [hourly, setHourly] = useState(false)
-  const [bookingType, setBookingType] = useState(1)
-  let firstAirline =
-    toDestinations[0]?.rideCheckPoint.match(/(^|\W)Airport($|\W)/)
+  // const [bookingType, setBookingType] = useState(1)
+  let firstAirline = fromLocation?.rideCheckPoint?.match(/(^|\W)Airport($|\W)/)
 
   const [roundTripSwitch, setRoundTripSwitch] = useState(false)
 
   // const [date]
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     fetchAirlines()
   }, [])
 
   useEffect(() => {
-    if (firstAirline) {
-      setIsAirline(true)
-      setBookingType(3)
-      // fetchAirlines()
-      // setDisableHourly(true)
-    } else {
-      setIsAirline(false)
-      //   setDisableHourly(false)
-    }
+    // if (firstAirline) {
+    //   setIsAirline(true)
+    //   // setBookingType(3)
+    //   dispatch(setBookingType(3))
+    //   // fetchAirlines()
+    //   // setDisableHourly(true)
+    // } else {
+    //   setIsAirline(false)
+    //   //   setDisableHourly(false)
+    // }
   }, [firstAirline])
   useEffect(() => {
     if (hourly) {
       if (firstAirline) {
-        setBookingType(3)
+        dispatch(setBookingType(3))
       } else {
-        setBookingType(2)
+        dispatch(setBookingType(2))
       }
 
       // setDisableHourly(true)
     } else {
       if (firstAirline) {
-        setBookingType(3)
+        dispatch(setBookingType(3))
       } else {
-        setBookingType(1)
+        dispatch(setBookingType(1))
       }
     }
   })
 
+  console.log(formData.orderAddressDetails)
+
+  // console.log()
+
   return (
     <>
       <PlacesAutocomplete
-        value={fromAddress}
+        value={formData.orderAddressDetails[0].rideCheckPoint}
         onChange={(address) => {
           setFromAddress(address)
+          // dispatch(setOrderAddressDetails(address))
+          dispatch(setFromRideCheckpoint(address))
+          console.log(address)
+        }}
+        onSelect={(address, index) => {
+          handleSelectFromLocation(address, index)
         }}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => {
@@ -340,17 +414,28 @@ export const WidgetFirstPage = () => {
           )
         }}
       </PlacesAutocomplete>
-      {fromAddress && (
+      {formData.orderAddressDetails && (
         <>
-          {toDestinations.map((toDestination, index) => {
+          {toLocations.map((toDestination, index) => {
             return (
               <PlacesAutocomplete
                 value={toDestination.rideCheckPoint}
                 onChange={(address) => {
                   setToAddressHandler(address, index)
+                  dispatch(setToRideCheckpoint({ address, index }))
+                  // if (index == 0) {
+                  //   dispatch(setToRideCheckpoint(address, index))
+                  // } else {
+                  //   dispatch(
+                  //     setToAdditionalRideCheckpoints({
+                  //       address,
+                  //       index,
+                  //     })
+                  //   )
+                  // }
                 }}
                 onSelect={(address) => {
-                  handleSelect(address, index)
+                  handleSelectToDestination(address, index)
                 }}
               >
                 {({
@@ -372,18 +457,30 @@ export const WidgetFirstPage = () => {
                           placeholder={`To ${index + 1}`}
                           className={style.toLocationInput}
                         />
-                        {index === toDestinations.length - 1 && (
+                        {index === toLocations.length - 1 && (
                           <div
                             className={style.plusIcon}
-                            onClick={addToDestination}
+                            onClick={() => {
+                              dispatch(
+                                addToLocation({
+                                  rideCheckPoint: "",
+                                  latitude: 0,
+                                  longitude: 0,
+                                  placeType: 0,
+                                  placeId: "",
+                                })
+                              )
+                              // console.log(formData.orderAddressDetails)
+                            }}
                           >
                             <PlusIcon />
                           </div>
                         )}
-                        {index < toDestinations.length - 1 && (
+                        {console.log(formData.orderAddressDetails)}
+                        {index < toLocations.length - 1 && (
                           <div
                             onClick={() => {
-                              removeToDestination(index)
+                              dispatch(removeToLocation(index))
                             }}
                             className={style.minusIcon}
                           >
@@ -423,7 +520,7 @@ export const WidgetFirstPage = () => {
               </PlacesAutocomplete>
             )
           })}
-          {isAirline && bookingType === 3 && (
+          {/* {formData.bookingType === 3 && (
             <>
               <Autocomplete
                 disablePortal
@@ -453,13 +550,13 @@ export const WidgetFirstPage = () => {
                 />
               </div>
             </>
-          )}
+          )} */}
           <div className={style.inputsBackgroundWithOpacityPickUpDateAndTime}>
             <input
               onClick={() => setShow(true)}
               placeholder="Pick Up Date"
               className={style.pickUpDateInput}
-              value={date?.toLocaleDateString("en-US")}
+              value={formData.dateValue}
               // type="number"
             />
             <Modal onClose={() => setShow(false)} show={show}>
@@ -475,6 +572,9 @@ export const WidgetFirstPage = () => {
                       // setDateForDefaultValue(
                       //   newDate.toLocaleDateString("en-US")
                       // )
+                      dispatch(
+                        setOrderDate(newDate?.toLocaleDateString("en-US"))
+                      )
                       setDate(newDate)
                     }}
                   />
@@ -489,6 +589,7 @@ export const WidgetFirstPage = () => {
                 className={style.timePickerInput}
                 setTime={setTime}
                 ref={inputCard}
+                value={formData.timeValue}
                 onClick={(event) => {
                   const { value } = event.target
                   const position = value.length
@@ -522,9 +623,18 @@ export const WidgetFirstPage = () => {
                     handleChangeAMPM(e)
                   }}
                   style={{
-                    color: AMPM == "AM" ? `white` : "black",
-                    background: AMPM == "AM" ? `black` : "white",
-                    opacity: AMPM == "AM" ? "1" : "0.5",
+                    color:
+                      formData.timeForDefaultValueAMPMalignment.ampm == "AM"
+                        ? `white`
+                        : "black",
+                    background:
+                      formData.timeForDefaultValueAMPMalignment.ampm == "AM"
+                        ? `black`
+                        : "white",
+                    opacity:
+                      formData.timeForDefaultValueAMPMalignment.ampm == "AM"
+                        ? "1"
+                        : "0.5",
                     borderRadius: `3px`,
                   }}
                 >
@@ -537,9 +647,18 @@ export const WidgetFirstPage = () => {
                     handleChangeAMPM(e)
                   }}
                   style={{
-                    color: AMPM == "PM" ? `white` : "black",
-                    background: AMPM == "PM" ? `black` : "white",
-                    opacity: AMPM == "PM" ? "1" : "0.5",
+                    color:
+                      formData.timeForDefaultValueAMPMalignment.ampm == "PM"
+                        ? `white`
+                        : "black",
+                    background:
+                      formData.timeForDefaultValueAMPMalignment.ampm == "PM"
+                        ? `black`
+                        : "white",
+                    opacity:
+                      formData.timeForDefaultValueAMPMalignment.ampm == "PM"
+                        ? "1"
+                        : "0.5",
                     borderRadius: `3px`,
                   }}
                 >
@@ -571,9 +690,15 @@ export const WidgetFirstPage = () => {
           {roundTripSwitch && (
             <>
               <PlacesAutocomplete
-                value={fromAddress}
+                value={formData.orderAddressDetails[0].rideCheckPoint}
                 onChange={(address) => {
                   setFromAddress(address)
+                  // dispatch(setOrderAddressDetails(address))
+                  dispatch(setFromRideCheckpoint(address))
+                  console.log(address)
+                }}
+                onSelect={(address, index) => {
+                  handleSelectFromLocation(address, index)
                 }}
               >
                 {({
@@ -622,15 +747,16 @@ export const WidgetFirstPage = () => {
                   )
                 }}
               </PlacesAutocomplete>
-              {toDestinations.map((toDestination, index) => {
+              {toLocations.map((toDestination, index) => {
                 return (
                   <PlacesAutocomplete
                     value={toDestination.rideCheckPoint}
                     onChange={(address) => {
                       setToAddressHandler(address, index)
+                      dispatch(setToRideCheckpoint(address, index))
                     }}
                     onSelect={(address) => {
-                      handleSelect(address, index)
+                      handleSelectToDestination(address, index)
                     }}
                   >
                     {({
@@ -652,18 +778,29 @@ export const WidgetFirstPage = () => {
                               placeholder={`To ${index + 1}`}
                               className={style.toLocationInput}
                             />
-                            {index === toDestinations.length - 1 && (
+                            {index === toLocations.length - 1 && (
                               <div
                                 className={style.plusIcon}
-                                onClick={addToDestination}
+                                onClick={() =>
+                                  dispatch(
+                                    addToLocation({
+                                      rideCheckPoint: "",
+                                      latitude: 0,
+                                      longitude: 0,
+                                      placeType: 0,
+                                      placeId: "",
+                                    })
+                                  )
+                                }
                               >
                                 <PlusIcon />
                               </div>
                             )}
-                            {index < toDestinations.length - 1 && (
+                            {console.log(formData.orderAddressDetails)}
+                            {index < toLocations.length - 1 && (
                               <div
                                 onClick={() => {
-                                  removeToDestination(index)
+                                  dispatch(removeToLocation(index))
                                 }}
                                 className={style.minusIcon}
                               >
@@ -754,9 +891,19 @@ export const WidgetFirstPage = () => {
                         handleChangeAMPMInRoundTripSecondField(e)
                       }}
                       style={{
-                        color: AMPM == "AM" ? `white` : "black",
-                        background: AMPM == "AM" ? `black` : "white",
-                        opacity: AMPM == "AM" ? "1" : "0.5",
+                        color:
+                          formData.timeForDefaultValueAMPMalignment.ampm0 ==
+                          "AM"
+                            ? `white`
+                            : "black",
+                        background:
+                          formData.timeForDefaultValueAMPMalignment.ampm == "AM"
+                            ? `black`
+                            : "white",
+                        opacity:
+                          formData.timeForDefaultValueAMPMalignment.ampm == "AM"
+                            ? "1"
+                            : "0.5",
                         borderRadius: `3px`,
                       }}
                     >
@@ -769,9 +916,18 @@ export const WidgetFirstPage = () => {
                         handleChangeAMPMInRoundTripSecondField(e)
                       }}
                       style={{
-                        color: AMPM == "PM" ? `white` : "black",
-                        background: AMPM == "PM" ? `black` : "white",
-                        opacity: AMPM == "PM" ? "1" : "0.5",
+                        color:
+                          formData.timeForDefaultValueAMPMalignment.ampm == "PM"
+                            ? `white`
+                            : "black",
+                        background:
+                          formData.timeForDefaultValueAMPMalignment.ampm == "PM"
+                            ? `black`
+                            : "white",
+                        opacity:
+                          formData.timeForDefaultValueAMPMalignment.ampm == "PM"
+                            ? "1"
+                            : "0.5",
                         borderRadius: `3px`,
                       }}
                     >

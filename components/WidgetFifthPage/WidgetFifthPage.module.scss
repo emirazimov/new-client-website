@@ -1,0 +1,84 @@
+.wrapper {
+  //   position: relative;
+  //   width: 400px;
+  //   height: 400px;
+}
+
+.mapContainer {
+  position: relative;
+  width: 362px;
+  height: 122px;
+}
+
+.pickUpDateContainer,
+.pickUpTimeContainer,
+.fromContainer,
+.toContainer,
+.personsContainer,
+.youthBoosterSeatContainer,
+.infantAndChildSafetySeatContainer,
+.meetAndGreetLuggageAssistContainer,
+.preferenceContainer,
+.tipsContainer,
+.transactionFeeContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.pickUpTimeTitle,
+.fromTitle,
+.toTitle,
+.personsTitle,
+.personsTitle,
+.infantAndChildSafetySeatTitle,
+.meetAndGreetLuggageAssistTitle,
+.preferenceTitle,
+.tipsTitle,
+.transactionFeeTitle {
+  color: black;
+}
+
+.reservationDetailsItemPointedLineContainer {
+  flex-grow: 1;
+}
+.reservationDetailsItemPointedLineSelf {
+  margin-top: 12px;
+  background-color: transparent;
+  margin-left: 3px;
+  margin-right: 3px;
+  border-bottom: 2px dotted black;
+}
+
+.pickUpDateValueContainer,
+.pickUpTimeValueContainer,
+.fromValueContainer,
+.toValueContainer,
+.personsValueContainer,
+.youthBoosterSeatValueContainer,
+.infantAndChildSafetySeatValueContainer,
+.meetAndGreetLuggageAssistValueContainer,
+.preferenceValueContainer,
+.tipsValueContainer,
+.transactionFeeValueContainer {
+  display: inline;
+  max-width: 60%;
+  text-align: right;
+}
+
+.pickUpDateValue,
+.pickUpTimeValue,
+.fromValue,
+.toValue,
+.personsValue,
+.youthBoosterSeatValue,
+.infantAndChildSafetySeatValue,
+.meetAndGreetLuggageAssistValue,
+.preferenceValue,
+.tipsValue,
+.transactionFeeValue {
+  display: inline;
+  // fontSize: "16px",
+  width: 100%;
+  color: black;
+}
