@@ -18,7 +18,10 @@ export const fleetSlice = createSlice({
     //   // immutable state based off those changes
     //   state.orderAddressDetails[0] = action.payload
     // },
-    setCars: (state, action) => {},
+    setCars: (state, action) => {
+      console.log(action.payload)
+      state.cars = action.payload
+    },
   },
 })
 

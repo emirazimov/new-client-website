@@ -1,8 +1,8 @@
 .inputsBackgroundWithOpacityYouthBoosterSeat,
 .inputsBackgroundWithOpacityInfantChildSafetySeat,
-.inputsBackgroundWithOpacityHoursCount,
 .inputsBackgroundWithOpacitySafetySeat,
-.inputsBackgroundWithOpacityHourly {
+.inputsBackgroundWithOpacityHourly,
+.inputsBackgroundWithOpacityHoursCount {
   width: auto;
   height: auto;
   position: relative;
@@ -11,6 +11,9 @@
   background: rgba(0, 0, 0, 0.6);
   //   filter: opacity(76%);
   margin-bottom: 5px;
+}
+.inputsBackgroundWithOpacityHoursCount {
+  margin-bottom: 21px;
 }
 
 .safetySeatPlaceholder,
@@ -56,10 +59,8 @@
   border: none;
   border-radius: 4.78722px;
   padding: 11px;
+  padding-left: 27px;
   background: white;
-
-  padding: 11px;
-
   //   padding-top: 0px;
 }
 
@@ -161,7 +162,7 @@
       &:hover::after {
         // @include inactiveMixin;
         // @include afterAnimation;
-        background: red;
+        background: black;
         // height: 15px;
         // width: 15px;
         // top: 1px;

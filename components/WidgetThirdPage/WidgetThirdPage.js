@@ -12,6 +12,8 @@ import {
   setSafetySeatSwitch,
 } from "../../reduxToolkit/slices/formData"
 
+import { SafetySeatIcon, HourlyIcon } from "../../public/Assets"
+
 export const WidgetThirdPage = () => {
   const [youthBoosterSeat, setYouthBoosterSeat] = useState(0)
   const [infantChildSafetySeat, setInfantChildSafetySeat] = useState(0)
@@ -43,7 +45,11 @@ export const WidgetThirdPage = () => {
 
   return (
     <>
-      <div className={style.inputsBackgroundWithOpacitySafetySeat}>
+      <div
+        className={style.inputsBackgroundWithOpacitySafetySeat}
+        style={{ position: "relative" }}
+      >
+        <SafetySeatIcon />
         <div className={style.safetySeatSwitchInput}>
           <p className={style.safetySeatPlaceholder}>Safety Seat</p>
           <div className={style.switchWrapper}>
@@ -62,7 +68,11 @@ export const WidgetThirdPage = () => {
         </div>
       </div>
 
-      <div className={style.inputsBackgroundWithOpacityYouthBoosterSeat}>
+      <div
+        className={style.inputsBackgroundWithOpacityYouthBoosterSeat}
+        style={{ position: "relative" }}
+      >
+        <SafetySeatIcon />
         <div className={style.youthBoosterSeatCountInput}>
           <p className={style.youthBoosterSeatPlaceholder}>
             Youth Booster Seat
@@ -99,7 +109,11 @@ export const WidgetThirdPage = () => {
           </div>
         </div>
       </div>
-      <div className={style.inputsBackgroundWithOpacityInfantChildSafetySeat}>
+      <div
+        className={style.inputsBackgroundWithOpacityInfantChildSafetySeat}
+        style={{ position: "relative" }}
+      >
+        <SafetySeatIcon />
         <div className={style.infantChildSafetySeatCountInput}>
           <p className={style.infantChildSafetySeatPlaceholder}>
             Infant & Child Safety Seat
@@ -143,7 +157,11 @@ export const WidgetThirdPage = () => {
         </div>
       </div>
 
-      <div className={style.inputsBackgroundWithOpacityHourly}>
+      <div
+        className={style.inputsBackgroundWithOpacityHourly}
+        style={{ position: "relative" }}
+      >
+        <HourlyIcon />
         <div className={style.hourlySwitchInput}>
           <p className={style.hourlyPlaceholder}>Hourly</p>
           <div className={style.switchWrapper}>
@@ -163,7 +181,11 @@ export const WidgetThirdPage = () => {
         </div>
       </div>
 
-      <div className={style.inputsBackgroundWithOpacityHoursCount}>
+      <div
+        className={style.inputsBackgroundWithOpacityHoursCount}
+        style={{ position: "relative" }}
+      >
+        <HourlyIcon />
         <div className={style.hoursCountInput}>
           <p className={style.hoursPlaceholder}>Hours</p>
           <div className={style.counterContainer}>

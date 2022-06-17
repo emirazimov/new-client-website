@@ -24,7 +24,7 @@ export const Modal = (props) => {
   let container
   if (typeof window !== "undefined") {
     const rootContainer = document.createElement("div")
-    const parentElem = document.querySelector("#__next")
+    const parentElem = document.querySelector("html")
     parentElem.appendChild(rootContainer)
     container = rootContainer
   }

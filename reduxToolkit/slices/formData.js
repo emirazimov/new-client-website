@@ -65,6 +65,8 @@ const initialState = {
   orderSum: 0,
   orderType: 3,
   hourly: false,
+  captcha: "",
+  tips: 0,
 }
 
 export const formDataSlice = createSlice({
@@ -151,6 +153,7 @@ export const formDataSlice = createSlice({
     setBookingType: (state, action) => {
       state.bookingType = action.payload
     },
+
     setOrderDate: (state, action) => {
       state.dateValue = action.payload
     },
@@ -165,6 +168,9 @@ export const formDataSlice = createSlice({
     },
     setNumberOfPassenger: (state, action) => {
       state.passengersQuantity = action.payload
+    },
+    setAirlinesId: (state, action) => {
+      state.airlines.id = action.payload
     },
     setFlightNumber: (state, action) => {
       state.flightNumber = action.payload
@@ -187,6 +193,60 @@ export const formDataSlice = createSlice({
     setHoursCount: (state, action) => {
       state.hours = action.payload
     },
+    setCaptcha: (state, action) => {
+      state.captcha = action.payload
+    },
+    setFirstName: (state, action) => {
+      state.client.firstName = action.payload
+    },
+    setLastName: (state, action) => {
+      state.client.lastName = action.payload
+    },
+    setEmail: (state, action) => {
+      state.client.email = action.payload
+    },
+    setPhoneNumber: (state, action) => {
+      state.client.phoneNumber = action.payload
+    },
+    setAddress: (state, action) => {
+      state.client.address = action.payload
+    },
+    setZip: (state, action) => {
+      state.client.zip = action.payload
+    },
+    setStateId: (state, action) => {
+      state.client.cityId = action.payload
+    },
+    setCityId: (state, action) => {
+      state.client.stateId = action.payload
+    },
+    setCardNumber: (state, action) => {
+      state.paymentInfo.cardNumber = action.payload
+    },
+    setMonth: (state, action) => {
+      state.paymentInfo.month = action.payload
+    },
+    setYear: (state, action) => {
+      state.paymentInfo.year = action.payload
+    },
+    setCvc: (state, action) => {
+      state.paymentInfo.cvc = action.payload
+    },
+    setAmount: (state, action) => {
+      state.amount = action.payload
+    },
+    setCarId: (state, action) => {
+      state.carInfo.id = action.payload
+    },
+    setOrderSum: (state, action) => {
+      state.orderSum = action.payload
+    },
+    setNotes: (state, action) => {
+      state.orderNotes = action.payload
+    },
+    setTips: (state, action) => {
+      state.tips = action.payload
+    },
   },
 })
 
@@ -205,6 +265,7 @@ export const {
   setAMPM,
   setOrderDateTime,
   setNumberOfPassenger,
+  setAirlinesId,
   setFlightNumber,
   setLuggageCount,
   setSafetySeatSwitch,
@@ -212,6 +273,24 @@ export const {
   setBoosterSeatCount,
   setHourlySwitch,
   setHoursCount,
+  setCaptcha,
+  setFirstName,
+  setLastName,
+  setEmail,
+  setPhoneNumber,
+  setAddress,
+  setZip,
+  setStateId,
+  setCityId,
+  setCardNumber,
+  setMonth,
+  setYear,
+  setCvc,
+  setAmount,
+  setCarId,
+  setOrderSum,
+  setNotes,
+  setTips,
 } = formDataSlice.actions
 
 export default formDataSlice.reducer

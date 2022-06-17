@@ -10,7 +10,13 @@ import { Modal } from "../Helpers/Modal"
 import CalendarPicker from "@mui/lab/CalendarPicker"
 import AdapterDateFns from "@mui/lab/AdapterDateFns"
 import LocalizationProvider from "@mui/lab/LocalizationProvider"
-import { MinusIcon, PlusIcon } from "../../public/Assets"
+import {
+  EndLocationIcon,
+  MinusIcon,
+  PlusIcon,
+  StartLocationIcon,
+  DateIcon,
+} from "../../public/Assets"
 import { useDispatch, useSelector } from "react-redux"
 import {
   addToLocation,
@@ -28,7 +34,13 @@ import {
   setToRideCheckpoint,
 } from "../../reduxToolkit/slices/formData"
 
-export const WidgetFirstPage = () => {
+export const WidgetFirstPage = ({
+  redBorderErrorForFromAddress,
+  redBorderErrorForToAddress,
+  redBorderErrorForDate,
+  redBorderErrorForTime,
+  redBorderErrorForAMPM,
+}) => {
   const [showHoursInput, setshowHoursInput] = useState(false)
   const [showLuggageCountInput, setShowLuggageCountInput] = useState(false)
   const [showGreetTheSamePerson, setShowGreetTheSamePerson] = useState(false)
@@ -379,11 +391,20 @@ export const WidgetFirstPage = () => {
           console.log(suggestions)
           return (
             <>
-              <div className={style.inputsBackgroundWithOpacity}>
+              <div
+                className={style.inputsBackgroundWithOpacity}
+                style={{ position: "relative" }}
+              >
+                <StartLocationIcon />
                 <input
                   {...getInputProps()}
                   placeholder="Enter a Pickup Location"
                   className={style.pickUpLocationInput}
+                  style={{
+                    border: redBorderErrorForFromAddress
+                      ? "1px solid red"
+                      : "1px solid transparent",
+                  }}
                 />
                 <div
                   // className={styles.dropDown}
@@ -452,10 +473,16 @@ export const WidgetFirstPage = () => {
                           style.inputsBackgroundWithOpacityToDestination
                         }
                       >
+                        <EndLocationIcon />
                         <input
                           {...getInputProps()}
                           placeholder={`To ${index + 1}`}
                           className={style.toLocationInput}
+                          style={{
+                            border: redBorderErrorForToAddress
+                              ? "1px solid red"
+                              : "1px solid transparent",
+                          }}
                         />
                         {index === toLocations.length - 1 && (
                           <div
@@ -551,12 +578,27 @@ export const WidgetFirstPage = () => {
               </div>
             </>
           )} */}
-          <div className={style.inputsBackgroundWithOpacityPickUpDateAndTime}>
+          <div
+            className={style.inputsBackgroundWithOpacityPickUpDateAndTime}
+            style={{ position: "relative" }}
+          >
+            <DateIcon />
             <input
               onClick={() => setShow(true)}
               placeholder="Pick Up Date"
               className={style.pickUpDateInput}
               value={formData.dateValue}
+              style={{
+                borderTop: redBorderErrorForDate
+                  ? "1px solid red"
+                  : "1px solid transparent",
+                borderLeft: redBorderErrorForDate
+                  ? "1px solid red"
+                  : "1px solid transparent",
+                borderBottom: redBorderErrorForDate
+                  ? "1px solid red"
+                  : "1px solid transparent",
+              }}
               // type="number"
             />
             <Modal onClose={() => setShow(false)} show={show}>
@@ -596,6 +638,21 @@ export const WidgetFirstPage = () => {
                   event.target.setSelectionRange(position, position)
                 }}
                 onChange={handleChangeTime}
+                style={{
+                  borderTop:
+                    redBorderErrorForTime || redBorderErrorForAMPM
+                      ? "1px solid red"
+                      : "1px solid transparent",
+                  borderRight:
+                    redBorderErrorForTime || redBorderErrorForAMPM
+                      ? "1px solid red"
+                      : "1px solid transparent",
+                  borderBottom:
+                    redBorderErrorForTime || redBorderErrorForAMPM
+                      ? "1px solid red"
+                      : "1px solid transparent",
+                }}
+
                 // style={{
                 //   color: inputsFontColor,
                 //   border:
@@ -668,7 +725,10 @@ export const WidgetFirstPage = () => {
             </div>
           </div>
 
-          <div className={style.inputsBackgroundWithOpacityRoundTrip}>
+          <div
+            className={style.inputsBackgroundWithOpacityRoundTrip}
+            style={{ marginBottom: roundTripSwitch ? "" : "21px" }}
+          >
             <div className={style.roundTripInput}>
               <p className={style.roundTripPlaceholder}>Round Trip</p>
               <div className={style.switchWrapper}>

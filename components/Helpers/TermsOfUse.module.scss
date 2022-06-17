@@ -1,0 +1,16 @@
+.termOfUseOpenButton {
+  width: auto;
+  height: auto;
+  border: none;
+  cursor: pointer;
+  color: black;
+  background: transparent;
+  font-size: 15px;
+}
+.termOfUseContainer {
+  width: 600px;
+  height: 100%;
+  @media (max-width: 602px) {
+    width: 100%;
+  }
+}

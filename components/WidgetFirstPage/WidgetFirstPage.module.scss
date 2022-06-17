@@ -14,6 +14,9 @@
   margin-bottom: 5px;
 }
 
+.inputsBackgroundWithOpacityRoundTrip {
+  // margin-bottom: 21px;
+}
 // roundTripPlaceholder
 
 .inputsBackgroundWithOpacityPickUpDateAndTime {
@@ -41,6 +44,7 @@
   border-radius: 4.78722px;
   font-size: 16px;
   padding: 11px;
+  padding-left: 27px;
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -85,6 +89,7 @@
   width: calc(368px / 2);
   height: 34px;
   padding: 11px;
+  padding-left: 27px;
   outline: none;
   border: none;
   border-top-left-radius: 4.78722px;
@@ -289,7 +294,7 @@
       &:hover::after {
         // @include inactiveMixin;
         // @include afterAnimation;
-        background: red;
+        background: black;
         // height: 15px;
         // width: 15px;
         // top: 1px;

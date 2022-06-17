@@ -1,0 +1,15 @@
+.privacyPolicyOpenButton {
+  width: auto;
+  height: auto;
+  border: none;
+  cursor: pointer;
+  color: black;
+  background: transparent;
+  font-size: 15px;
+}
+.privacyPolicyContainer {
+  width: 600px;
+  @media (max-width: 602px) {
+    width: 100%;
+  }
+}

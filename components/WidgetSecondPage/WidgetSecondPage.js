@@ -1,6 +1,14 @@
 import style from "./WidgetSecondPage.module.scss"
 import { useState, useRef, useEffect } from "react"
-import { MinusIcon, PlusIcon } from "../../public/Assets"
+import {
+  MinusIcon,
+  NumberOfPassengersIcon,
+  PlusIcon,
+  MeetAndGreetIcon,
+  LuggageIcon,
+  PlaneIcon,
+  Ticket,
+} from "../../public/Assets"
 import { useDispatch, useSelector } from "react-redux"
 import PlacesAutocomplete, {
   geocodeByAddress,
@@ -9,14 +17,15 @@ import PlacesAutocomplete, {
 import Autocomplete from "@mui/material/Autocomplete"
 import { getAirlines } from "../../pages/api/getAirlines"
 import {
+  setAirlinesId,
   setFlightNumber,
   setLuggageCount,
   setNumberOfPassenger,
 } from "../../reduxToolkit/slices/formData"
 
-export const WidgetSecondPage = () => {
+export const WidgetSecondPage = ({ redBorderErrorForNumberOfPassengers }) => {
   // const [luggageCount, setLuggageCount] = useState(0)
-
+  const dispatch = useDispatch()
   const [meetAndGreetLuggageAssistSwitch, setMeetAndGreetLuggageAssistSwitch] =
     useState(false)
 
@@ -43,6 +52,8 @@ export const WidgetSecondPage = () => {
       return element.name == name
     })
     res ? setAirlineId(res.id) : setAirlineId(null)
+
+    dispatch(setAirlinesId(res.id))
     // setAirlineNAme(name)
     // console.log(res)
   }
@@ -109,7 +120,6 @@ export const WidgetSecondPage = () => {
     //   }
     // }
   })
-  const dispatch = useDispatch()
 
   return (
     <>
@@ -125,8 +135,10 @@ export const WidgetSecondPage = () => {
             renderInput={(params) => (
               <div
                 className={style.inputsBackgroundWithOpacityAirlines}
+                style={{ position: "relative" }}
                 ref={params.InputProps.ref}
               >
+                <PlaneIcon />
                 <input
                   {...params.inputProps}
                   placeholder="Airlines"
@@ -135,7 +147,11 @@ export const WidgetSecondPage = () => {
               </div>
             )}
           />
-          <div className={style.inputsBackgroundWithOpacityFlightNumber}>
+          <div
+            className={style.inputsBackgroundWithOpacityFlightNumber}
+            style={{ position: "relative" }}
+          >
+            <Ticket />
             <input
               placeholder="Flight number"
               className={style.flightNumberInput}
@@ -149,11 +165,20 @@ export const WidgetSecondPage = () => {
         </>
       )}
 
-      <div className={style.inputsBackgroundWithOpacityNumberOfPassengers}>
+      <div
+        className={style.inputsBackgroundWithOpacityNumberOfPassengers}
+        style={{ position: "relative" }}
+      >
+        <NumberOfPassengersIcon />
         <div
           placeholder="Number of Passengers"
           className={style.numberOfPassengersInput}
           type="number"
+          style={{
+            border: redBorderErrorForNumberOfPassengers
+              ? "1px solid red"
+              : "1px solid transparent",
+          }}
         >
           <p>Number of Passengers</p>
           <div className={style.counterContainer}>
@@ -183,7 +208,9 @@ export const WidgetSecondPage = () => {
 
       <div
         className={style.inputsBackgroundWithOpacityMeetAndGreetLuggageAssist}
+        style={{ position: "relative" }}
       >
+        <MeetAndGreetIcon />
         <div className={style.MeetAndGreetLuggageAssistSwitchInput}>
           <p className={style.meetAndGreetLuggageAssistPlaceholder}>
             Meet & Greet/Luggage Assist
@@ -206,7 +233,11 @@ export const WidgetSecondPage = () => {
         </div>
       </div>
 
-      <div className={style.inputsBackgroundWithOpacityLuggageCount}>
+      <div
+        className={style.inputsBackgroundWithOpacityLuggageCount}
+        style={{ position: "relative" }}
+      >
+        <LuggageIcon />
         <div className={style.luggageCountInput}>
           <p className={style.luggageCountPlaceholder}>Luggage Count</p>
           <div className={style.counterContainer}>

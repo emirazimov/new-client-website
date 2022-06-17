@@ -1,0 +1,75 @@
+.carContainer {
+  width: 100%;
+  height: 94.48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px;
+  margin-bottom: 10px;
+  background: #fafafa;
+  border-radius: 7.08571px;
+  border: 0.590476px solid #dadada;
+  cursor: pointer;
+  &:hover {
+    background: #666666;
+  }
+}
+.carContainerSelected {
+  width: 100%;
+  height: 94.48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px;
+  margin-bottom: 10px;
+  background: #666666;
+  border-radius: 7.08571px;
+  border: 0.590476px solid #dadada;
+}
+
+.typeAndImageContainer {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 10px;
+}
+.typeOfVehicle {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 9px;
+  color: #000000;
+  margin-bottom: 3px;
+  text-transform: uppercase;
+}
+.carImage {
+  position: relative;
+  width: 116px;
+  height: 55.2px;
+  border-radius: 7.2px;
+}
+.detailsContainer {
+  width: 50%;
+  height: 100%;
+}
+.carPrice {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 7px;
+  margin-bottom: 14px;
+  color: #000000;
+}
+.carCapacity {
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 14px;
+  margin-bottom: 4px;
+  color: #000000;
+}
+.carLuggage {
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 14px;
+  color: #000000;
+}

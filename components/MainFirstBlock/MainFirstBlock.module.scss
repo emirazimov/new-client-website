@@ -13,6 +13,16 @@
   max-width: 1329px;
   margin: 0px auto;
 }
+.lookingForExecutiveCar {
+  font-weight: 600;
+  font-size: 42px;
+  line-height: 55px;
+  /* or 131% */
+
+  text-align: center;
+
+  color: #000000;
+}
 
 .letsGetStartedAndMainTextContainer {
   display: flex;
@@ -51,12 +61,27 @@
   border: none;
   cursor: pointer;
 }
+.nextButtonDisabled {
+  width: 125px;
+  height: 33.51px;
+  background: #2096eb;
+  border-radius: 4.78722px;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 14px;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  pointer-events: none;
+  opacity: 0.5;
+}
 .backButton {
   margin-right: 8px;
 }
 .mainText {
-  font-weight: 600;
+  font-weight: 400;
   font-size: 36px;
   line-height: 55px;
+
   color: #000000;
 }
