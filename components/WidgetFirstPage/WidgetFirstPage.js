@@ -16,6 +16,8 @@ import {
   PlusIcon,
   StartLocationIcon,
   DateIcon,
+  ReferalCodeIcon,
+  RoundTripIcon,
 } from "../../public/Assets"
 import { useDispatch, useSelector } from "react-redux"
 import {
@@ -41,32 +43,32 @@ export const WidgetFirstPage = ({
   redBorderErrorForTime,
   redBorderErrorForAMPM,
 }) => {
-  const [showHoursInput, setshowHoursInput] = useState(false)
-  const [showLuggageCountInput, setShowLuggageCountInput] = useState(false)
-  const [showGreetTheSamePerson, setShowGreetTheSamePerson] = useState(false)
-  const [showYouthBoosterAndSafetySeat, setShowYouthBoosterAndSafetySeat] =
-    useState(false)
-  const [editAmountMode, setEditAmountMode] = useState(false)
+  // const [showHoursInput, setshowHoursInput] = useState(false)
+  // const [showLuggageCountInput, setShowLuggageCountInput] = useState(false)
+  // const [showGreetTheSamePerson, setShowGreetTheSamePerson] = useState(false)
+  // const [showYouthBoosterAndSafetySeat, setShowYouthBoosterAndSafetySeat] =
+  //   useState(false)
+  // const [editAmountMode, setEditAmountMode] = useState(false)
 
-  const [selectedClientItem, setSelectedClientItem] = useState(null)
-  const [selectedVehicleItem, setSelectedVehicleItem] = useState(null)
-  const [selectedDriverItem, setSelectedDriverItem] = useState(null)
+  // const [selectedClientItem, setSelectedClientItem] = useState(null)
+  // const [selectedVehicleItem, setSelectedVehicleItem] = useState(null)
+  // const [selectedDriverItem, setSelectedDriverItem] = useState(null)
 
-  const [showAddClientBlock, setShowAddClientBlock] = useState(false)
+  // const [showAddClientBlock, setShowAddClientBlock] = useState(false)
 
-  const [showUpDatePicker, setShowUpDatePicker] = useState(false)
+  // const [showUpDatePicker, setShowUpDatePicker] = useState(false)
 
-  const [typeOfList, setTypeOfList] = useState("")
-  const [showTypeOfVehicleDropdown, setShowTypeOfVehicleDropdown] =
-    useState(false)
+  // const [typeOfList, setTypeOfList] = useState("")
+  // const [showTypeOfVehicleDropdown, setShowTypeOfVehicleDropdown] =
+  //   useState(false)
 
-  const [inputValueTypeOfVehicle, setInputValueTypeOfVehicle] = useState("")
-  const [searchTerm, setSearchTerm] = useState("")
+  // const [inputValueTypeOfVehicle, setInputValueTypeOfVehicle] = useState("")
+  // const [searchTerm, setSearchTerm] = useState("")
 
-  const [dateToDatePicker, setDateToDatePicker] = useState(new Date())
-  const [valueForInputAppearence, setValueForInputAppearence] = useState(null)
+  // const [dateToDatePicker, setDateToDatePicker] = useState(new Date())
+  // const [valueForInputAppearence, setValueForInputAppearence] = useState(null)
 
-  const amountInputRef = useRef(null)
+  // const amountInputRef = useRef(null)
 
   const refForMaskedTimeInput = useRef()
 
@@ -420,6 +422,7 @@ export const WidgetFirstPage = ({
                   {suggestions.map((suggestion, id) => {
                     return (
                       <div
+                        key={`${suggestion}`}
                         className={style.suggestionsResultsContainer}
                         // key={`${id}${suggestion.description}`}
                         {...getSuggestionItemProps(suggestion)}
@@ -435,11 +438,12 @@ export const WidgetFirstPage = ({
           )
         }}
       </PlacesAutocomplete>
-      {formData.orderAddressDetails && (
+      {formData.orderAddressDetails[0].rideCheckPoint && (
         <>
           {toLocations.map((toDestination, index) => {
             return (
               <PlacesAutocomplete
+                key={`${toDestination}`}
                 value={toDestination.rideCheckPoint}
                 onChange={(address) => {
                   setToAddressHandler(address, index)
@@ -530,6 +534,7 @@ export const WidgetFirstPage = ({
                           {suggestions.map((suggestion, id) => {
                             return (
                               <div
+                                key={`${suggestion}`}
                                 className={style.suggestionsResultsContainer}
                                 // key={`${id}${suggestion.description}`}
                                 {...getSuggestionItemProps(suggestion)}
@@ -727,25 +732,49 @@ export const WidgetFirstPage = ({
 
           <div
             className={style.inputsBackgroundWithOpacityRoundTrip}
-            style={{ marginBottom: roundTripSwitch ? "" : "21px" }}
+            style={{ position: "relative" }}
           >
+            <RoundTripIcon />
             <div className={style.roundTripInput}>
               <p className={style.roundTripPlaceholder}>Round Trip</p>
               <div className={style.switchWrapper}>
                 <input
                   type="checkbox"
-                  name={`switchMeetAndGreetLuggageAssist`}
+                  name={`roundTrip`}
                   className={style.switchSelf}
-                  id={`switchMeetAndGreetLuggageAssist`}
+                  id={`roundTrip`}
                   defaultChecked={roundTripSwitch}
                   onClick={() => {
                     setRoundTripSwitch(!roundTripSwitch)
                   }}
                 />
-                <label for={`switchMeetAndGreetLuggageAssist`}></label>
+                <label htmlFor={`roundTrip`}></label>
               </div>
             </div>
           </div>
+
+          {/* <div className={style.referalCode}> */}
+          <div
+            className={style.inputsBackgroundWithOpacityReferalCode}
+            style={{
+              position: "relative",
+              marginBottom: roundTripSwitch ? "" : "21px",
+            }}
+          >
+            <ReferalCodeIcon />
+            {/* <EndLocationIcon /> */}
+            <input
+              // {...getInputProps()}
+              placeholder="Referal Code"
+              className={style.referalCodeInput}
+              // style={{
+              //   border: redBorderErrorForToAddress
+              //     ? "1px solid red"
+              //     : "1px solid transparent",
+              // }}
+            />
+          </div>
+          {/* </div> */}
 
           {roundTripSwitch && (
             <>
@@ -771,6 +800,7 @@ export const WidgetFirstPage = ({
                   return (
                     <>
                       <div className={style.inputsBackgroundWithOpacity}>
+                        <StartLocationIcon />
                         <input
                           {...getInputProps()}
                           placeholder="Enter a Pickup Location"
@@ -792,6 +822,7 @@ export const WidgetFirstPage = ({
                           {suggestions.map((suggestion, id) => {
                             return (
                               <div
+                                key={`${suggestion}`}
                                 className={style.suggestionsResultsContainer}
                                 // key={`${id}${suggestion.description}`}
                                 {...getSuggestionItemProps(suggestion)}
@@ -810,6 +841,7 @@ export const WidgetFirstPage = ({
               {toLocations.map((toDestination, index) => {
                 return (
                   <PlacesAutocomplete
+                    key={`${toDestination}`}
                     value={toDestination.rideCheckPoint}
                     onChange={(address) => {
                       setToAddressHandler(address, index)
@@ -833,6 +865,7 @@ export const WidgetFirstPage = ({
                               style.inputsBackgroundWithOpacityToDestination
                             }
                           >
+                            <EndLocationIcon />
                             <input
                               {...getInputProps()}
                               placeholder={`To ${index + 1}`}
@@ -883,6 +916,7 @@ export const WidgetFirstPage = ({
                               {suggestions.map((suggestion, id) => {
                                 return (
                                   <div
+                                    key={`${suggestion}`}
                                     className={
                                       style.suggestionsResultsContainer
                                     }
@@ -905,6 +939,7 @@ export const WidgetFirstPage = ({
               <div
                 className={style.inputsBackgroundWithOpacityPickUpDateAndTime}
               >
+                <DateIcon />
                 <input
                   onClick={() => setShow(true)}
                   placeholder="Pick Up Date"

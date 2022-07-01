@@ -28,10 +28,15 @@ import { ErroIcon, SuccessIcon } from "../../public/Assets"
 import TermsOfUse from "../Helpers/TermsOfUse"
 import PrivacyPolicy from "../Helpers/PrivacyPolicy"
 
-export const WidgetSixthPage = ({ resultOfCreateReservation }) => {
+export const WidgetSixthPage = ({
+  resultOfCreateReservation,
+  termsAndPrivacyPolicyChecked,
+  setTermsAndPrivacyPolicyChecked,
+}) => {
   const dispatch = useDispatch()
 
-  const [checked, setChecked] = useState(false)
+  // const [termsAndPrivacyPolicyChecked, setTermsAndPrivacyPolicyChecked] =
+  //   useState(false)
 
   const [riderDetails, setRiderDetails] = useState(true)
 
@@ -210,7 +215,7 @@ export const WidgetSixthPage = ({ resultOfCreateReservation }) => {
                             setRiderDetails(!riderDetails)
                           }}
                         />
-                        <label for={`swithDetails`}></label>
+                        <label htmlFor={`swithDetails`}></label>
                       </div>
                     </div>
                   </div>
@@ -516,44 +521,44 @@ export const WidgetSixthPage = ({ resultOfCreateReservation }) => {
                       </div>
                     </div>
                     <div className={style.cardholderInformationInputsWrapper}>
-                      <div
+                      {/* <div
                         className={
                           style.cardholderInformationInputsContainerForPositionErrorMessage
                         }
-                      >
-                        <input
-                          name="client.address"
-                          autoComplete="off"
-                          placeholder="Address"
-                          value={clientInfo.address}
-                          // ref={register}
-                          // error={errors.client?.address ? true : false}
-                          className={style.inputFullWidth}
-                          style={{
-                            width: "100%",
-                            paddingRight: "0",
-                            //   color: inputsFontColor,
-                            //   border: `1px solid ${borderColorForInnerElements}`,
-                            //   background: inputsBackground,
-                            //   borderRadius: borderRadiusesForInnerElements,
-                          }}
-                          onChange={(event) => {
-                            dispatch(setAddress(event.target.value))
-                          }}
-                          // inputsFontColor={inputsFontColor}
-                        />
-                        {/* {errors.client?.address && (
+                      > */}
+                      <input
+                        name="client.address"
+                        autoComplete="off"
+                        placeholder="Address"
+                        value={clientInfo.address}
+                        // ref={register}
+                        // error={errors.client?.address ? true : false}
+                        className={style.inputFullWidth}
+                        style={{
+                          width: "100%",
+                          paddingRight: "0",
+                          //   color: inputsFontColor,
+                          //   border: `1px solid ${borderColorForInnerElements}`,
+                          //   background: inputsBackground,
+                          //   borderRadius: borderRadiusesForInnerElements,
+                        }}
+                        onChange={(event) => {
+                          dispatch(setAddress(event.target.value))
+                        }}
+                        // inputsFontColor={inputsFontColor}
+                      />
+                      {/* {errors.client?.address && (
                     <p className={style.errorInputs}>
                       {errors.client?.address.message}
                     </p>
                   )} */}
-                      </div>
+                      {/* </div> */}
                     </div>
 
                     <div className={style.cardholderInformationInputsWrapper}>
                       <div
                         className={
-                          style.cardholderInformationInputsContainerForPositionErrorMessageState
+                          style.cardholderInformationInputsContainerForStateDropdownIcon
                         }
                         //   style={{ color: inputsFontColor }}
                       >
@@ -802,7 +807,11 @@ export const WidgetSixthPage = ({ resultOfCreateReservation }) => {
                     <label id="input" className={style.checkboxLabel}>
                       <input
                         type="checkbox"
-                        onClick={() => setChecked(!checked)}
+                        onClick={() =>
+                          setTermsAndPrivacyPolicyChecked(
+                            !termsAndPrivacyPolicyChecked
+                          )
+                        }
                         htmlFor="input"
                         className={style.checkboxInput}
                       />

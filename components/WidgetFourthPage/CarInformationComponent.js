@@ -13,35 +13,39 @@ export const CarInformationComponent = ({
   carId,
   selectedCar,
   selectable,
+  disableClickOnCardClick,
 }) => {
-  function imageLoader({ src, width, height }) {
-    // const relativeSrc = (src) => src.split("/").pop()
-
+  function imageLoader({ src, width, height, key }) {
     return `https://bookinglane-images.S3.us-east-2.amazonaws.com/${src}`
   }
 
   const dispatch = useDispatch()
 
+  // function imageLoaderForNoImage({ src }) {
+  //   return `https://notarius-goncharov.ru/articles/${src}`
+  // }
+
   return (
     <div
+      key={`${key}`}
       className={
         carId == selectedCar ? style.carContainerSelected : style.carContainer
       }
       onClick={() => {
-        setSelectedCar(carId)
-        dispatch(setCarId(carId))
+        if (!disableClickOnCardClick) {
+          setSelectedCar(carId)
+          dispatch(setCarId(carId))
+        }
       }}
+      style={{ pointerEvents: disableClickOnCardClick ? "none" : "auto" }}
     >
+      <div className={style.orSimilar}>or similar</div>
       <div className={style.typeAndImageContainer}>
         <p className={style.typeOfVehicle}>{altTypeOfVehicle}</p>
-        <div className={style.carImage}>
+        <div className={style.carImage} style={{ pointerEvents: "auto" }}>
           <Image
             loader={imageLoader}
-            src={
-              imageUrl
-                ? imageUrl
-                : "https://fl-1.cdn.flockler.com/embed/not-found.png"
-            }
+            src={imageUrl}
             alt={altTypeOfVehicle}
             style={{ borderRadius: "7.2px" }}
             layout="fill"
@@ -49,7 +53,12 @@ export const CarInformationComponent = ({
         </div>
       </div>
       <div className={style.detailsContainer}>
-        <p className={style.carPrice}>{carPrice} USD</p>
+        <p className={style.carPrice}>
+          {carPrice} USD
+          {/* NEED TO SYNCHRONIZE REFERAL CODE WITH BACK */}
+          {/* {doesClientHaveReferalCode && <span className={style.redLine}></span>} */}
+        </p>
+        {/* { doesClientHaveReferalCode && <p className={style.carPriceWithDiscount}>1 USD</p>} */}
         <p className={style.carCapacity}>CAPACITY-{carCapacity}</p>
         <p className={style.carLuggage}>LUGGAGE-2</p>
       </div>

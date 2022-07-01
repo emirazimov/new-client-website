@@ -6,9 +6,10 @@ export const HTMLWrapper = ({ children, keywords }) => {
   return (
     <div>
       <Head>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAubahwwVBkFEkRdwxgIU-EejzAOWGtEnU&libraries=places"></script>
+        {/* <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAubahwwVBkFEkRdwxgIU-EejzAOWGtEnU&libraries=places"></script> */}
       </Head>
       <div>{children}</div>
+      <Script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAubahwwVBkFEkRdwxgIU-EejzAOWGtEnU&libraries=places" />
     </div>
   )
 }

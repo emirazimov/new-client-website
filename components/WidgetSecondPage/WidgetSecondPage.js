@@ -228,7 +228,7 @@ export const WidgetSecondPage = ({ redBorderErrorForNumberOfPassengers }) => {
                 )
               }}
             />
-            <label for={`switchMeetAndGreetLuggageAssist`}></label>
+            <label htmlFor={`switchMeetAndGreetLuggageAssist`}></label>
           </div>
         </div>
       </div>

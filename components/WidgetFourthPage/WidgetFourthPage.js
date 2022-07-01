@@ -89,6 +89,7 @@ export const WidgetFourthPage = () => {
               //   </div>
               // </div>
               <CarInformationComponent
+                key={car}
                 imageUrl={result ? result : ""}
                 altTypeOfVehicle={car.type}
                 carPrice={car.price}

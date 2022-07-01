@@ -1,15 +1,15 @@
 .wrapperWithBlackBorders {
   //   position: relative;
-  width: 400px;
-  height: 441px;
-  padding: 7px;
+  width: 100%;
+  height: auto;
+  padding: 11px 12px;
   margin-bottom: 21px;
   border-radius: 10px;
   background: #666666;
 }
 .wrapper {
   width: 100%;
-  height: 100%;
+  height: 441px;
   padding: 9px 10px;
   border-radius: 10px;
   background: #ffffff;
@@ -40,7 +40,7 @@
 
 .mapContainer {
   position: relative;
-  width: 362px;
+  width: 351px;
   height: 122px;
   border-radius: 10px;
   margin-bottom: 8px;

@@ -222,9 +222,9 @@ export default function TermsOfUse() {
               transfer/assign to third parties or create derivative works from
               the content available on Bookinglane Manager, nor allow any third
               party to do so through the User or their device, even without the
-              User's knowledge. Where explicitly stated on Bookinglane Manager,
-              the User may download, copy and/or share some content available
-              through Bookinglane Manager for its sole personal and
+              User&apos;s knowledge. Where explicitly stated on Bookinglane
+              Manager, the User may download, copy and/or share some content
+              available through Bookinglane Manager for its sole personal and
               non-commercial use and provided that the copyright attributions
               and all the other attributions requested by the Owner are
               correctly implemented. Any applicable statutory limitation or
@@ -406,14 +406,15 @@ export default function TermsOfUse() {
               Bookinglane Manager or specific Products available for sale on
               Bookinglane Manager must be purchased via a third-party app store.
               To access such purchases, Users must follow the instructions
-              provided on the relevant online store (such as "Apple App Store"
-              or "Google Play"), which may vary depending on the particular
-              device in use. Unless otherwise specified, purchases done via
-              third-party online stores are also subject to such third-parties’
-              terms and conditions, which, in case of any inconsistency or
-              conflict, shall always prevail upon these Terms. Users purchasing
-              through such third-party online stores must therefore read such
-              terms and conditions of sale carefully and accept them.
+              provided on the relevant online store (such as &quot;Apple App
+              Store&quot; or &quot;Google Play&quot;), which may vary depending
+              on the particular device in use. Unless otherwise specified,
+              purchases done via third-party online stores are also subject to
+              such third-parties’ terms and conditions, which, in case of any
+              inconsistency or conflict, shall always prevail upon these Terms.
+              Users purchasing through such third-party online stores must
+              therefore read such terms and conditions of sale carefully and
+              accept them.
             </p>
             <p>Retention of usage rights</p>
             <p>
@@ -495,10 +496,10 @@ export default function TermsOfUse() {
               Indemnification The User agrees to indemnify and hold the Owner
               and its subsidiaries, affiliates, officers, directors, agents,
               co-branders, partners and employees harmless from and against any
-              claim or demand ⁠— including but not limited to lawyer's fees and
-              costs ⁠— made by any third party due to or in relation with any
-              culpable use of or connection to the Service, violation of these
-              Terms, infringement of any third-party rights or statutory
+              claim or demand ⁠— including but not limited to lawyer&apos;s fees
+              and costs ⁠— made by any third party due to or in relation with
+              any culpable use of or connection to the Service, violation of
+              these Terms, infringement of any third-party rights or statutory
               provision by the User or its affiliates, officers, directors,
               agents, co-branders, partners and employees to the extent allowed
               by applicable law. Users acknowledge and accept that the Owner
@@ -507,7 +508,7 @@ export default function TermsOfUse() {
               intermediate, moderate, promote or intervene in interactions,
               agreements or transactions between Users and therefore bears no
               liability for any such interactions among Users, including the
-              performance of any Users' obligations. Users, in particular,
+              performance of any Users&apos; obligations. Users, in particular,
               acknowledge and accept that the Owner is not involved in sales and
               purchases by Users qualifying respectively as Sellers or Buyers
               over Bookinglane Manager. This means that Sellers and Buyers are
@@ -518,8 +519,8 @@ export default function TermsOfUse() {
               offered through/via Bookinglane Manager; the existence of any
               applicable license, authorization, qualification or other official
               permit allowing Sellers to offer specific goods or services, as
-              may be required by applicable law; the Buyers' eligibility (e.g.
-              in terms of age, solvency etc.) for purchase according to
+              may be required by applicable law; the Buyers&apos; eligibility
+              (e.g. in terms of age, solvency etc.) for purchase according to
               applicable law; any obligation stipulated by Users over
               Bookinglane Manager, including but not limited to product
               guarantees and product safety; any claim based on partial,
@@ -743,10 +744,11 @@ export default function TermsOfUse() {
               Terms. If Users do not wish to be bound by the changes, they must
               stop using the Service. Failure to accept the revised Terms, may
               entitle either party to terminate the Agreement. The applicable
-              previous version will govern the relationship prior to the User's
-              acceptance. The User can obtain any previous version from the
-              Owner. If required by applicable law, the Owner will specify the
-              date by which the modified Terms will enter into force.
+              previous version will govern the relationship prior to the
+              User&apos;s acceptance. The User can obtain any previous version
+              from the Owner. If required by applicable law, the Owner will
+              specify the date by which the modified Terms will enter into
+              force.
             </p>
             <p>Assignment of contract</p>
             <p>
@@ -825,7 +827,7 @@ export default function TermsOfUse() {
             <p>Amicable dispute resolution</p>
             <p>
               Users may bring any disputes to the Owner who will try to resolve
-              them amicably. While Users' right to take legal action shall
+              them amicably. While Users&apos; right to take legal action shall
               always remain unaffected, in the event of any controversy
               regarding the use of Bookinglane Manager or the Service, Users are
               kindly asked to contact the Owner at the contact details provided

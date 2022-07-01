@@ -1,30 +1,55 @@
 .wrapper {
-  max-width: 1329px;
+  max-width: 1159px;
   margin: 0px auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: -79px;
+  margin-top: 0;
+  @media (max-width: 1260px) {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+  @media (max-width: 751px) {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
 }
 .solutionTitle {
   font-weight: 700;
   font-size: 34px;
   line-height: 150%;
   color: #000000;
+  @media (max-width: 913px) {
+    font-size: 27px;
+  }
 }
 .b2cAndB2bContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 1155px) {
+    flex-direction: column;
+  }
 }
 .b2cBlockContainer,
 .b2bBlockContainer {
-  max-width: 606px;
+  width: 606px;
   height: 283px;
   background: #ffffff;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   padding: 7px 42px;
+  @media (max-width: 1418px) {
+    width: 500px;
+  }
+  @media (max-width: 546px) {
+    width: 300px;
+    height: auto;
+    padding: 7px 24px;
+  }
+  // @media (max-width: 1155px) {
+  //   width: 250px;
+  // }
 }
 .b2cTitle,
 .b2bTitle {
@@ -32,6 +57,9 @@
   font-size: 20px;
   line-height: 38px;
   color: #000000;
+  @media (max-width: 913px) {
+    font-size: 17px;
+  }
 }
 .b2cStrongText,
 .b2bStrongText {
@@ -39,6 +67,12 @@
   font-size: 20px;
   line-height: 38px;
   color: #000000;
+  @media (max-width: 913px) {
+    font-size: 17px;
+  }
+  @media (max-width: 546px) {
+    line-height: 30px;
+  }
 }
 .b2cRegularText,
 .b2bRegularText {
@@ -46,10 +80,26 @@
   line-height: 38px;
   font-weight: 500;
   color: #000000;
+  @media (max-width: 913px) {
+    font-size: 16px;
+  }
+  @media (max-width: 546px) {
+    line-height: 30px;
+    margin-top: 10px;
+  }
 }
 .b2cBlockContainer {
   margin-right: 24px;
+  @media (max-width: 1155px) {
+    margin-right: 0;
+  }
 }
+.b2bBlockContainer {
+  @media (max-width: 1155px) {
+    margin-top: 20px;
+  }
+}
+
 // .b2bTitle {
 // }
 // .b2bStrongText {
@@ -60,12 +110,17 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  margin-top: 20px;
   & > p {
     font-size: 20px;
     line-height: 38px;
     font-weight: 500;
     color: #000000;
     margin-right: 21px;
+    @media (max-width: 546px) {
+      font-size: 16px;
+      line-height: 20px;
+    }
   }
   .button {
     background: #2096eb;
@@ -75,5 +130,8 @@
     font-size: 14px;
     line-height: 38px;
     color: #ffffff;
+    @media (max-width: 546px) {
+      line-height: 20px;
+    }
   }
 }

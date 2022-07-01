@@ -103,6 +103,7 @@ const WidgetFifthPage = (props) => {
             carCapacity={selectedCar?.capacity}
             carLuggage={selectedCar?.luggage}
             carId={selectedCar?.id}
+            disableClickOnCardClick={true}
             // selectedCar={selectedCar}
             // setSelectedCar={setSelectedCar}
           />

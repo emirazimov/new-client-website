@@ -45,7 +45,7 @@
 .luggageCountInput,
 .MeetAndGreetLuggageAssistSwitchInput,
 .numberOfPassengersInput {
-  width: 368px;
+  width: 100%;
   height: 34px;
   display: flex;
   justify-content: space-between;
@@ -63,7 +63,7 @@
 
 .airlinesInput,
 .flightNumberInput {
-  width: 368px;
+  width: 100%;
   height: 34px;
   outline: none;
   border: none;

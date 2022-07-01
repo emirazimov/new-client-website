@@ -1,22 +1,36 @@
 .wrapper {
-  max-width: 1329px;
+  max-width: 1159px;
   margin: 0px auto;
   margin-top: 68px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (max-width: 1260px) {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+  @media (max-width: 751px) {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
 }
 .title {
   font-weight: 700;
   font-size: 34px;
   line-height: 150%;
   color: #000000;
+  @media (max-width: 913px) {
+    font-size: 27px;
+  }
 }
 .firstTextBlock,
 .secondTextBlock {
   font-weight: 500;
   font-size: 20px;
   line-height: 38px;
+  @media (max-width: 913px) {
+    font-size: 16px;
+  }
 }
 .firstTextBlock {
   margin-bottom: 24px;

@@ -1,6 +1,6 @@
-.wrapperToLimitContentWidth {
+.wrapper {
   //   width: 200px;
-
+  width: 100%;
   height: 980px;
 
   background-image: url("https://new-client-website.s3.us-east-2.amazonaws.com/main-block-background.jpg");
@@ -9,31 +9,59 @@
   background-size: cover;
 }
 
-.wrapper {
-  max-width: 1329px;
+.wrapperToLimitContentWidth {
+  max-width: 1159px;
   margin: 0px auto;
+  @media (max-width: 1260px) {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+  @media (max-width: 751px) {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
 }
 .lookingForExecutiveCar {
   font-weight: 600;
   font-size: 42px;
   line-height: 55px;
+  margin-top: 24px;
   /* or 131% */
 
   text-align: center;
 
   color: #000000;
+
+  @media (max-width: 913px) {
+    font-size: 27px;
+  }
 }
 
 .letsGetStartedAndMainTextContainer {
+  width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 39.35px;
+  @media (max-width: 996px) {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .letsGetStartedContainer {
+  min-width: 400px;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
   margin-right: 137px;
+  @media (max-width: 996px) {
+    margin-right: 0;
+    order: 2;
+  }
+  @media (max-width: 502px) {
+    min-width: 290px;
+    max-width: 290px;
+  }
 }
 .letsGetStartedTitle {
   font-weight: 600;
@@ -49,7 +77,8 @@
   align-items: center;
 }
 .backButton,
-.nextButton {
+.nextButton,
+.payButton {
   width: 125px;
   height: 33.51px;
   background: #2096eb;
@@ -61,7 +90,8 @@
   border: none;
   cursor: pointer;
 }
-.nextButtonDisabled {
+.nextButtonDisabled,
+.payButtonDisabled {
   width: 125px;
   height: 33.51px;
   background: #2096eb;
@@ -82,6 +112,14 @@
   font-weight: 400;
   font-size: 36px;
   line-height: 55px;
-
   color: #000000;
+  @media (max-width: 996px) {
+    order: 1;
+    text-align: center;
+    margin-bottom: 45px;
+  }
+  @media (max-width: 913px) {
+    font-size: 22px;
+    line-height: 30px;
+  }
 }

@@ -1,6 +1,7 @@
 .carContainer {
   width: 100%;
-  height: 94.48px;
+  height: 114.48px;
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -16,7 +17,8 @@
 }
 .carContainerSelected {
   width: 100%;
-  height: 94.48px;
+  height: 114.48px;
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,7 +28,19 @@
   border-radius: 7.08571px;
   border: 0.590476px solid #dadada;
 }
-
+.orSimilar {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  padding: 2px;
+  border-top-left-radius: 7.08571px;
+  background: #d9d9d9;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #000000;
+}
 .typeAndImageContainer {
   width: 50%;
   height: 100%;
@@ -40,13 +54,13 @@
   font-size: 14px;
   line-height: 9px;
   color: #000000;
-  margin-bottom: 3px;
+  margin-bottom: 5px;
   text-transform: uppercase;
 }
 .carImage {
   position: relative;
   width: 116px;
-  height: 55.2px;
+  height: 85.2px;
   border-radius: 7.2px;
 }
 .detailsContainer {
@@ -54,22 +68,48 @@
   height: 100%;
 }
 .carPrice {
+  width: auto;
+  display: inline-block;
+  position: relative;
+  font-weight: 600;
+  font-size: 18px;
+  // line-height: 7px;
+  margin-bottom: 3px;
+  color: #000000;
+  // &:after {
+  //   content: "";
+  //   position: absolute;
+  //   width: 100%;
+  //   height: 1px;
+  //   background: red;
+  //   top: 10px;
+  //   left: 0;
+  // }
+}
+.redLine {
+  width: 100%;
+  height: 1px;
+  position: absolute;
+  top: 9px;
+  left: 0;
+  background: red;
+}
+.carPriceWithDiscount {
   font-weight: 600;
   font-size: 20px;
-  line-height: 7px;
-  margin-bottom: 14px;
-  color: #000000;
+  color: #00a206;
 }
+
 .carCapacity {
   font-weight: 600;
   font-size: 13px;
-  line-height: 14px;
+  // line-height: 14px;
   margin-bottom: 4px;
   color: #000000;
 }
 .carLuggage {
   font-weight: 600;
   font-size: 13px;
-  line-height: 14px;
+  // line-height: 14px;
   color: #000000;
 }

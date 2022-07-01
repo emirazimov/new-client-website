@@ -63,7 +63,7 @@ export const WidgetThirdPage = () => {
                 dispatch(setSafetySeatSwitch(!formData.showCarsWithSafetySeat))
               }}
             />
-            <label for={`switchSafetySeat`}></label>
+            <label htmlFor={`switchSafetySeat`}></label>
           </div>
         </div>
       </div>
@@ -176,7 +176,7 @@ export const WidgetThirdPage = () => {
                 dispatch(setHourlySwitch(!formData.hourly))
               }}
             />
-            <label for={`switchHourly`}></label>
+            <label htmlFor={`switchHourly`}></label>
           </div>
         </div>
       </div>
