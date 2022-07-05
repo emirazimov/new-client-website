@@ -259,7 +259,7 @@ export const WidgetFirstPage = ({
       }
       return timeValue1
     }
-    const timeValue = inputCard.current.value
+    const timeValue = inputCard?.current?.value
       .replace(/\D/g, "")
       .match(/(\d{0,1})(\d{0,1})(\d{0,1})(\d{0,1})/)
     inputCard.current.value = timeValue[4]
@@ -754,26 +754,7 @@ export const WidgetFirstPage = ({
           </div>
 
           {/* <div className={style.referalCode}> */}
-          <div
-            className={style.inputsBackgroundWithOpacityReferalCode}
-            style={{
-              position: "relative",
-              marginBottom: roundTripSwitch ? "" : "21px",
-            }}
-          >
-            <ReferalCodeIcon />
-            {/* <EndLocationIcon /> */}
-            <input
-              // {...getInputProps()}
-              placeholder="Referal Code"
-              className={style.referalCodeInput}
-              // style={{
-              //   border: redBorderErrorForToAddress
-              //     ? "1px solid red"
-              //     : "1px solid transparent",
-              // }}
-            />
-          </div>
+
           {/* </div> */}
 
           {roundTripSwitch && (
@@ -987,8 +968,7 @@ export const WidgetFirstPage = ({
                       }}
                       style={{
                         color:
-                          formData.timeForDefaultValueAMPMalignment.ampm0 ==
-                          "AM"
+                          formData.timeForDefaultValueAMPMalignment.ampm == "AM"
                             ? `white`
                             : "black",
                         background:
@@ -1033,6 +1013,26 @@ export const WidgetFirstPage = ({
               </div>
             </>
           )}
+          <div
+            className={style.inputsBackgroundWithOpacityReferalCode}
+            style={{
+              position: "relative",
+              marginBottom: roundTripSwitch ? "" : "21px",
+            }}
+          >
+            <ReferalCodeIcon />
+            {/* <EndLocationIcon /> */}
+            <input
+              // {...getInputProps()}
+              placeholder="Referal Code"
+              className={style.referalCodeInput}
+              // style={{
+              //   border: redBorderErrorForToAddress
+              //     ? "1px solid red"
+              //     : "1px solid transparent",
+              // }}
+            />
+          </div>
         </>
       )}
     </>

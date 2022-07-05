@@ -145,10 +145,10 @@ export const formDataSlice = createSlice({
       state.orderAddressDetails = arr
     },
     removeToLocation: (state, action) => {
-      const arr = [...state.orderAddressDetails]
-      arr.splice(action.index, 1)
-
-      state.orderAddressDetails = arr
+      const [fromDestination, ...otherAddresses] = state.orderAddressDetails
+      const arr = [...otherAddresses]
+      arr.splice(action.payload, 1)
+      state.orderAddressDetails = [fromDestination, ...arr]
     },
     setBookingType: (state, action) => {
       state.bookingType = action.payload

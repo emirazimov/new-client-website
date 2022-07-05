@@ -7,6 +7,7 @@ export const HTMLWrapper = ({ children, keywords }) => {
     <div>
       <Head>
         {/* <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAubahwwVBkFEkRdwxgIU-EejzAOWGtEnU&libraries=places"></script> */}
+        {/* we provide executive car & chauffeur service */}
       </Head>
       <div>{children}</div>
       <Script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAubahwwVBkFEkRdwxgIU-EejzAOWGtEnU&libraries=places" />

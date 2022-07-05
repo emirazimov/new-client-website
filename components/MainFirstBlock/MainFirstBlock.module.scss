@@ -59,8 +59,12 @@
     order: 2;
   }
   @media (max-width: 502px) {
-    min-width: 290px;
-    max-width: 290px;
+    min-width: 329px;
+    max-width: 329px;
+  }
+  @media (max-width: 330px) {
+    min-width: 305px;
+    max-width: 305px;
   }
 }
 .letsGetStartedTitle {
