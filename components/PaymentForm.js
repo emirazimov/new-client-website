@@ -18,6 +18,7 @@ import {
   useGetUsersPaymentDetailsQuery,
   useSetUsersPaymentDetailsMutation,
 } from "../reduxToolkit/services/paymentFormApi"
+import ReactInputMask from "react-input-mask"
 
 // const Cleave = dynamic(() => import("cleave.js"), {
 //   ssr: false,
@@ -54,7 +55,7 @@ const PaymentForm = () => {
   const [year, setYear] = useState("")
   const [cvc, setCvc] = useState("")
   const [grativityAmount, setGrativityAmount] = useState(0)
-
+  const [cardType, setCardType] = useState("")
   const [isGrativityEnabled, setIsGrativityEnabled] = useState(false)
 
   const handleCardNumber = (e) => {
@@ -66,7 +67,7 @@ const PaymentForm = () => {
   }
 
   const handleType = (type) => {
-    // setCardType(type)
+    setCardType(type)
     // console.log(type)
   }
 
@@ -125,7 +126,7 @@ const PaymentForm = () => {
   // default value 10 you can change this
 
   function handleMonth(e) {
-    if (e < 12) {
+    if (e <= 12) {
       setMonth(e)
     } else {
       return
@@ -450,33 +451,66 @@ const PaymentForm = () => {
                 />
               </div>
               <div className={style.monthAndYearAndCvcContainer}>
-                <input
-                  type="number"
-                  className={style.monthInput}
-                  placeholder="Month"
-                  required
+                <ReactInputMask
+                  name="paymentInfoMonth"
+                  // ref={register}
+                  mask="99"
+                  autoComplete="off"
                   onChange={(event) => {
                     handleMonth(event.target.value)
                   }}
-                />
-                <input
-                  type="number"
-                  className={style.yearInput}
-                  placeholder="Year"
-                  required
+                >
+                  {() => (
+                    <input
+                      // type="number"
+                      className={style.monthInput}
+                      placeholder="Month"
+                      required
+                    />
+                  )}
+                </ReactInputMask>
+
+                <ReactInputMask
+                  name="paymentInfoMonth"
+                  // ref={register}
+                  mask="99"
+                  autoComplete="off"
                   onChange={(event) => {
                     setYear(event.target.value)
                   }}
-                />
-                <input
-                  type="number"
-                  className={style.cvcInput}
-                  placeholder="Cvc"
-                  required
+                >
+                  {() => (
+                    <input
+                      // type="number"
+                      className={style.yearInput}
+                      placeholder="Year"
+                      required
+                    />
+                  )}
+                </ReactInputMask>
+
+                <ReactInputMask
+                  name="paymentInfoCvc"
+                  // ref={register}
+                  mask={cardType == "amex" ? "9999" : "999"}
+                  autoComplete="off"
                   onChange={(event) => {
+                    console.log(cardType)
                     setCvc(event.target.value)
                   }}
-                />
+                  // defaultValue={formSummary.paymentInfo.cvc}
+                >
+                  {() => {
+                    return (
+                      <input
+                        // type="number"
+                        className={style.cvcInput}
+                        placeholder="Cvc"
+                        required
+                      />
+                    )
+                  }}
+                </ReactInputMask>
               </div>
               {paymentData?.allowTip && (
                 <div className={style.addTip}>

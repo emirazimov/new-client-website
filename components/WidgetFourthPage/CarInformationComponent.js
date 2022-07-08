@@ -14,11 +14,11 @@ export const CarInformationComponent = ({
   selectedCar,
   selectable,
   disableClickOnCardClick,
+  key,
 }) => {
   function imageLoader({ src, width, height, key }) {
-    return `https://bookinglane-images.S3.us-east-2.amazonaws.com/${src}`
+    return `https://new-client-website.s3.us-east-2.amazonaws.com/${src}`
   }
-
   const dispatch = useDispatch()
 
   // function imageLoaderForNoImage({ src }) {

@@ -1,8 +1,8 @@
 const iconsForInputs = {
   position: "absolute",
   zIndex: "2",
-  left: "15px",
-  top: "17px",
+  left: "11px",
+  top: "8px",
 }
 
 export const MinusIcon = () => (
@@ -333,12 +333,12 @@ export const BurgerMenu = () => (
 
 export const RoundTripIcon = () => (
   <svg
-    width="15"
-    height="15"
-    viewBox="0 0 12 12"
+    width="18"
+    height="16"
+    viewBox="0 0 10 12"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    style={{ position: "absolute", zIndex: "2", top: "20px", left: "18px" }}
+    style={iconsForInputs}
   >
     <path
       d="M6.89934 5.23481L6.7623 3.63025L8.62915 3.46294C7.92229 2.76507 6.9609 2.33589 5.90165 2.33589C3.7307 2.33589 1.97079 4.13871 1.97079 6.3626C1.97079 8.58649 3.7307 10.3893 5.90165 10.3893C7.3331 10.3893 8.58583 9.60553 9.2732 8.43405L10.8477 8.83727C9.95299 10.7102 8.07436 12 5.90165 12C2.86231 12 0.398438 9.47605 0.398438 6.3626C0.398438 3.24915 2.86231 0.725206 5.90165 0.725206C7.4319 0.725206 8.81626 1.365 9.81374 2.39771L9.62095 0.14038L11.1873 0L11.5984 4.81367L6.89934 5.23481Z"
@@ -349,12 +349,12 @@ export const RoundTripIcon = () => (
 
 export const ReferalCodeIcon = () => (
   <svg
-    width="14"
+    width="18"
     height="16"
-    viewBox="0 0 12 14"
+    viewBox="0 0 10 14"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    style={{ position: "absolute", zIndex: "2", top: "20px", left: "18px" }}
+    style={iconsForInputs}
   >
     <path d="M2.66667 11.0007H9.33333V9.66732H2.66667V11.0007Z" fill="black" />
     <path d="M9.33333 8.33398H2.66667V7.00065H9.33333V8.33398Z" fill="black" />

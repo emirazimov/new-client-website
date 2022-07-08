@@ -1,18 +1,34 @@
+.inputsAndFleetBlockContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .inputsBackgroundWithOpacity,
 .inputsBackgroundWithOpacityToDestination,
 .inputsBackgroundWithOpacityAirlines,
 .inputsBackgroundWithOpacityFlightNumber,
 .inputsBackgroundWithOpacityNumberOfPassengers,
 .inputsBackgroundWithOpacityRoundTrip,
-.inputsBackgroundWithOpacityReferalCode {
-  width: auto;
+.inputsBackgroundWithOpacityReferalCode,
+.inputsBackgroundWithOpacityYouthBoosterSeat,
+.inputsBackgroundWithOpacityInfantChildSafetySeat,
+.inputsBackgroundWithOpacitySafetySeat,
+.inputsBackgroundWithOpacityHourly,
+.inputsBackgroundWithOpacityHoursCount,
+.inputsBackgroundWithOpacityAirlines,
+.inputsBackgroundWithOpacityFlightNumber,
+.inputsBackgroundWithOpacityLuggageCount,
+.inputsBackgroundWithOpacityMeetAndGreetLuggageAssist,
+.inputsBackgroundWithOpacityNumberOfPassengers {
+  width: 440px;
   height: auto;
   position: relative;
-  padding: 11px 12px;
   border-radius: 10px;
-  background: rgba(0, 0, 0, 0.6);
+  // padding: 1px;
+  border: 1px solid #dadada;
   //   filter: opacity(76%);
-  margin-bottom: 5px;
+  margin-bottom: 2px;
 }
 
 .inputsBackgroundWithOpacityRoundTrip {
@@ -21,17 +37,17 @@
 // roundTripPlaceholder
 
 .inputsBackgroundWithOpacityPickUpDateAndTime {
-  width: 100%;
+  width: 440px;
   height: auto;
   position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 11px 12px;
+  padding: 1px;
   border-radius: 10px;
-  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid #dadada;
   //   filter: opacity(76%);
-  margin-bottom: 5px;
+  // margin-bottom: 5px;
 }
 .pickUpLocationInput,
 .toLocationInput,
@@ -43,10 +59,10 @@
   height: 34px;
   outline: none;
   border: none;
-  border-radius: 4.78722px;
+  border-radius: 10px;
   font-size: 16px;
   padding: 11px;
-  padding-left: 27px;
+  padding-left: 37px;
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -65,9 +81,9 @@
 
   outline: none;
   border: none;
-  border-radius: 4.78722px;
+  border-radius: 10px;
   padding: 11px;
-  padding-left: 27px;
+  padding-left: 37px;
   background: white;
 }
 .numberOfPassengersInput {
@@ -90,11 +106,11 @@
   width: 50%;
   height: 34px;
   padding: 11px;
-  padding-left: 27px;
+  padding-left: 37px;
   outline: none;
   border: none;
-  border-top-left-radius: 4.78722px;
-  border-bottom-left-radius: 4.78722px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
   font-size: 16px;
 }
 .timePickerContainer {
@@ -107,8 +123,8 @@
   height: 34px;
   padding-right: 78px;
   font-size: 16px;
-  border-top-right-radius: 4.78722px;
-  border-bottom-right-radius: 4.78722px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
   outline: none;
   text-align: right;
   box-sizing: border-box;
@@ -166,7 +182,7 @@
   width: 125px;
   height: 33.51px;
   background: #2096eb;
-  border-radius: 4.78722px;
+  border-radius: 10px;
   font-weight: 700;
   font-size: 12px;
   line-height: 14px;
@@ -326,4 +342,171 @@
   }
 }
 .switchSelf {
+}
+
+// .inputsBackgroundWithOpacityYouthBoosterSeat,
+// .inputsBackgroundWithOpacityInfantChildSafetySeat,
+// .inputsBackgroundWithOpacitySafetySeat,
+// .inputsBackgroundWithOpacityHourly,
+// .inputsBackgroundWithOpacityHoursCount,
+// .inputsBackgroundWithOpacityAirlines,
+// .inputsBackgroundWithOpacityFlightNumber,
+// .inputsBackgroundWithOpacityLuggageCount,
+// .inputsBackgroundWithOpacityMeetAndGreetLuggageAssist,
+// .inputsBackgroundWithOpacityNumberOfPassengers {
+//   width: auto;
+//   height: auto;
+//   position: relative;
+//   padding: 11px 12px;
+//   border-radius: 10px;
+//   background: rgba(0, 0, 0, 0.6);
+//   //   filter: opacity(76%);
+//   margin-bottom: 5px;
+// }
+
+// .inputsBackgroundWithOpacityLuggageCount {
+//   margin-bottom: 21px;
+// }
+.safetySeatPlaceholder,
+.youthBoosterSeatPlaceholder,
+.infantChildSafetySeatPlaceholder,
+.hourlyPlaceholder,
+.hoursPlaceholder,
+.meetAndGreetLuggageAssistPlaceholder,
+.luggageCountPlaceholder {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 14px;
+  letter-spacing: -0.0988491px;
+  color: #141414;
+  cursor: default;
+}
+// inputsBackgroundWithOpacityYouthBoosterSeat
+// youthBoosterSeatInput
+// .inputsBackgroundWithOpacityPickUpDateAndTime {
+//   width: 100%;
+//   height: auto;
+//   position: relative;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   padding: 11px 12px;
+//   border-radius: 10px;
+//   background: rgba(0, 0, 0, 0.6);
+//   //   filter: opacity(76%);
+//   margin-bottom: 5px;
+// }
+
+.youthBoosterSeatCountInput,
+.infantChildSafetySeatCountInput,
+.hoursCountInput,
+.safetySeatSwitchInput,
+.hourlySwitchInput,
+.luggageCountInput,
+.MeetAndGreetLuggageAssistSwitchInput,
+.numberOfPassengersInput {
+  width: 100%;
+  height: 34px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  padding: 11px;
+  padding-left: 37px;
+  background: white;
+
+  //   padding-top: 0px;
+}
+
+.airlinesInput,
+.flightNumberInput {
+  width: 100%;
+  height: 34px;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  padding: 11px;
+  padding-left: 37px;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  [type="number"] {
+    -moz-appearance: textfield;
+  }
+}
+
+.counterContainer {
+  width: 70px;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.minusButton,
+.plusButton {
+  //   background: transparent;
+  //   border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.minusButton {
+  width: 20px;
+  height: 100%;
+  margin-right: 10px;
+}
+.plusButton {
+  width: 20px;
+  height: 100%;
+  margin-left: 10px;
+}
+.counterInput {
+  width: 100%;
+  outline: none;
+  text-align: center;
+  border: none;
+}
+
+.fleetBlock {
+  width: 350px;
+}
+.wrapperWithBlackBorder {
+  width: auto;
+  height: auto;
+  position: relative;
+  padding: 11px 12px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  //   filter: opacity(76%);
+  margin-bottom: 21px;
+}
+.wrapper {
+  width: 100%;
+  height: 440.59px;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 4px;
+    border-radius: 15px;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-track {
+    margin-bottom: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #b0b0b0;
+    border: 1px solid #ebebeb;
+    cursor: pointer;
+    border-radius: 15px;
+  }
+
+  border-radius: 4.78722px;
+  padding: 11px;
+  background: white;
 }

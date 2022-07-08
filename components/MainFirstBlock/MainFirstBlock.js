@@ -164,16 +164,13 @@ const MainFirstBlock = () => {
             redBorderErrorForDate={redBorderErrorForDate}
             redBorderErrorForTime={redBorderErrorForTime}
             redBorderErrorForAMPM={redBorderErrorForAMPM}
-          />
-        )
-      case 2:
-        return (
-          <WidgetSecondPage
             redBorderErrorForNumberOfPassengers={
               redBorderErrorForNumberOfPassengers
             }
           />
         )
+      case 2:
+        return <WidgetThirdPage />
 
       case 3:
         return <WidgetThirdPage />
@@ -229,6 +226,10 @@ const MainFirstBlock = () => {
           Looking for executive car & chauffeur service?
         </h1>
         <div className={style.letsGetStartedAndMainTextContainer}>
+          <h1 className={style.mainText}>
+            We provide a simple way to book the local executive car service with
+            our automated technology.
+          </h1>
           <div className={style.letsGetStartedContainer}>
             <p className={style.letsGetStartedTitle}>Let’s get started:</p>
             {/* <Modal onClose={() => setShowRecaptcha(false)} show={showRecaptcha}> */}
@@ -364,10 +365,6 @@ const MainFirstBlock = () => {
               </div>
             )}
           </div>
-          <h1 className={style.mainText}>
-            We provide a simple way to book the local executive car service with
-            our automated technology.
-          </h1>
         </div>
       </div>
     </div>
