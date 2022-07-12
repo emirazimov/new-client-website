@@ -3,10 +3,10 @@
   width: 100%;
   height: 980px;
 
-  background-image: url("https://new-client-website.s3.us-east-2.amazonaws.com/main-block-background.jpg");
+  background-image: url("https://new-client-website.s3.us-east-2.amazonaws.com/main-block-img.png");
   background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  background-position: right;
+  background-size: contain;
 }
 
 .wrapperToLimitContentWidth {
@@ -94,8 +94,9 @@
   border: none;
   cursor: pointer;
 }
-.nextButtonDisabled,
-.payButtonDisabled {
+
+.payButtonDisabled,
+.nextButtonDisabled {
   width: 125px;
   height: 33.51px;
   background: #2096eb;
@@ -108,6 +109,10 @@
   cursor: pointer;
   pointer-events: none;
   opacity: 0.5;
+}
+.nextButtonDisabled,
+.nextButton {
+  width: 269px;
 }
 .backButton {
   margin-right: 8px;

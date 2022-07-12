@@ -50,6 +50,7 @@ import {
   setHoursCount,
   setSafetySeatCount,
   setSafetySeatSwitch,
+  setCaptcha,
 } from "../../reduxToolkit/slices/formData"
 
 import {
@@ -57,6 +58,8 @@ import {
   useGetFleetQuery,
 } from "../../reduxToolkit/services/fleetApi"
 import { CarInformationComponent } from "../WidgetFourthPage/CarInformationComponent"
+import ReCAPTCHA from "react-google-recaptcha"
+import { setCars } from "../../reduxToolkit/slices/fleetSlice"
 
 export const WidgetFirstPage = ({
   redBorderErrorForFromAddress,
@@ -506,190 +509,257 @@ export const WidgetFirstPage = ({
   const [selectedCar, setSelectedCar] = useState(0)
   // console.log()
 
+  const [showRecaptcha, setShowRecaptcha] = useState(false)
+  function onChangeRecaptcha(value) {
+    // console.log('Captcha value:', value)
+    // window.localStorage.setItem("captcha", value)
+    dispatch(setCaptcha(value))
+  }
+  const carsFromStore = useSelector((state) => state.fleet)
+
+  const [getFleet, result] = useGetFleetMutation()
+
+  useEffect(() => {
+    // var result = /[^/]*$/.exec()[0]
+
+    // console.log(result)
+    formData.orderAddressDetails[1].placeId &&
+      getFleet({
+        captcha: formData.captcha,
+        hours: formData.hours,
+        isGateMeeting: formData.isGateMeeting,
+        airlines: formData.airlines,
+        orderAddressDetails: formData.orderAddressDetails,
+        page: formData.page,
+        typeId: 1,
+        bookingType: formData.bookingType,
+        passengersQuantity: formData.passengersQuantity,
+        isAirportPickupIncluded: formData.isAirportPickupIncluded,
+        boosterSeatCount: formData.boosterSeatCount,
+        safetySeatCount: formData.safetySeatCount,
+        luggageCount: formData.luggageCount,
+      })
+    // console.log(formData.captcha)
+    // console.log(result)
+  }, [formData.orderAddressDetails[1].placeId])
+
+  useEffect(() => {
+    dispatch(setCars(result.data))
+    // console.log(result)
+  }, [result])
+
   return (
     <div className={style.inputsAndFleetBlockContainer}>
-      <div className={style.inputsBlock}>
-        <PlacesAutocomplete
-          value={formData.orderAddressDetails[0].rideCheckPoint}
-          onChange={(address) => {
-            setFromAddress(address)
-            // dispatch(setOrderAddressDetails(address))
-            dispatch(setFromRideCheckpoint(address))
-            console.log(address)
-          }}
-          onSelect={(address, index) => {
-            handleSelectFromLocation(address, index)
-          }}
-        >
-          {({
-            getInputProps,
-            suggestions,
-            getSuggestionItemProps,
-            loading,
-          }) => {
-            console.log(suggestions)
-            return (
-              <>
-                <div
-                  className={style.inputsBackgroundWithOpacity}
-                  style={{ position: "relative" }}
-                >
-                  <StartLocationIcon />
-                  <input
-                    {...getInputProps()}
-                    placeholder="Enter a Pickup Location"
-                    className={style.pickUpLocationInput}
-                    style={{
-                      border: redBorderErrorForFromAddress
-                        ? "1px solid red"
-                        : "1px solid transparent",
-                    }}
-                  />
-                  <div
-                    // className={styles.dropDown}
-                    className={style.dropDownForGoogleSearchSuggestionContainer}
-                  >
-                    {loading && (
-                      <div
-                      // className={styles.dropDownLoadingText}
-                      >
-                        Loading...
-                      </div>
-                    )}
-                    {suggestions.map((suggestion, id) => {
-                      return (
-                        <div
-                          key={`${suggestion}`}
-                          className={style.suggestionsResultsContainer}
-                          // key={`${id}${suggestion.description}`}
-                          {...getSuggestionItemProps(suggestion)}
-                          // className={styles.itemInsideDropDown}
-                        >
-                          {suggestion.description}
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-              </>
-            )
-          }}
-        </PlacesAutocomplete>
-        {formData.orderAddressDetails[0].rideCheckPoint && (
-          <>
-            {toLocations.map((toDestination, index) => {
+      <div
+        className={style.inputsBlockWithPaddingsToMakeScrollbarMoreVisible}
+        style={{
+          border:
+            formData.captcha &&
+            formData.orderAddressDetails[0].rideCheckPoint &&
+            "2px solid #2096eb",
+          background:
+            formData.captcha && formData.orderAddressDetails[0].rideCheckPoint
+              ? "white"
+              : "transparent",
+        }}
+      >
+        <div className={style.inputsBlock}>
+          <PlacesAutocomplete
+            value={formData.orderAddressDetails[0].rideCheckPoint}
+            onChange={(address) => {
+              setFromAddress(address)
+              // dispatch(setOrderAddressDetails(address))
+              dispatch(setFromRideCheckpoint(address))
+              console.log(address)
+            }}
+            onSelect={(address, index) => {
+              handleSelectFromLocation(address, index)
+            }}
+          >
+            {({
+              getInputProps,
+              suggestions,
+              getSuggestionItemProps,
+              loading,
+            }) => {
+              console.log(suggestions)
               return (
-                <PlacesAutocomplete
-                  key={`${toDestination}`}
-                  value={toDestination.rideCheckPoint}
-                  onChange={(address) => {
-                    setToAddressHandler(address, index)
-                    dispatch(setToRideCheckpoint({ address, index }))
-                    // if (index == 0) {
-                    //   dispatch(setToRideCheckpoint(address, index))
-                    // } else {
-                    //   dispatch(
-                    //     setToAdditionalRideCheckpoints({
-                    //       address,
-                    //       index,
-                    //     })
-                    //   )
-                    // }
-                  }}
-                  onSelect={(address) => {
-                    handleSelectToDestination(address, index)
-                  }}
-                >
-                  {({
-                    getInputProps,
-                    suggestions,
-                    getSuggestionItemProps,
-                    loading,
-                  }) => {
-                    console.log(suggestions)
-                    return (
-                      <>
+                <>
+                  <div
+                    className={style.inputsBackgroundWithOpacity}
+                    style={{ position: "relative" }}
+                    onClick={() => {
+                      setShowRecaptcha(true)
+                    }}
+                  >
+                    <StartLocationIcon />
+                    <input
+                      {...getInputProps()}
+                      placeholder="Enter a Pickup Location"
+                      className={style.pickUpLocationInput}
+                      style={{
+                        border: redBorderErrorForFromAddress
+                          ? "1px solid red"
+                          : "1px solid transparent",
+                      }}
+                    />
+                    <div
+                      // className={styles.dropDown}
+                      className={
+                        style.dropDownForGoogleSearchSuggestionContainer
+                      }
+                    >
+                      {loading && (
                         <div
-                          className={
-                            style.inputsBackgroundWithOpacityToDestination
-                          }
+                        // className={styles.dropDownLoadingText}
                         >
-                          <EndLocationIcon />
-                          <input
-                            {...getInputProps()}
-                            placeholder={`To ${index + 1}`}
-                            className={style.toLocationInput}
-                            style={{
-                              border: redBorderErrorForToAddress
-                                ? "1px solid red"
-                                : "1px solid transparent",
-                            }}
-                          />
-                          {index === toLocations.length - 1 && (
-                            <div
-                              className={style.plusIcon}
-                              onClick={() => {
-                                dispatch(
-                                  addToLocation({
-                                    rideCheckPoint: "",
-                                    latitude: 0,
-                                    longitude: 0,
-                                    placeType: 0,
-                                    placeId: "",
-                                  })
-                                )
-                                // console.log(formData.orderAddressDetails)
-                              }}
-                            >
-                              <PlusIcon />
-                            </div>
-                          )}
-                          {console.log(formData.orderAddressDetails)}
-                          {index < toLocations.length - 1 && (
-                            <div
-                              onClick={() => {
-                                dispatch(removeToLocation(index))
-                              }}
-                              className={style.minusIcon}
-                            >
-                              <MinusIcon />
-                            </div>
-                          )}
+                          Loading...
+                        </div>
+                      )}
+                      {suggestions.map((suggestion, id) => {
+                        return (
                           <div
-                            // className={styles.dropDown}
+                            key={`${suggestion}`}
+                            className={style.suggestionsResultsContainer}
+                            // key={`${id}${suggestion.description}`}
+                            {...getSuggestionItemProps(suggestion)}
+                            // className={styles.itemInsideDropDown}
+                          >
+                            {suggestion.description}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                </>
+              )
+            }}
+          </PlacesAutocomplete>
+          {showRecaptcha && !formData.captcha && (
+            <div style={{ marginBottom: "21px" }}>
+              <ReCAPTCHA
+                sitekey="6LeuP3weAAAAAHoe3aaP27xmYorD1s1vXK7XdlPk"
+                onChange={onChangeRecaptcha}
+              />
+            </div>
+          )}
+          {formData.captcha && formData.orderAddressDetails[0].rideCheckPoint && (
+            <>
+              {toLocations.map((toDestination, index) => {
+                return (
+                  <PlacesAutocomplete
+                    key={`${toDestination}`}
+                    value={toDestination.rideCheckPoint}
+                    onChange={(address) => {
+                      setToAddressHandler(address, index)
+                      dispatch(setToRideCheckpoint({ address, index }))
+                      // if (index == 0) {
+                      //   dispatch(setToRideCheckpoint(address, index))
+                      // } else {
+                      //   dispatch(
+                      //     setToAdditionalRideCheckpoints({
+                      //       address,
+                      //       index,
+                      //     })
+                      //   )
+                      // }
+                    }}
+                    onSelect={(address) => {
+                      handleSelectToDestination(address, index)
+                    }}
+                  >
+                    {({
+                      getInputProps,
+                      suggestions,
+                      getSuggestionItemProps,
+                      loading,
+                    }) => {
+                      console.log(suggestions)
+                      return (
+                        <>
+                          <div
                             className={
-                              style.dropDownForGoogleSearchSuggestionContainer
+                              style.inputsBackgroundWithOpacityToDestination
                             }
                           >
-                            {loading && (
+                            <EndLocationIcon />
+                            <input
+                              {...getInputProps()}
+                              placeholder={`To ${index + 1}`}
+                              className={style.toLocationInput}
+                              style={{
+                                border: redBorderErrorForToAddress
+                                  ? "1px solid red"
+                                  : "1px solid transparent",
+                              }}
+                            />
+                            {index === toLocations.length - 1 && (
                               <div
-                              // className={styles.dropDownLoadingText}
+                                className={style.plusIcon}
+                                onClick={() => {
+                                  dispatch(
+                                    addToLocation({
+                                      rideCheckPoint: "",
+                                      latitude: 0,
+                                      longitude: 0,
+                                      placeType: 0,
+                                      placeId: "",
+                                    })
+                                  )
+                                  // console.log(formData.orderAddressDetails)
+                                }}
                               >
-                                Loading...
+                                <PlusIcon />
                               </div>
                             )}
-                            {suggestions.map((suggestion, id) => {
-                              return (
+                            {console.log(formData.orderAddressDetails)}
+                            {index < toLocations.length - 1 && (
+                              <div
+                                onClick={() => {
+                                  dispatch(removeToLocation(index))
+                                }}
+                                className={style.minusIcon}
+                              >
+                                <MinusIcon />
+                              </div>
+                            )}
+                            <div
+                              // className={styles.dropDown}
+                              className={
+                                style.dropDownForGoogleSearchSuggestionContainer
+                              }
+                            >
+                              {loading && (
                                 <div
-                                  key={`${suggestion}`}
-                                  className={style.suggestionsResultsContainer}
-                                  // key={`${id}${suggestion.description}`}
-                                  {...getSuggestionItemProps(suggestion)}
-                                  // className={styles.itemInsideDropDown}
+                                // className={styles.dropDownLoadingText}
                                 >
-                                  {suggestion.description}
+                                  Loading...
                                 </div>
-                              )
-                            })}
+                              )}
+                              {suggestions.map((suggestion, id) => {
+                                return (
+                                  <div
+                                    key={`${suggestion}`}
+                                    className={
+                                      style.suggestionsResultsContainer
+                                    }
+                                    // key={`${id}${suggestion.description}`}
+                                    {...getSuggestionItemProps(suggestion)}
+                                    // className={styles.itemInsideDropDown}
+                                  >
+                                    {suggestion.description}
+                                  </div>
+                                )
+                              })}
+                            </div>
                           </div>
-                        </div>
-                      </>
-                    )
-                  }}
-                </PlacesAutocomplete>
-              )
-            })}
-            {/* {formData.bookingType === 3 && (
+                        </>
+                      )
+                    }}
+                  </PlacesAutocomplete>
+                )
+              })}
+              {/* {formData.bookingType === 3 && (
             <>
               <Autocomplete
                 disablePortal
@@ -720,782 +790,517 @@ export const WidgetFirstPage = ({
               </div>
             </>
           )} */}
-            <div
-              className={style.inputsBackgroundWithOpacityPickUpDateAndTime}
-              style={{ position: "relative" }}
-            >
-              <DateIcon />
-              <input
-                onClick={() => setShow(true)}
-                placeholder="Pick Up Date"
-                className={style.pickUpDateInput}
-                value={formData.dateValue}
-                style={{
-                  borderTop: redBorderErrorForDate
-                    ? "1px solid red"
-                    : "1px solid transparent",
-                  borderLeft: redBorderErrorForDate
-                    ? "1px solid red"
-                    : "1px solid transparent",
-                  borderBottom: redBorderErrorForDate
-                    ? "1px solid red"
-                    : "1px solid transparent",
-                }}
-                // type="number"
-              />
-              <Modal onClose={() => setShow(false)} show={show}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <div>
-                    <CalendarPicker
-                      date={date}
-                      onChange={(newDate) => {
-                        console.log(newDate)
-                        if (newDate instanceof Date) {
-                          setShow(false)
-                        }
-                        // setDateForDefaultValue(
-                        //   newDate.toLocaleDateString("en-US")
-                        // )
-                        dispatch(
-                          setOrderDate(newDate?.toLocaleDateString("en-US"))
-                        )
-                        setDate(newDate)
-                      }}
-                    />
-                  </div>
-                </LocalizationProvider>
-              </Modal>
-              <div className={style.timePickerContainer}>
-                <input
-                  name="orderStartTime"
-                  placeholder="hh:mm"
-                  autoComplete="off"
-                  className={style.timePickerInput}
-                  setTime={setTime}
-                  ref={inputCard}
-                  value={formData.timeValue}
-                  onClick={(event) => {
-                    const { value } = event.target
-                    const position = value.length
-                    event.target.setSelectionRange(position, position)
-                  }}
-                  onChange={handleChangeTime}
-                  style={{
-                    borderTop:
-                      redBorderErrorForTime || redBorderErrorForAMPM
-                        ? "1px solid red"
-                        : "1px solid transparent",
-                    borderRight:
-                      redBorderErrorForTime || redBorderErrorForAMPM
-                        ? "1px solid red"
-                        : "1px solid transparent",
-                    borderBottom:
-                      redBorderErrorForTime || redBorderErrorForAMPM
-                        ? "1px solid red"
-                        : "1px solid transparent",
-                  }}
-
-                  // style={{
-                  //   color: inputsFontColor,
-                  //   border:
-                  //     redBorderOnSubmitForTime ||
-                  //     redBorderOnSubmitForTime2 ||
-                  //     redBorderOnSubmitForTime3 ||
-                  //     redBorderOnSubmitForTime4 ||
-                  //     redBorderOnSubmitForTime5 ||
-                  //     redBorderOnSubmitForTime6
-                  //       ? `1px solid red`
-                  //       : `1px solid ${borderColorForInnerElements}`,
-                  //   background: inputsBackground,
-                  //   textAlign: "right",
-                  //   paddingRight: "78px",
-                  //   borderRadius: borderRadiusesForInnerElements,
-                  // }}
-                  // inputsFontColor={inputsFontColor}
-                  // value={!resetInputs ? formData.timeForDefaultValue : null}
-                />
-                <div className={style.toggleButtonsContainer}>
-                  <div
-                    className={style.toggleButtonAM}
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      handleChangeAMPM(e)
-                    }}
-                    style={{
-                      color:
-                        formData.timeForDefaultValueAMPMalignment.ampm == "AM"
-                          ? `white`
-                          : "black",
-                      background:
-                        formData.timeForDefaultValueAMPMalignment.ampm == "AM"
-                          ? `black`
-                          : "white",
-                      opacity:
-                        formData.timeForDefaultValueAMPMalignment.ampm == "AM"
-                          ? "1"
-                          : "0.5",
-                      borderRadius: `3px`,
-                    }}
-                  >
-                    AM
-                  </div>
-                  <div
-                    className={style.toggleButtonPM}
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      handleChangeAMPM(e)
-                    }}
-                    style={{
-                      color:
-                        formData.timeForDefaultValueAMPMalignment.ampm == "PM"
-                          ? `white`
-                          : "black",
-                      background:
-                        formData.timeForDefaultValueAMPMalignment.ampm == "PM"
-                          ? `black`
-                          : "white",
-                      opacity:
-                        formData.timeForDefaultValueAMPMalignment.ampm == "PM"
-                          ? "1"
-                          : "0.5",
-                      borderRadius: `3px`,
-                    }}
-                  >
-                    PM
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className={style.inputsBackgroundWithOpacityRoundTrip}
-              style={{ position: "relative" }}
-            >
-              <RoundTripIcon />
-              <div className={style.roundTripInput}>
-                <p className={style.roundTripPlaceholder}>Round Trip</p>
-                <div className={style.switchWrapper}>
-                  <input
-                    type="checkbox"
-                    name={`roundTrip`}
-                    className={style.switchSelf}
-                    id={`roundTrip`}
-                    defaultChecked={roundTripSwitch}
-                    onClick={() => {
-                      setRoundTripSwitch(!roundTripSwitch)
-                    }}
-                  />
-                  <label htmlFor={`roundTrip`}></label>
-                </div>
-              </div>
-            </div>
-            {/* <div className={style.referalCode}> */}
-            {/* </div> */}
-            {roundTripSwitch && (
-              <>
-                <PlacesAutocomplete
-                  value={formData.orderAddressDetails[0].rideCheckPoint}
-                  onChange={(address) => {
-                    setFromAddress(address)
-                    // dispatch(setOrderAddressDetails(address))
-                    dispatch(setFromRideCheckpoint(address))
-                    console.log(address)
-                  }}
-                  onSelect={(address, index) => {
-                    handleSelectFromLocation(address, index)
-                  }}
-                >
-                  {({
-                    getInputProps,
-                    suggestions,
-                    getSuggestionItemProps,
-                    loading,
-                  }) => {
-                    console.log(suggestions)
-                    return (
-                      <>
-                        <div className={style.inputsBackgroundWithOpacity}>
-                          <StartLocationIcon />
-                          <input
-                            {...getInputProps()}
-                            placeholder="Enter a Pickup Location"
-                            className={style.pickUpLocationInput}
-                          />
-                          <div
-                            // className={styles.dropDown}
-                            className={
-                              style.dropDownForGoogleSearchSuggestionContainer
-                            }
-                          >
-                            {loading && (
-                              <div
-                              // className={styles.dropDownLoadingText}
-                              >
-                                Loading...
-                              </div>
-                            )}
-                            {suggestions.map((suggestion, id) => {
-                              return (
-                                <div
-                                  key={`${suggestion}`}
-                                  className={style.suggestionsResultsContainer}
-                                  // key={`${id}${suggestion.description}`}
-                                  {...getSuggestionItemProps(suggestion)}
-                                  // className={styles.itemInsideDropDown}
-                                >
-                                  {suggestion.description}
-                                </div>
-                              )
-                            })}
-                          </div>
-                        </div>
-                      </>
-                    )
-                  }}
-                </PlacesAutocomplete>
-                {toLocations.map((toDestination, index) => {
-                  return (
-                    <PlacesAutocomplete
-                      key={`${toDestination}`}
-                      value={toDestination.rideCheckPoint}
-                      onChange={(address) => {
-                        setToAddressHandler(address, index)
-                        dispatch(setToRideCheckpoint(address, index))
-                      }}
-                      onSelect={(address) => {
-                        handleSelectToDestination(address, index)
-                      }}
-                    >
-                      {({
-                        getInputProps,
-                        suggestions,
-                        getSuggestionItemProps,
-                        loading,
-                      }) => {
-                        console.log(suggestions)
-                        return (
-                          <>
-                            <div
-                              className={
-                                style.inputsBackgroundWithOpacityToDestination
-                              }
-                            >
-                              <EndLocationIcon />
-                              <input
-                                {...getInputProps()}
-                                placeholder={`To ${index + 1}`}
-                                className={style.toLocationInput}
-                              />
-                              {index === toLocations.length - 1 && (
-                                <div
-                                  className={style.plusIcon}
-                                  onClick={() =>
-                                    dispatch(
-                                      addToLocation({
-                                        rideCheckPoint: "",
-                                        latitude: 0,
-                                        longitude: 0,
-                                        placeType: 0,
-                                        placeId: "",
-                                      })
-                                    )
-                                  }
-                                >
-                                  <PlusIcon />
-                                </div>
-                              )}
-                              {console.log(formData.orderAddressDetails)}
-                              {index < toLocations.length - 1 && (
-                                <div
-                                  onClick={() => {
-                                    dispatch(removeToLocation(index))
-                                  }}
-                                  className={style.minusIcon}
-                                >
-                                  <MinusIcon />
-                                </div>
-                              )}
-                              <div
-                                // className={styles.dropDown}
-                                className={
-                                  style.dropDownForGoogleSearchSuggestionContainer
-                                }
-                              >
-                                {loading && (
-                                  <div
-                                  // className={styles.dropDownLoadingText}
-                                  >
-                                    Loading...
-                                  </div>
-                                )}
-                                {suggestions.map((suggestion, id) => {
-                                  return (
-                                    <div
-                                      key={`${suggestion}`}
-                                      className={
-                                        style.suggestionsResultsContainer
-                                      }
-                                      // key={`${id}${suggestion.description}`}
-                                      {...getSuggestionItemProps(suggestion)}
-                                      // className={styles.itemInsideDropDown}
-                                    >
-                                      {suggestion.description}
-                                    </div>
-                                  )
-                                })}
-                              </div>
-                            </div>
-                          </>
-                        )
-                      }}
-                    </PlacesAutocomplete>
-                  )
-                })}
-                <div
-                  className={style.inputsBackgroundWithOpacityPickUpDateAndTime}
-                >
-                  <DateIcon />
-                  <input
-                    onClick={() => setShow(true)}
-                    placeholder="Pick Up Date"
-                    className={style.pickUpDateInput}
-                    value={date?.toLocaleDateString("en-US")}
-                    // type="number"
-                  />
-                  <Modal onClose={() => setShow(false)} show={show}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <div>
-                        <CalendarPicker
-                          date={date}
-                          onChange={(newDate) => {
-                            console.log(newDate)
-                            if (newDate instanceof Date) {
-                              setShow(false)
-                            }
-                            setDate(newDate)
-                          }}
-                        />
-                      </div>
-                    </LocalizationProvider>
-                  </Modal>
-                  <div className={style.timePickerContainer}>
-                    <input
-                      name="orderStartTime"
-                      placeholder="hh:mm"
-                      autoComplete="off"
-                      className={style.timePickerInput}
-                      setTime={setTime}
-                      ref={inputCard}
-                      onClick={(event) => {
-                        const { value } = event.target
-                        const position = value.length
-                        event.target.setSelectionRange(position, position)
-                      }}
-                      onChange={handleChangeTimeInRoundTripSecondField}
-                    />
-                    <div className={style.toggleButtonsContainer}>
-                      <div
-                        className={style.toggleButtonAM}
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          handleChangeAMPMInRoundTripSecondField(e)
-                        }}
-                        style={{
-                          color:
-                            formData.timeForDefaultValueAMPMalignment.ampm ==
-                            "AM"
-                              ? `white`
-                              : "black",
-                          background:
-                            formData.timeForDefaultValueAMPMalignment.ampm ==
-                            "AM"
-                              ? `black`
-                              : "white",
-                          opacity:
-                            formData.timeForDefaultValueAMPMalignment.ampm ==
-                            "AM"
-                              ? "1"
-                              : "0.5",
-                          borderRadius: `3px`,
-                        }}
-                      >
-                        AM
-                      </div>
-                      <div
-                        className={style.toggleButtonPM}
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          handleChangeAMPMInRoundTripSecondField(e)
-                        }}
-                        style={{
-                          color:
-                            formData.timeForDefaultValueAMPMalignment.ampm ==
-                            "PM"
-                              ? `white`
-                              : "black",
-                          background:
-                            formData.timeForDefaultValueAMPMalignment.ampm ==
-                            "PM"
-                              ? `black`
-                              : "white",
-                          opacity:
-                            formData.timeForDefaultValueAMPMalignment.ampm ==
-                            "PM"
-                              ? "1"
-                              : "0.5",
-                          borderRadius: `3px`,
-                        }}
-                      >
-                        PM
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </>
-            )}
-
-            {formData.bookingType === 3 && (
-              <>
-                <Autocomplete
-                  disablePortal
-                  onChange={(event, newValue) => {
-                    extractAirlineId(newValue)
-                  }}
-                  //   style={{ width: "100%" }}
-                  options={airlines.map((airline) => airline.name)}
-                  renderInput={(params) => (
-                    <div
-                      className={style.inputsBackgroundWithOpacityAirlines}
-                      style={{ position: "relative" }}
-                      ref={params.InputProps.ref}
-                    >
-                      <PlaneIcon />
-                      <input
-                        {...params.inputProps}
-                        placeholder="Airlines"
-                        className={style.airlinesInput}
-                      />
-                    </div>
-                  )}
-                />
-                <div
-                  className={style.inputsBackgroundWithOpacityFlightNumber}
-                  style={{ position: "relative" }}
-                >
-                  <Ticket />
-                  <input
-                    placeholder="Flight number"
-                    className={style.flightNumberInput}
-                    value={formData.flightNumber}
-                    onChange={(event) => {
-                      dispatch(setFlightNumber(event.target.value))
-                    }}
-                    type="number"
-                  />
-                </div>
-              </>
-            )}
-            <div
-              className={style.inputsBackgroundWithOpacityNumberOfPassengers}
-              style={{ position: "relative" }}
-            >
-              <NumberOfPassengersIcon />
               <div
-                placeholder="Number of Passengers"
-                className={style.numberOfPassengersInput}
-                type="number"
-                style={{
-                  border: redBorderErrorForNumberOfPassengers
-                    ? "1px solid red"
-                    : "1px solid transparent",
-                }}
-              >
-                <p>Number of Passengers</p>
-                <div className={style.counterContainer}>
-                  <div
-                    className={style.minusButton}
-                    onClick={() => {
-                      onDecrease()
-                    }}
-                  >
-                    <MinusIcon />
-                  </div>
-                  <input
-                    className={style.counterInput}
-                    value={formData.passengersQuantity}
-                  />
-                  <div
-                    className={style.plusButton}
-                    onClick={() => {
-                      onIncrease()
-                    }}
-                  >
-                    <PlusIcon />
-                  </div>
-                </div>
-              </div>
-            </div>
-            {formData.bookingType == 3 && (
-              <>
-                <div
-                  className={
-                    style.inputsBackgroundWithOpacityMeetAndGreetLuggageAssist
-                  }
-                  style={{ position: "relative" }}
-                >
-                  <MeetAndGreetIcon />
-                  <div className={style.MeetAndGreetLuggageAssistSwitchInput}>
-                    <p className={style.meetAndGreetLuggageAssistPlaceholder}>
-                      Meet & Greet/Luggage Assist
-                    </p>
-                    <div className={style.switchWrapper}>
-                      <input
-                        type="checkbox"
-                        name={`switchMeetAndGreetLuggageAssist`}
-                        className={style.switchSelf}
-                        id={`switchMeetAndGreetLuggageAssist`}
-                        defaultChecked={meetAndGreetLuggageAssistSwitch}
-                        onClick={() => {
-                          setMeetAndGreetLuggageAssistSwitch(
-                            !meetAndGreetLuggageAssistSwitch
-                          )
-                        }}
-                      />
-                      <label
-                        htmlFor={`switchMeetAndGreetLuggageAssist`}
-                      ></label>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className={style.inputsBackgroundWithOpacityLuggageCount}
-                  style={{ position: "relative" }}
-                >
-                  <LuggageIcon />
-                  <div className={style.luggageCountInput}>
-                    <p className={style.luggageCountPlaceholder}>
-                      Luggage Count
-                    </p>
-                    <div className={style.counterContainer}>
-                      <div
-                        className={style.minusButton}
-                        onClick={() => {
-                          if (formData.luggageCount === 0) {
-                            return
-                          }
-
-                          // setLuggageCount((luggageCount) => luggageCount - 1)
-                          dispatch(setLuggageCount(formData.luggageCount - 1))
-                        }}
-                      >
-                        <MinusIcon />
-                      </div>
-                      <input
-                        className={style.counterInput}
-                        value={formData.luggageCount}
-                      />
-                      <div
-                        className={style.plusButton}
-                        onClick={() => {
-                          if (formData.luggageCount === 14) {
-                            return
-                          }
-
-                          // setLuggageCount((luggageCount) => luggageCount + 1)
-                          dispatch(setLuggageCount(formData.luggageCount + 1))
-                        }}
-                      >
-                        <PlusIcon />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </>
-            )}
-
-            <div
-              className={style.inputsBackgroundWithOpacitySafetySeat}
-              style={{ position: "relative" }}
-            >
-              <SafetySeatIcon />
-              <div className={style.safetySeatSwitchInput}>
-                <p className={style.safetySeatPlaceholder}>Safety Seat</p>
-                <div className={style.switchWrapper}>
-                  <input
-                    type="checkbox"
-                    name={`switchSafetySeat`}
-                    className={style.switchSelf}
-                    id={`switchSafetySeat`}
-                    defaultChecked={formData.showCarsWithSafetySeat}
-                    onClick={() => {
-                      dispatch(
-                        setSafetySeatSwitch(!formData.showCarsWithSafetySeat)
-                      )
-                    }}
-                  />
-                  <label htmlFor={`switchSafetySeat`}></label>
-                </div>
-              </div>
-            </div>
-            {formData.showCarsWithSafetySeat && (
-              <>
-                <div
-                  className={style.inputsBackgroundWithOpacityYouthBoosterSeat}
-                  style={{ position: "relative" }}
-                >
-                  <SafetySeatIcon />
-                  <div className={style.youthBoosterSeatCountInput}>
-                    <p className={style.youthBoosterSeatPlaceholder}>
-                      Youth Booster Seat
-                    </p>
-                    <div className={style.counterContainer}>
-                      <div
-                        className={style.minusButton}
-                        onClick={() => {
-                          if (formData.boosterSeatCount === 0) {
-                            return
-                          }
-                          dispatch(
-                            setBoosterSeatCount(formData.boosterSeatCount - 1)
-                          )
-                          // setYouthBoosterSeat((youthBoosterSeat) => youthBoosterSeat - 1)
-                        }}
-                      >
-                        <MinusIcon />
-                      </div>
-                      <input
-                        className={style.counterInput}
-                        value={formData.boosterSeatCount}
-                      />
-                      <div
-                        className={style.plusButton}
-                        onClick={() => {
-                          if (formData.boosterSeatCount === 14) {
-                            return
-                          }
-                          dispatch(
-                            setBoosterSeatCount(formData.boosterSeatCount + 1)
-                          )
-                          // setYouthBoosterSeat((youthBoosterSeat) => youthBoosterSeat + 1)
-                        }}
-                      >
-                        <PlusIcon />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className={
-                    style.inputsBackgroundWithOpacityInfantChildSafetySeat
-                  }
-                  style={{ position: "relative" }}
-                >
-                  <SafetySeatIcon />
-                  <div className={style.infantChildSafetySeatCountInput}>
-                    <p className={style.infantChildSafetySeatPlaceholder}>
-                      Infant & Child Safety Seat
-                    </p>
-                    <div className={style.counterContainer}>
-                      <div
-                        className={style.minusButton}
-                        onClick={() => {
-                          if (formData.safetySeatCount === 0) {
-                            return
-                          }
-                          dispatch(
-                            setSafetySeatCount(formData.safetySeatCount - 1)
-                          )
-                          // setInfantChildSafetySeat(
-                          //   (infantChildSafetySeat) => infantChildSafetySeat - 1
-                          // )
-                        }}
-                      >
-                        <MinusIcon />
-                      </div>
-                      <input
-                        className={style.counterInput}
-                        value={formData.safetySeatCount}
-                      />
-                      <div
-                        className={style.plusButton}
-                        onClick={() => {
-                          if (formData.safetySeatCount === 14) {
-                            return
-                          }
-
-                          dispatch(
-                            setSafetySeatCount(formData.safetySeatCount + 1)
-                          )
-
-                          // setInfantChildSafetySeat(
-                          //   (infantChildSafetySeat) => infantChildSafetySeat + 1
-                          // )
-                        }}
-                      >
-                        <PlusIcon />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </>
-            )}
-            <div
-              className={style.inputsBackgroundWithOpacityHourly}
-              style={{
-                position: "relative",
-              }}
-            >
-              <HourlyIcon />
-              <div className={style.hourlySwitchInput}>
-                <p className={style.hourlyPlaceholder}>Hourly</p>
-                <div className={style.switchWrapper}>
-                  <input
-                    type="checkbox"
-                    name={`switchHourly`}
-                    className={style.switchSelf}
-                    id={`switchHourly`}
-                    defaultChecked={formData.hourly}
-                    onClick={() => {
-                      // setHourlySwitch(!hourlySwitch)
-                      dispatch(setHourlySwitch(!formData.hourly))
-                    }}
-                  />
-                  <label htmlFor={`switchHourly`}></label>
-                </div>
-              </div>
-            </div>
-            {formData.hourly && (
-              <div
-                className={style.inputsBackgroundWithOpacityHoursCount}
+                className={style.inputsBackgroundWithOpacityPickUpDateAndTime}
                 style={{ position: "relative" }}
               >
-                <HourlyIcon />
-                <div className={style.hoursCountInput}>
-                  <p className={style.hoursPlaceholder}>Hours</p>
+                <DateIcon />
+                <input
+                  onClick={() => setShow(true)}
+                  placeholder="Pick Up Date"
+                  className={style.pickUpDateInput}
+                  value={formData.dateValue}
+                  style={{
+                    borderTop: redBorderErrorForDate
+                      ? "1px solid red"
+                      : "1px solid transparent",
+                    borderLeft: redBorderErrorForDate
+                      ? "1px solid red"
+                      : "1px solid transparent",
+                    borderBottom: redBorderErrorForDate
+                      ? "1px solid red"
+                      : "1px solid transparent",
+                  }}
+                  // type="number"
+                />
+                <Modal onClose={() => setShow(false)} show={show}>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <div>
+                      <CalendarPicker
+                        date={date}
+                        onChange={(newDate) => {
+                          console.log(newDate)
+                          if (newDate instanceof Date) {
+                            setShow(false)
+                          }
+                          // setDateForDefaultValue(
+                          //   newDate.toLocaleDateString("en-US")
+                          // )
+                          dispatch(
+                            setOrderDate(newDate?.toLocaleDateString("en-US"))
+                          )
+                          setDate(newDate)
+                        }}
+                      />
+                    </div>
+                  </LocalizationProvider>
+                </Modal>
+                <div className={style.timePickerContainer}>
+                  <input
+                    name="orderStartTime"
+                    placeholder="hh:mm"
+                    autoComplete="off"
+                    className={style.timePickerInput}
+                    setTime={setTime}
+                    ref={inputCard}
+                    value={formData.timeValue}
+                    onClick={(event) => {
+                      const { value } = event.target
+                      const position = value.length
+                      event.target.setSelectionRange(position, position)
+                    }}
+                    onChange={handleChangeTime}
+                    style={{
+                      borderTop:
+                        redBorderErrorForTime || redBorderErrorForAMPM
+                          ? "1px solid red"
+                          : "1px solid transparent",
+                      borderRight:
+                        redBorderErrorForTime || redBorderErrorForAMPM
+                          ? "1px solid red"
+                          : "1px solid transparent",
+                      borderBottom:
+                        redBorderErrorForTime || redBorderErrorForAMPM
+                          ? "1px solid red"
+                          : "1px solid transparent",
+                    }}
+
+                    // style={{
+                    //   color: inputsFontColor,
+                    //   border:
+                    //     redBorderOnSubmitForTime ||
+                    //     redBorderOnSubmitForTime2 ||
+                    //     redBorderOnSubmitForTime3 ||
+                    //     redBorderOnSubmitForTime4 ||
+                    //     redBorderOnSubmitForTime5 ||
+                    //     redBorderOnSubmitForTime6
+                    //       ? `1px solid red`
+                    //       : `1px solid ${borderColorForInnerElements}`,
+                    //   background: inputsBackground,
+                    //   textAlign: "right",
+                    //   paddingRight: "78px",
+                    //   borderRadius: borderRadiusesForInnerElements,
+                    // }}
+                    // inputsFontColor={inputsFontColor}
+                    // value={!resetInputs ? formData.timeForDefaultValue : null}
+                  />
+                  <div className={style.toggleButtonsContainer}>
+                    <div
+                      className={style.toggleButtonAM}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleChangeAMPM(e)
+                      }}
+                      style={{
+                        color:
+                          formData.timeForDefaultValueAMPMalignment.ampm == "AM"
+                            ? `white`
+                            : "black",
+                        background:
+                          formData.timeForDefaultValueAMPMalignment.ampm == "AM"
+                            ? `black`
+                            : "white",
+                        opacity:
+                          formData.timeForDefaultValueAMPMalignment.ampm == "AM"
+                            ? "1"
+                            : "0.5",
+                        borderRadius: `3px`,
+                      }}
+                    >
+                      AM
+                    </div>
+                    <div
+                      className={style.toggleButtonPM}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleChangeAMPM(e)
+                      }}
+                      style={{
+                        color:
+                          formData.timeForDefaultValueAMPMalignment.ampm == "PM"
+                            ? `white`
+                            : "black",
+                        background:
+                          formData.timeForDefaultValueAMPMalignment.ampm == "PM"
+                            ? `black`
+                            : "white",
+                        opacity:
+                          formData.timeForDefaultValueAMPMalignment.ampm == "PM"
+                            ? "1"
+                            : "0.5",
+                        borderRadius: `3px`,
+                      }}
+                    >
+                      PM
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className={style.inputsBackgroundWithOpacityRoundTrip}
+                style={{ position: "relative" }}
+              >
+                <RoundTripIcon />
+                <div className={style.roundTripInput}>
+                  <p className={style.roundTripPlaceholder}>Round Trip</p>
+                  <div className={style.switchWrapper}>
+                    <input
+                      type="checkbox"
+                      name={`roundTrip`}
+                      className={style.switchSelf}
+                      id={`roundTrip`}
+                      defaultChecked={roundTripSwitch}
+                      onClick={() => {
+                        setRoundTripSwitch(!roundTripSwitch)
+                      }}
+                    />
+                    <label htmlFor={`roundTrip`}></label>
+                  </div>
+                </div>
+              </div>
+              {/* <div className={style.referalCode}> */}
+              {/* </div> */}
+              {roundTripSwitch && (
+                <>
+                  <PlacesAutocomplete
+                    value={formData.orderAddressDetails[0].rideCheckPoint}
+                    onChange={(address) => {
+                      setFromAddress(address)
+                      // dispatch(setOrderAddressDetails(address))
+                      dispatch(setFromRideCheckpoint(address))
+                      console.log(address)
+                    }}
+                    onSelect={(address, index) => {
+                      handleSelectFromLocation(address, index)
+                    }}
+                  >
+                    {({
+                      getInputProps,
+                      suggestions,
+                      getSuggestionItemProps,
+                      loading,
+                    }) => {
+                      console.log(suggestions)
+                      return (
+                        <>
+                          <div className={style.inputsBackgroundWithOpacity}>
+                            <StartLocationIcon />
+                            <input
+                              {...getInputProps()}
+                              placeholder="Enter a Pickup Location"
+                              className={style.pickUpLocationInput}
+                            />
+                            <div
+                              // className={styles.dropDown}
+                              className={
+                                style.dropDownForGoogleSearchSuggestionContainer
+                              }
+                            >
+                              {loading && (
+                                <div
+                                // className={styles.dropDownLoadingText}
+                                >
+                                  Loading...
+                                </div>
+                              )}
+                              {suggestions.map((suggestion, id) => {
+                                return (
+                                  <div
+                                    key={`${suggestion}`}
+                                    className={
+                                      style.suggestionsResultsContainer
+                                    }
+                                    // key={`${id}${suggestion.description}`}
+                                    {...getSuggestionItemProps(suggestion)}
+                                    // className={styles.itemInsideDropDown}
+                                  >
+                                    {suggestion.description}
+                                  </div>
+                                )
+                              })}
+                            </div>
+                          </div>
+                        </>
+                      )
+                    }}
+                  </PlacesAutocomplete>
+                  {toLocations.map((toDestination, index) => {
+                    return (
+                      <PlacesAutocomplete
+                        key={`${toDestination}`}
+                        value={toDestination.rideCheckPoint}
+                        onChange={(address) => {
+                          setToAddressHandler(address, index)
+                          dispatch(setToRideCheckpoint(address, index))
+                        }}
+                        onSelect={(address) => {
+                          handleSelectToDestination(address, index)
+                        }}
+                      >
+                        {({
+                          getInputProps,
+                          suggestions,
+                          getSuggestionItemProps,
+                          loading,
+                        }) => {
+                          console.log(suggestions)
+                          return (
+                            <>
+                              <div
+                                className={
+                                  style.inputsBackgroundWithOpacityToDestination
+                                }
+                              >
+                                <EndLocationIcon />
+                                <input
+                                  {...getInputProps()}
+                                  placeholder={`To ${index + 1}`}
+                                  className={style.toLocationInput}
+                                />
+                                {index === toLocations.length - 1 && (
+                                  <div
+                                    className={style.plusIcon}
+                                    onClick={() =>
+                                      dispatch(
+                                        addToLocation({
+                                          rideCheckPoint: "",
+                                          latitude: 0,
+                                          longitude: 0,
+                                          placeType: 0,
+                                          placeId: "",
+                                        })
+                                      )
+                                    }
+                                  >
+                                    <PlusIcon />
+                                  </div>
+                                )}
+                                {console.log(formData.orderAddressDetails)}
+                                {index < toLocations.length - 1 && (
+                                  <div
+                                    onClick={() => {
+                                      dispatch(removeToLocation(index))
+                                    }}
+                                    className={style.minusIcon}
+                                  >
+                                    <MinusIcon />
+                                  </div>
+                                )}
+                                <div
+                                  // className={styles.dropDown}
+                                  className={
+                                    style.dropDownForGoogleSearchSuggestionContainer
+                                  }
+                                >
+                                  {loading && (
+                                    <div
+                                    // className={styles.dropDownLoadingText}
+                                    >
+                                      Loading...
+                                    </div>
+                                  )}
+                                  {suggestions.map((suggestion, id) => {
+                                    return (
+                                      <div
+                                        key={`${suggestion}`}
+                                        className={
+                                          style.suggestionsResultsContainer
+                                        }
+                                        // key={`${id}${suggestion.description}`}
+                                        {...getSuggestionItemProps(suggestion)}
+                                        // className={styles.itemInsideDropDown}
+                                      >
+                                        {suggestion.description}
+                                      </div>
+                                    )
+                                  })}
+                                </div>
+                              </div>
+                            </>
+                          )
+                        }}
+                      </PlacesAutocomplete>
+                    )
+                  })}
+                  <div
+                    className={
+                      style.inputsBackgroundWithOpacityPickUpDateAndTime
+                    }
+                  >
+                    <DateIcon />
+                    <input
+                      onClick={() => setShow(true)}
+                      placeholder="Pick Up Date"
+                      className={style.pickUpDateInput}
+                      value={date?.toLocaleDateString("en-US")}
+                      // type="number"
+                    />
+                    <Modal onClose={() => setShow(false)} show={show}>
+                      <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <div>
+                          <CalendarPicker
+                            date={date}
+                            onChange={(newDate) => {
+                              console.log(newDate)
+                              if (newDate instanceof Date) {
+                                setShow(false)
+                              }
+                              setDate(newDate)
+                            }}
+                          />
+                        </div>
+                      </LocalizationProvider>
+                    </Modal>
+                    <div className={style.timePickerContainer}>
+                      <input
+                        name="orderStartTime"
+                        placeholder="hh:mm"
+                        autoComplete="off"
+                        className={style.timePickerInput}
+                        setTime={setTime}
+                        ref={inputCard}
+                        onClick={(event) => {
+                          const { value } = event.target
+                          const position = value.length
+                          event.target.setSelectionRange(position, position)
+                        }}
+                        onChange={handleChangeTimeInRoundTripSecondField}
+                      />
+                      <div className={style.toggleButtonsContainer}>
+                        <div
+                          className={style.toggleButtonAM}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleChangeAMPMInRoundTripSecondField(e)
+                          }}
+                          style={{
+                            color:
+                              formData.timeForDefaultValueAMPMalignment.ampm ==
+                              "AM"
+                                ? `white`
+                                : "black",
+                            background:
+                              formData.timeForDefaultValueAMPMalignment.ampm ==
+                              "AM"
+                                ? `black`
+                                : "white",
+                            opacity:
+                              formData.timeForDefaultValueAMPMalignment.ampm ==
+                              "AM"
+                                ? "1"
+                                : "0.5",
+                            borderRadius: `3px`,
+                          }}
+                        >
+                          AM
+                        </div>
+                        <div
+                          className={style.toggleButtonPM}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleChangeAMPMInRoundTripSecondField(e)
+                          }}
+                          style={{
+                            color:
+                              formData.timeForDefaultValueAMPMalignment.ampm ==
+                              "PM"
+                                ? `white`
+                                : "black",
+                            background:
+                              formData.timeForDefaultValueAMPMalignment.ampm ==
+                              "PM"
+                                ? `black`
+                                : "white",
+                            opacity:
+                              formData.timeForDefaultValueAMPMalignment.ampm ==
+                              "PM"
+                                ? "1"
+                                : "0.5",
+                            borderRadius: `3px`,
+                          }}
+                        >
+                          PM
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {formData.bookingType === 3 && (
+                <>
+                  <Autocomplete
+                    disablePortal
+                    onChange={(event, newValue) => {
+                      extractAirlineId(newValue)
+                    }}
+                    //   style={{ width: "100%" }}
+                    options={airlines.map((airline) => airline.name)}
+                    renderInput={(params) => (
+                      <div
+                        className={style.inputsBackgroundWithOpacityAirlines}
+                        style={{ position: "relative" }}
+                        ref={params.InputProps.ref}
+                      >
+                        <PlaneIcon />
+                        <input
+                          {...params.inputProps}
+                          placeholder="Airlines"
+                          className={style.airlinesInput}
+                        />
+                      </div>
+                    )}
+                  />
+                  <div
+                    className={style.inputsBackgroundWithOpacityFlightNumber}
+                    style={{ position: "relative" }}
+                  >
+                    <Ticket />
+                    <input
+                      placeholder="Flight number"
+                      className={style.flightNumberInput}
+                      value={formData.flightNumber}
+                      onChange={(event) => {
+                        dispatch(setFlightNumber(event.target.value))
+                      }}
+                      type="number"
+                    />
+                  </div>
+                </>
+              )}
+              <div
+                className={style.inputsBackgroundWithOpacityNumberOfPassengers}
+                style={{ position: "relative" }}
+              >
+                <NumberOfPassengersIcon />
+                <div
+                  placeholder="Number of Passengers"
+                  className={style.numberOfPassengersInput}
+                  type="number"
+                  style={{
+                    border: redBorderErrorForNumberOfPassengers
+                      ? "1px solid red"
+                      : "1px solid transparent",
+                  }}
+                >
+                  <p>Number of Passengers</p>
                   <div className={style.counterContainer}>
                     <div
                       className={style.minusButton}
                       onClick={() => {
-                        if (formData.hours === 0) {
-                          return
-                        }
-                        dispatch(setHoursCount(formData.hours - 1))
-                        // setHours((hours) => hours - 1)
+                        onDecrease()
                       }}
                     >
                       <MinusIcon />
                     </div>
                     <input
                       className={style.counterInput}
-                      value={formData.hours}
+                      value={formData.passengersQuantity}
                     />
                     <div
                       className={style.plusButton}
                       onClick={() => {
-                        if (formData.hours === 14) {
-                          return
-                        }
-                        dispatch(setHoursCount(formData.hours + 1))
-                        // setHours((hours) => hours + 1)
+                        onIncrease()
                       }}
                     >
                       <PlusIcon />
@@ -1503,34 +1308,332 @@ export const WidgetFirstPage = ({
                   </div>
                 </div>
               </div>
-            )}
-            <div
-              className={style.inputsBackgroundWithOpacityReferalCode}
-              style={{
-                position: "relative",
-                marginBottom: roundTripSwitch ? "" : "21px",
-              }}
-            >
-              <ReferalCodeIcon />
-              {/* <EndLocationIcon /> */}
-              <input
-                // {...getInputProps()}
-                placeholder="Referal Code"
-                className={style.referalCodeInput}
-                // style={{
-                //   border: redBorderErrorForToAddress
-                //     ? "1px solid red"
-                //     : "1px solid transparent",
-                // }}
-              />
-            </div>
-          </>
-        )}
+              {formData.bookingType == 3 && (
+                <>
+                  <div
+                    className={
+                      style.inputsBackgroundWithOpacityMeetAndGreetLuggageAssist
+                    }
+                    style={{ position: "relative" }}
+                  >
+                    <MeetAndGreetIcon />
+                    <div className={style.MeetAndGreetLuggageAssistSwitchInput}>
+                      <p className={style.meetAndGreetLuggageAssistPlaceholder}>
+                        Meet & Greet/Luggage Assist
+                      </p>
+                      <div className={style.switchWrapper}>
+                        <input
+                          type="checkbox"
+                          name={`switchMeetAndGreetLuggageAssist`}
+                          className={style.switchSelf}
+                          id={`switchMeetAndGreetLuggageAssist`}
+                          defaultChecked={meetAndGreetLuggageAssistSwitch}
+                          onClick={() => {
+                            setMeetAndGreetLuggageAssistSwitch(
+                              !meetAndGreetLuggageAssistSwitch
+                            )
+                          }}
+                        />
+                        <label
+                          htmlFor={`switchMeetAndGreetLuggageAssist`}
+                        ></label>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className={style.inputsBackgroundWithOpacityLuggageCount}
+                    style={{ position: "relative" }}
+                  >
+                    <LuggageIcon />
+                    <div className={style.luggageCountInput}>
+                      <p className={style.luggageCountPlaceholder}>
+                        Luggage Count
+                      </p>
+                      <div className={style.counterContainer}>
+                        <div
+                          className={style.minusButton}
+                          onClick={() => {
+                            if (formData.luggageCount === 0) {
+                              return
+                            }
+
+                            // setLuggageCount((luggageCount) => luggageCount - 1)
+                            dispatch(setLuggageCount(formData.luggageCount - 1))
+                          }}
+                        >
+                          <MinusIcon />
+                        </div>
+                        <input
+                          className={style.counterInput}
+                          value={formData.luggageCount}
+                        />
+                        <div
+                          className={style.plusButton}
+                          onClick={() => {
+                            if (formData.luggageCount === 14) {
+                              return
+                            }
+
+                            // setLuggageCount((luggageCount) => luggageCount + 1)
+                            dispatch(setLuggageCount(formData.luggageCount + 1))
+                          }}
+                        >
+                          <PlusIcon />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              <div
+                className={style.inputsBackgroundWithOpacitySafetySeat}
+                style={{ position: "relative" }}
+              >
+                <SafetySeatIcon />
+                <div className={style.safetySeatSwitchInput}>
+                  <p className={style.safetySeatPlaceholder}>Safety Seat</p>
+                  <div className={style.switchWrapper}>
+                    <input
+                      type="checkbox"
+                      name={`switchSafetySeat`}
+                      className={style.switchSelf}
+                      id={`switchSafetySeat`}
+                      defaultChecked={formData.showCarsWithSafetySeat}
+                      onClick={() => {
+                        dispatch(
+                          setSafetySeatSwitch(!formData.showCarsWithSafetySeat)
+                        )
+                      }}
+                    />
+                    <label htmlFor={`switchSafetySeat`}></label>
+                  </div>
+                </div>
+              </div>
+              {formData.showCarsWithSafetySeat && (
+                <>
+                  <div
+                    className={
+                      style.inputsBackgroundWithOpacityYouthBoosterSeat
+                    }
+                    style={{ position: "relative" }}
+                  >
+                    <SafetySeatIcon />
+                    <div className={style.youthBoosterSeatCountInput}>
+                      <p className={style.youthBoosterSeatPlaceholder}>
+                        Youth Booster Seat
+                      </p>
+                      <div className={style.counterContainer}>
+                        <div
+                          className={style.minusButton}
+                          onClick={() => {
+                            if (formData.boosterSeatCount === 0) {
+                              return
+                            }
+                            dispatch(
+                              setBoosterSeatCount(formData.boosterSeatCount - 1)
+                            )
+                            // setYouthBoosterSeat((youthBoosterSeat) => youthBoosterSeat - 1)
+                          }}
+                        >
+                          <MinusIcon />
+                        </div>
+                        <input
+                          className={style.counterInput}
+                          value={formData.boosterSeatCount}
+                        />
+                        <div
+                          className={style.plusButton}
+                          onClick={() => {
+                            if (formData.boosterSeatCount === 14) {
+                              return
+                            }
+                            dispatch(
+                              setBoosterSeatCount(formData.boosterSeatCount + 1)
+                            )
+                            // setYouthBoosterSeat((youthBoosterSeat) => youthBoosterSeat + 1)
+                          }}
+                        >
+                          <PlusIcon />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className={
+                      style.inputsBackgroundWithOpacityInfantChildSafetySeat
+                    }
+                    style={{ position: "relative" }}
+                  >
+                    <SafetySeatIcon />
+                    <div className={style.infantChildSafetySeatCountInput}>
+                      <p className={style.infantChildSafetySeatPlaceholder}>
+                        Infant & Child Safety Seat
+                      </p>
+                      <div className={style.counterContainer}>
+                        <div
+                          className={style.minusButton}
+                          onClick={() => {
+                            if (formData.safetySeatCount === 0) {
+                              return
+                            }
+                            dispatch(
+                              setSafetySeatCount(formData.safetySeatCount - 1)
+                            )
+                            // setInfantChildSafetySeat(
+                            //   (infantChildSafetySeat) => infantChildSafetySeat - 1
+                            // )
+                          }}
+                        >
+                          <MinusIcon />
+                        </div>
+                        <input
+                          className={style.counterInput}
+                          value={formData.safetySeatCount}
+                        />
+                        <div
+                          className={style.plusButton}
+                          onClick={() => {
+                            if (formData.safetySeatCount === 14) {
+                              return
+                            }
+
+                            dispatch(
+                              setSafetySeatCount(formData.safetySeatCount + 1)
+                            )
+
+                            // setInfantChildSafetySeat(
+                            //   (infantChildSafetySeat) => infantChildSafetySeat + 1
+                            // )
+                          }}
+                        >
+                          <PlusIcon />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+              <div
+                className={style.inputsBackgroundWithOpacityHourly}
+                style={{
+                  position: "relative",
+                }}
+              >
+                <HourlyIcon />
+                <div className={style.hourlySwitchInput}>
+                  <p className={style.hourlyPlaceholder}>Hourly</p>
+                  <div className={style.switchWrapper}>
+                    <input
+                      type="checkbox"
+                      name={`switchHourly`}
+                      className={style.switchSelf}
+                      id={`switchHourly`}
+                      defaultChecked={formData.hourly}
+                      onClick={() => {
+                        // setHourlySwitch(!hourlySwitch)
+                        dispatch(setHourlySwitch(!formData.hourly))
+                      }}
+                    />
+                    <label htmlFor={`switchHourly`}></label>
+                  </div>
+                </div>
+              </div>
+              {formData.hourly && (
+                <div
+                  className={style.inputsBackgroundWithOpacityHoursCount}
+                  style={{ position: "relative" }}
+                >
+                  <HourlyIcon />
+                  <div className={style.hoursCountInput}>
+                    <p className={style.hoursPlaceholder}>Hours</p>
+                    <div className={style.counterContainer}>
+                      <div
+                        className={style.minusButton}
+                        onClick={() => {
+                          if (formData.hours === 0) {
+                            return
+                          }
+                          dispatch(setHoursCount(formData.hours - 1))
+                          // setHours((hours) => hours - 1)
+                        }}
+                      >
+                        <MinusIcon />
+                      </div>
+                      <input
+                        className={style.counterInput}
+                        value={formData.hours}
+                      />
+                      <div
+                        className={style.plusButton}
+                        onClick={() => {
+                          if (formData.hours === 14) {
+                            return
+                          }
+                          dispatch(setHoursCount(formData.hours + 1))
+                          // setHours((hours) => hours + 1)
+                        }}
+                      >
+                        <PlusIcon />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div
+                className={style.inputsBackgroundWithOpacityReferalCode}
+                style={{
+                  position: "relative",
+                  // marginBottom: roundTripSwitch ? "" : "21px",
+                }}
+              >
+                <ReferalCodeIcon />
+                {/* <EndLocationIcon /> */}
+                <input
+                  // {...getInputProps()}
+                  placeholder="Referal Code"
+                  className={style.referalCodeInput}
+                  // style={{
+                  //   border: redBorderErrorForToAddress
+                  //     ? "1px solid red"
+                  //     : "1px solid transparent",
+                  // }}
+                />
+              </div>
+            </>
+          )}
+        </div>
       </div>
-      <div className={style.fleetBlock}>
-        <div className={style.wrapperWithBlackBorder}>
-          <div className={style.wrapper}>
+      {formData.captcha && formData.orderAddressDetails[0].rideCheckPoint && (
+        // <div className={style.fleetBlockWithPaddingsToMakeScrollbarMoreVisible}>
+        <div
+          className={style.fleetBlock}
+          style={{
+            borderTop:
+              formData.captcha &&
+              formData.orderAddressDetails[0].rideCheckPoint &&
+              "2px solid #2096eb",
+            borderRight:
+              formData.captcha &&
+              formData.orderAddressDetails[0].rideCheckPoint &&
+              "2px solid #2096eb",
+            borderBottom:
+              formData.captcha &&
+              formData.orderAddressDetails[0].rideCheckPoint &&
+              "2px solid #2096eb",
+          }}
+        >
+          <div className={style.wrapperWithBlackBorder}>
             {/* <button
+            onClick={() => {
+              console.log(carsFromStore.cars)
+            }}
+          >
+            Click meeee
+          </button> */}
+
+            <div className={style.wrapper}>
+              {/* <button
           onClick={() => {
             console.log(cars.cars)
             var str = cars.cars[0]?.imageUrls[0]?.path
@@ -1542,48 +1645,54 @@ export const WidgetFirstPage = ({
         >
           Click me
         </button> */}
-            {cars.map((car, index) => {
-              // var str = cars?.cars[index]?.imageUrls[0]?.path
-              // var n = str?.lastIndexOf("/")
-              // var result = str?.substring(n + 1)
-              // console.log(result)
-              return (
-                // <div>{index}</div>
-                // <div className={style.carContainer}>
-                //   <div className={style.typeAndImageContainer}>
-                //     <p className={style.typeOfVehicle}>{car.typeOfVehicle}</p>
-                //     <div className={style.carImage}>
-                //       <Image
-                //         loader={imageLoader}
-                //         src={car.image}
-                //         alt={car.typeOfVehicle}
-                //         layout="fill"
-                //       ></Image>
-                //     </div>
-                //   </div>
-                //   <div className={style.detailsContainer}>
-                //     <p className={style.carPrice}>{car.price} USD</p>
-                //     <p className={style.carCapacity}>CAPACITY-{car.capacity}</p>
-                //     <p className={style.carLuggage}>LUGGAGE-{car.luggage}</p>
-                //   </div>
-                // </div>
-                <CarInformationComponent
-                  key={car.type}
-                  imageUrl={car.img}
-                  altTypeOfVehicle={car.type}
-                  carPrice={car.price}
-                  carCapacity={car.capacity}
-                  carLuggage={car?.luggage}
-                  carId={car?.id}
-                  selectedCar={selectedCar}
-                  setSelectedCar={setSelectedCar}
-                />
-              )
-            })}
+              {cars.map((car, index) => {
+                // var str = cars?.cars[index]?.imageUrls[0]?.path
+                // var n = str?.lastIndexOf("/")
+                // var result = str?.substring(n + 1)
+                // console.log(result)
+                return (
+                  // <div>{index}</div>
+                  // <div className={style.carContainer}>
+                  //   <div className={style.typeAndImageContainer}>
+                  //     <p className={style.typeOfVehicle}>{car.typeOfVehicle}</p>
+                  //     <div className={style.carImage}>
+                  //       <Image
+                  //         loader={imageLoader}
+                  //         src={car.image}
+                  //         alt={car.typeOfVehicle}
+                  //         layout="fill"
+                  //       ></Image>
+                  //     </div>
+                  //   </div>
+                  //   <div className={style.detailsContainer}>
+                  //     <p className={style.carPrice}>{car.price} USD</p>
+                  //     <p className={style.carCapacity}>CAPACITY-{car.capacity}</p>
+                  //     <p className={style.carLuggage}>LUGGAGE-{car.luggage}</p>
+                  //   </div>
+                  // </div>
+                  <CarInformationComponent
+                    key={car.type}
+                    imageUrl={car.img}
+                    altTypeOfVehicle={car.type}
+                    carPrice={
+                      carsFromStore?.cars
+                        ? carsFromStore?.cars[index]?.price
+                        : 0
+                    }
+                    carCapacity={car.capacity}
+                    carLuggage={car?.luggage}
+                    carId={car?.id}
+                    selectedCar={selectedCar}
+                    setSelectedCar={setSelectedCar}
+                  />
+                )
+              })}
+            </div>
+            {/* <button onClick={() => console.log(cars)}>asdfasdfasdfasd</button> */}
           </div>
-          {/* <button onClick={() => console.log(cars)}>asdfasdfasdfasd</button> */}
         </div>
-      </div>
+        // </div>
+      )}
     </div>
   )
 }

@@ -20,9 +20,7 @@ export const ContactUsBlock = () => {
                 className={style.firstNameFullWidth}
                 style={{
                   width: firstName ? "50%" : "100%",
-                  borderRight: firstName
-                    ? "1px solid #2096eb"
-                    : "2px solid #2096eb",
+                  borderRight: firstName ? "none" : "2px solid #2096eb",
                   // borderBottom: firstName
                   //   ? "1px solid #2096eb"
                   //   : "2px solid #2096eb",

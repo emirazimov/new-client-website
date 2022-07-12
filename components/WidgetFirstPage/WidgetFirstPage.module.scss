@@ -1,9 +1,50 @@
+$inputs-height: 40px;
+
 .inputsAndFleetBlockContainer {
+  height: 370px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  margin-bottom: 21px;
 }
-
+.inputsBlockWithPaddingsToMakeScrollbarMoreVisible {
+  height: 100%;
+  padding: 4px;
+  background: white;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.inputsBlock {
+  height: 100%;
+  // margin-right: 6px;
+  padding: 2px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  // background: white;
+  overflow-y: auto;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    width: 5px;
+    // top: 100px;
+    border-radius: 15px;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-track {
+    // margin-top: 84px;
+    margin-bottom: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #b0b0b0;
+    border: 1px solid #ebebeb;
+    cursor: pointer;
+    // borderRadius: "40px",
+    border-radius: 15px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    // background: #bfaf82;
+    // cursor:pointer;
+  }
+}
 .inputsBackgroundWithOpacity,
 .inputsBackgroundWithOpacityToDestination,
 .inputsBackgroundWithOpacityAirlines,
@@ -46,6 +87,7 @@
   padding: 1px;
   border-radius: 10px;
   border: 1px solid #dadada;
+  margin-bottom: 2px;
   //   filter: opacity(76%);
   // margin-bottom: 5px;
 }
@@ -56,7 +98,7 @@
 .numberOfPassengersInput,
 .referalCodeInput {
   width: 100%;
-  height: 34px;
+  height: $inputs-height;
   outline: none;
   border: none;
   border-radius: 10px;
@@ -74,7 +116,7 @@
 }
 .roundTripInput {
   width: 100%;
-  height: 34px;
+  height: $inputs-height;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -104,7 +146,7 @@
 }
 .pickUpDateInput {
   width: 50%;
-  height: 34px;
+  height: $inputs-height;
   padding: 11px;
   padding-left: 37px;
   outline: none;
@@ -120,7 +162,7 @@
 }
 .timePickerInput {
   width: 100%;
-  height: 34px;
+  height: $inputs-height;
   padding-right: 78px;
   font-size: 16px;
   border-top-right-radius: 10px;
@@ -406,7 +448,7 @@
 .MeetAndGreetLuggageAssistSwitchInput,
 .numberOfPassengersInput {
   width: 100%;
-  height: 34px;
+  height: $inputs-height;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -424,7 +466,7 @@
 .airlinesInput,
 .flightNumberInput {
   width: 100%;
-  height: 34px;
+  height: $inputs-height;
   outline: none;
   border: none;
   border-radius: 10px;
@@ -476,37 +518,51 @@
 
 .fleetBlock {
   width: 350px;
+  height: 100%;
+  padding: 4px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background: white;
 }
 .wrapperWithBlackBorder {
   width: auto;
-  height: auto;
+  height: 100%;
   position: relative;
-  padding: 11px 12px;
+  // padding: 11px 12px;
   border-radius: 10px;
-  background: rgba(0, 0, 0, 0.6);
+  // background: rgba(0, 0, 0, 0.6);
   //   filter: opacity(76%);
   margin-bottom: 21px;
 }
 .wrapper {
   width: 100%;
-  height: 440.59px;
+  height: 100%;
+
   overflow-y: auto;
+
   &::-webkit-scrollbar {
-    width: 4px;
+    width: 5px;
+    // top: 100px;
     border-radius: 15px;
     background-color: transparent;
   }
   &::-webkit-scrollbar-track {
+    // margin-top: 84px;
     margin-bottom: 6px;
   }
   &::-webkit-scrollbar-thumb {
     background-color: #b0b0b0;
     border: 1px solid #ebebeb;
     cursor: pointer;
+    // borderRadius: "40px",
     border-radius: 15px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    // background: #bfaf82;
+    // cursor:pointer;
   }
 
   border-radius: 4.78722px;
-  padding: 11px;
+  padding: 2px;
   background: white;
 }
