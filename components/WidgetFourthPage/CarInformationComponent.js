@@ -1,7 +1,7 @@
-import style from "./CarInformationComponent.module.scss"
-import Image from "next/image"
-import { setCarId } from "../../reduxToolkit/slices/formData"
-import { useDispatch } from "react-redux"
+import style from './CarInformationComponent.module.scss'
+import Image from 'next/image'
+import { setCarId } from '../../reduxToolkit/slices/formData'
+import { useDispatch } from 'react-redux'
 
 export const CarInformationComponent = ({
   imageUrl,
@@ -38,20 +38,20 @@ export const CarInformationComponent = ({
         }
       }}
       style={{
-        pointerEvents: disableClickOnCardClick ? "none" : "auto",
-        background: disableClickOnCardClick && "fafafa",
+        pointerEvents: disableClickOnCardClick ? 'none' : 'auto',
+        background: disableClickOnCardClick && '#fafafa',
       }}
     >
       <div className={style.orSimilar}>or similar</div>
       <div className={style.typeAndImageContainer}>
         <p className={style.typeOfVehicle}>{altTypeOfVehicle}</p>
-        <div className={style.carImage} style={{ pointerEvents: "auto" }}>
+        <div className={style.carImage} style={{ pointerEvents: 'auto' }}>
           <Image
             loader={imageLoader}
             src={imageUrl}
             alt={altTypeOfVehicle}
-            style={{ borderRadius: "7.2px" }}
-            layout="fill"
+            style={{ borderRadius: '7.2px' }}
+            layout='fill'
           ></Image>
         </div>
       </div>
