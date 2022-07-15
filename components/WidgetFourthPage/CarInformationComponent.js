@@ -32,10 +32,10 @@ export const CarInformationComponent = ({
         carId == selectedCar ? style.carContainerSelected : style.carContainer
       }
       onClick={() => {
-        // if (!disableClickOnCardClick) {
-        setSelectedCar(carId)
-        dispatch(setCarId(carId))
-        // }
+        if (!disableClickOnCardClick) {
+          setSelectedCar(carId)
+          dispatch(setCarId(carId))
+        }
       }}
       style={{
         pointerEvents: disableClickOnCardClick ? "none" : "auto",

@@ -215,10 +215,10 @@ export const formDataSlice = createSlice({
       state.client.zip = action.payload
     },
     setStateId: (state, action) => {
-      state.client.cityId = action.payload
+      state.client.stateId = action.payload
     },
     setCityId: (state, action) => {
-      state.client.stateId = action.payload
+      state.client.cityId = action.payload
     },
     setCardNumber: (state, action) => {
       state.paymentInfo.cardNumber = action.payload
