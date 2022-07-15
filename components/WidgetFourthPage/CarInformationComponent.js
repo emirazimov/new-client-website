@@ -32,12 +32,15 @@ export const CarInformationComponent = ({
         carId == selectedCar ? style.carContainerSelected : style.carContainer
       }
       onClick={() => {
-        if (!disableClickOnCardClick) {
-          setSelectedCar(carId)
-          dispatch(setCarId(carId))
-        }
+        // if (!disableClickOnCardClick) {
+        setSelectedCar(carId)
+        dispatch(setCarId(carId))
+        // }
       }}
-      style={{ pointerEvents: disableClickOnCardClick ? "none" : "auto" }}
+      style={{
+        pointerEvents: disableClickOnCardClick ? "none" : "auto",
+        background: disableClickOnCardClick && "fafafa",
+      }}
     >
       <div className={style.orSimilar}>or similar</div>
       <div className={style.typeAndImageContainer}>

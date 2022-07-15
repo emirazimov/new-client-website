@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 // Define a service using a base URL and expected endpoints
 export const paymentFormApi = createApi({
   reducerPath: "paymentFormApi ",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://apidev.bookinglane.com/api/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://api.bookinglane.com/api/" }),
   endpoints: (builder) => ({
     getUsersPaymentDetails: builder.query({
       query: (paymentId) => {

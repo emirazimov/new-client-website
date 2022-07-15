@@ -32,6 +32,8 @@ export const WidgetSixthPage = ({
   resultOfCreateReservation,
   termsAndPrivacyPolicyChecked,
   setTermsAndPrivacyPolicyChecked,
+  iAgreeWithTransactionFeeNonrefundableChecked,
+  setIAgreeWithTransactionFeeNonrefundableChecked,
 }) => {
   const dispatch = useDispatch()
 
@@ -823,6 +825,25 @@ export const WidgetSixthPage = ({
                     </div>
                     {/* <TermsOfUse />
               <PrivacyPolicy /> */}
+                  </div>
+                  <div className={style.checkboxWrapper}>
+                    <label id="input" className={style.checkboxLabel}>
+                      <input
+                        type="checkbox"
+                        onClick={() =>
+                          setIAgreeWithTransactionFeeNonrefundableChecked(
+                            !iAgreeWithTransactionFeeNonrefundableChecked
+                          )
+                        }
+                        htmlFor="input"
+                        className={style.checkboxInput}
+                      />
+                      <span className={style.checkboxSpan}></span>
+                    </label>
+                    <div className={style.iAgreeWithContainer}>
+                      I agree that the transaction fee is non-refundable in case
+                      of cancellation
+                    </div>
                   </div>
                 </div>
               </div>

@@ -29,7 +29,12 @@ export const SolutionsBlock = () => {
           </p>
           <div className={style.textAndButtonContainer}>
             <p>Limited spots available:</p>
-            <button className={style.button}>BECOME OUR PARTNER</button>
+            <a
+              href="https://b2b.bookinglane.com/"
+              style={{ textDecoration: "none" }}
+            >
+              <button className={style.button}>BECOME OUR PARTNER</button>
+            </a>
           </div>
         </div>
       </div>

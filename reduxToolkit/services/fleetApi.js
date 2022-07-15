@@ -4,13 +4,13 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 // Define a service using a base URL and expected endpoints
 export const fleetApi = createApi({
   reducerPath: "fleetApi ",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://apidev.bookinglane.com/api/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://api.bookinglane.com/api/" }),
   endpoints: (builder) => ({
     getFleet: builder.mutation({
       query: ({ captcha, ...body }) => {
         // const { captcha, ...body } = dataForm
         return {
-          url: `widget/cars-with-price/14862f6b-0e7a-47d0-810a-06a348fd9ec1`,
+          url: `widget/cars-with-price/6129164e-d0b0-48ee-85c3-26733cf42806`,
           method: `POST`,
           headers: {
             captcha: `${captcha}`,

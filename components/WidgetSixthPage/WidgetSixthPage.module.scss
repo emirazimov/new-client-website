@@ -63,6 +63,9 @@ $background: grey;
     // background: #bfaf82;
     // cursor:pointer;
   }
+  @media (max-width: 420px) {
+    padding: 10px 19px;
+  }
 }
 
 .inputFirstAndLastName {
@@ -689,6 +692,10 @@ $background: grey;
 }
 .termsAndPrivacyPolicyContainer {
   padding-top: 12px;
+}
+.iAgreeWithContainer {
+  padding-top: 6px;
+  text-decoration: underline;
 }
 // @include buttons-group;
 .buttonGroupBlock {

@@ -1,20 +1,27 @@
-$inputs-height: 40px;
+$inputs-height: 46px;
+$inputs-height-mobile: 33px;
 
 .inputsAndFleetBlockContainer {
-  height: 370px;
+  height: 422px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   margin-bottom: 21px;
+  @media (max-width: 900px) {
+    height: 500px;
+  }
 }
 .inputsBlockWithPaddingsToMakeScrollbarMoreVisible {
   height: 100%;
-  padding: 4px;
+  padding-top: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
   background: white;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
-.inputsBlock {
+.inputsBlock,
+.inputsBlockMobile {
   height: 100%;
   // margin-right: 6px;
   padding: 2px;
@@ -72,6 +79,36 @@ $inputs-height: 40px;
   margin-bottom: 2px;
 }
 
+.inputsBackgroundWithOpacityMobile,
+.inputsBackgroundWithOpacityToDestinationMobile,
+.inputsBackgroundWithOpacityPickUpDateAndTimeMobile,
+.inputsBackgroundWithOpacityRoundTripMobile,
+.inputsBackgroundWithOpacityToDestinationMobile,
+// .inputsBackgroundWithOpacityPickUpDateAndTimeMobile,
+.inputsBackgroundWithOpacityAirlinesMobile,
+.inputsBackgroundWithOpacityFlightNumberMobile,
+.inputsBackgroundWithOpacityNumberOfPassengersMobile,
+.inputsBackgroundWithOpacityMeetAndGreetLuggageAssistMobile,
+.inputsBackgroundWithOpacityLuggageCountMobile,
+.inputsBackgroundWithOpacitySafetySeatMobile,
+.inputsBackgroundWithOpacityYouthBoosterSeatMobile,
+.inputsBackgroundWithOpacityInfantChildSafetySeatMobile,
+.inputsBackgroundWithOpacityHourlyMobile,
+.inputsBackgroundWithOpacityHoursCountMobile,
+.inputsBackgroundWithOpacityReferalCodeMobile {
+  width: 369px;
+  height: auto;
+  position: relative;
+  padding: 11px 12px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  //   filter: opacity(76%);
+  margin-bottom: 5px;
+  @media (max-width: 420px) {
+    width: 310px;
+  }
+}
+
 .inputsBackgroundWithOpacityRoundTrip {
   // margin-bottom: 21px;
 }
@@ -90,6 +127,22 @@ $inputs-height: 40px;
   margin-bottom: 2px;
   //   filter: opacity(76%);
   // margin-bottom: 5px;
+}
+.inputsBackgroundWithOpacityPickUpDateAndTimeMobile {
+  width: 369px;
+  height: auto;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 12px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  //   filter: opacity(76%);
+  margin-bottom: 5px;
+  @media (max-width: 420px) {
+    width: 310px;
+  }
 }
 .pickUpLocationInput,
 .toLocationInput,
@@ -113,6 +166,9 @@ $inputs-height: 40px;
   [type="number"] {
     -moz-appearance: textfield;
   }
+  @media (max-width: 900px) {
+    height: $inputs-height-mobile;
+  }
 }
 .roundTripInput {
   width: 100%;
@@ -127,6 +183,9 @@ $inputs-height: 40px;
   padding: 11px;
   padding-left: 37px;
   background: white;
+  @media (max-width: 900px) {
+    height: $inputs-height-mobile;
+  }
 }
 .numberOfPassengersInput {
   background: white;
@@ -154,10 +213,15 @@ $inputs-height: 40px;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   font-size: 16px;
+  @media (max-width: 900px) {
+    height: $inputs-height-mobile;
+  }
 }
 .timePickerContainer {
   position: relative;
   width: 50%;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
   background-color: white;
 }
 .timePickerInput {
@@ -171,6 +235,9 @@ $inputs-height: 40px;
   text-align: right;
   box-sizing: border-box;
   border: none;
+  @media (max-width: 900px) {
+    height: $inputs-height-mobile;
+  }
 }
 
 // main-block-background.jpg
@@ -200,13 +267,14 @@ $inputs-height: 40px;
 // .inputsBackgroundWithOpacityToDestination {
 //   margin-right: 24px;
 // }
-.inputsBackgroundWithOpacityToDestination {
+.inputsBackgroundWithOpacityToDestination,
+.inputsBackgroundWithOpacityToDestinationMobile {
   position: relative;
 
   .minusIcon,
   .plusIcon {
     position: absolute;
-    top: 20px;
+    top: 16px;
     right: 16px;
     cursor: pointer;
   }
@@ -240,10 +308,13 @@ $inputs-height: 40px;
   flex-direction: row;
 
   position: absolute;
-  top: 21%;
+  top: 29%;
   right: 7px;
 
   border-radius: 3px;
+  @media (max-width: 900px) {
+    top: 20%;
+  }
 }
 
 .toggleButtonAM,
@@ -459,7 +530,9 @@ $inputs-height: 40px;
   padding: 11px;
   padding-left: 37px;
   background: white;
-
+  @media (max-width: 900px) {
+    height: $inputs-height-mobile;
+  }
   //   padding-top: 0px;
 }
 
@@ -480,6 +553,9 @@ $inputs-height: 40px;
   }
   [type="number"] {
     -moz-appearance: textfield;
+  }
+  @media (max-width: 900px) {
+    height: $inputs-height-mobile;
   }
 }
 
@@ -519,7 +595,9 @@ $inputs-height: 40px;
 .fleetBlock {
   width: 350px;
   height: 100%;
-  padding: 4px;
+  padding-top: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   background: white;

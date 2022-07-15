@@ -50,10 +50,41 @@ export const Header = () => {
           {/* <div> */}
 
           <ul className={style.menuContainer}>
-            <li>For B2B</li>
-            <li>Solutions</li>
-            <li>About Us</li>
-            <li>Contact Us</li>
+            <li>
+              <a
+                href="https://b2b.bookinglane.com/"
+                style={{ textDecoration: "none" }}
+              >
+                For B2B
+              </a>
+            </li>
+
+            <li>
+              <a
+                // href="https://b2b.bookinglane.com/"
+                style={{ textDecoration: "none" }}
+              >
+                Solutions
+              </a>
+            </li>
+
+            <li>
+              <a
+                // href="https://b2b.bookinglane.com/"
+                style={{ textDecoration: "none" }}
+              >
+                About Us
+              </a>
+            </li>
+
+            <li>
+              <a
+                // href="https://b2b.bookinglane.com/"
+                style={{ textDecoration: "none" }}
+              >
+                Contact Us
+              </a>
+            </li>
           </ul>
         </div>
       ) : (
@@ -82,7 +113,14 @@ export const Header = () => {
           >
             <nav className={style.burgerMenuBodyContainer}>
               <ul className={style.burgerMenuItemsListContainer}>
-                <li>For B2B</li>
+                <li>
+                  <a
+                    href="https://b2b.bookinglane.com/"
+                    style={{ textDecoration: "none" }}
+                  >
+                    For B2B
+                  </a>
+                </li>
                 <li>Solutions</li>
                 <li>About Us</li>
                 <li>Contact Us</li>

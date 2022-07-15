@@ -124,7 +124,10 @@ export const HTMLWrapper = ({ children, keywords }) => {
         {/* <!-- Global site tag (gtag.js) - Google Analytics --> */}
       </Head>
       <div>{children}</div>
-      <Script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAubahwwVBkFEkRdwxgIU-EejzAOWGtEnU&libraries=places" />
+      <Script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAubahwwVBkFEkRdwxgIU-EejzAOWGtEnU&libraries=places"
+        strategy="beforeInteractive"
+      />
     </div>
   )
 }

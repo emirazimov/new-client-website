@@ -1,5 +1,5 @@
 .inputsAndPreviewBlockContainer {
-  height: 360px;
+  height: 422px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -7,6 +7,7 @@
 }
 
 .inputsBlock {
+  width: 455px;
   height: 100%;
   // margin-right: 6px;
   padding: 4px;
@@ -177,7 +178,7 @@
   position: relative;
 }
 .tipsValueInput {
-  width: 43px;
+  width: 60px;
   height: 18px;
   display: flex;
   justify-content: space-between;
@@ -189,11 +190,11 @@
 }
 .tipsValue {
   font-weight: 600;
-  font-size: 8.83412px;
+  font-size: 12.83412px;
   color: #000000;
 }
 .dropDownContainer {
-  width: 43px;
+  width: 60px;
   position: absolute;
   top: 22px;
   display: flex;
@@ -203,12 +204,13 @@
   padding: 4px;
   background: white;
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.25);
+  // border: 1px solid red;
   border-radius: 1px;
 
   & > span {
     width: 100%;
     font-weight: 600;
-    font-size: 8.83412px;
+    font-size: 12.83412px;
     margin-top: 3px;
     margin-bottom: 1px;
     // line-height: 9px;
@@ -978,6 +980,11 @@ $background: grey;
 .termsAndPrivacyPolicyContainer {
   padding-top: 12px;
 }
+.iAgreeWithContainer {
+  padding-top: 6px;
+  text-decoration: underline;
+}
+
 // @include buttons-group;
 .buttonGroupBlock {
   // padding-bottom: 20px;

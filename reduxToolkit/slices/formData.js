@@ -18,7 +18,7 @@ const initialState = {
     },
   ],
   bookingType: 0,
-  isAirportPickupIncluded: false,
+  // isAirportPickupIncluded: false,
   passengersQuantity: 0,
   orderStartDateTime: "",
   dateValue: "",
@@ -60,7 +60,7 @@ const initialState = {
   isGateMeeting: false,
   page: 1,
   typeId: 0,
-  greetClientInfo: {},
+  // greetClientInfo: {},
   orderNotes: "",
   orderSum: 0,
   orderType: 3,
@@ -247,6 +247,9 @@ export const formDataSlice = createSlice({
     setTips: (state, action) => {
       state.tips = action.payload
     },
+    setIsGateMeeting: (state, action) => {
+      state.isGateMeeting = action.payload
+    },
   },
 })
 
@@ -291,6 +294,7 @@ export const {
   setOrderSum,
   setNotes,
   setTips,
+  setIsGateMeeting,
 } = formDataSlice.actions
 
 export default formDataSlice.reducer

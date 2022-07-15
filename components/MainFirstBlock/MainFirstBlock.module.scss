@@ -5,8 +5,12 @@
 
   background-image: url("https://new-client-website.s3.us-east-2.amazonaws.com/main-block-img.png");
   background-repeat: no-repeat;
-  background-position: right;
+  background-position-x: right;
+  background-position-y: 300px;
   background-size: contain;
+  @media (max-width: 519px) {
+    height: 1080px;
+  }
 }
 
 .wrapperToLimitContentWidth {
@@ -21,19 +25,22 @@
     padding-right: 13px;
   }
 }
-.lookingForExecutiveCar {
+.findExecutiveCar {
   font-weight: 600;
   font-size: 42px;
   line-height: 55px;
-  margin-top: 24px;
+  margin-top: 87px;
   /* or 131% */
 
-  text-align: center;
+  text-align: left;
 
   color: #000000;
 
   @media (max-width: 913px) {
     font-size: 27px;
+  }
+  @media (max-width: 900px) {
+    text-align: center;
   }
 }
 
@@ -42,8 +49,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 39.35px;
-  @media (max-width: 996px) {
+  margin-top: 21px;
+  @media (max-width: 900px) {
     flex-direction: column;
     align-items: center;
   }
@@ -53,19 +60,28 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-right: 137px;
-  @media (max-width: 996px) {
+  align-items: flex-start;
+  // margin-right: 137px;
+  @media (max-width: 900px) {
+    min-width: 369px;
+    max-width: 369px;
     margin-right: 0;
     order: 2;
   }
-  @media (max-width: 502px) {
-    min-width: 329px;
-    max-width: 329px;
+  @media (max-width: 420px) {
+    min-width: 310px;
+    max-width: 310px;
+    margin-right: 0;
+    order: 2;
   }
-  @media (max-width: 330px) {
-    min-width: 305px;
-    max-width: 305px;
-  }
+  // @media (max-width: 502px) {
+  //   min-width: 329px;
+  //   max-width: 329px;
+  // }
+  // @media (max-width: 330px) {
+  //   min-width: 305px;
+  //   max-width: 305px;
+  // }
 }
 .letsGetStartedTitle {
   font-weight: 600;
@@ -76,9 +92,13 @@
 }
 
 .buttonsContainer {
+  width: 70%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  @media (max-width: 900px) {
+    width: 100%;
+  }
+  // align-items: center;
 }
 .backButton,
 .nextButton,
@@ -119,10 +139,11 @@
 }
 .mainText {
   font-weight: 400;
-  font-size: 36px;
+  font-size: 26px;
   line-height: 55px;
+  margin-bottom: 26px;
   color: #000000;
-  @media (max-width: 996px) {
+  @media (max-width: 900px) {
     order: 1;
     text-align: center;
     margin-bottom: 45px;

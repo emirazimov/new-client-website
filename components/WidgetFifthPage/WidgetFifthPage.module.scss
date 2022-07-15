@@ -40,10 +40,13 @@
 
 .mapContainer {
   position: relative;
-  width: 351px;
+  width: 319px;
   height: 122px;
   border-radius: 10px;
   margin-bottom: 8px;
+  @media (max-width: 502px) {
+    width: 279px;
+  }
 }
 .carWrapper {
   margin-bottom: 10px;

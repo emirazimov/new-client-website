@@ -33,17 +33,21 @@ export const ContactUsBlock = () => {
                   setFirstName(e.target.value)
                 }}
               />
+
               {firstName && (
                 <>
-                  <input
-                    className={style.lastName}
-                    placeholder="Last Name"
-                    // style={{
-                    //   borderBottom: firstName
-                    //     ? "1px solid #2096eb"
-                    //     : "2px solid #2096eb",
-                    // }}
-                  />
+                  <div className={style.containerForVerticalLine}>
+                    <input
+                      className={style.lastName}
+                      placeholder="Last Name"
+                      // style={{
+                      //   borderBottom: firstName
+                      //     ? "1px solid #2096eb"
+                      //     : "2px solid #2096eb",
+                      // }}
+                    />
+                    <div className={style.verticalLine}></div>
+                  </div>
                 </>
               )}
             </div>
@@ -62,18 +66,22 @@ export const ContactUsBlock = () => {
                     //     : "2px solid #2096eb",
                     // }}
                   />
-                  <input
-                    className={style.phone}
-                    placeholder="Phone"
-                    // style={{
-                    //   borderTop: firstName
-                    //     ? "1px solid #2096eb"
-                    //     : "2px solid #2096eb",
-                    //   borderLeft: firstName
-                    //     ? "1px solid #2096eb"
-                    //     : "2px solid #2096eb",
-                    // }}
-                  />
+
+                  <div className={style.containerForVerticalLine}>
+                    <input
+                      className={style.phone}
+                      placeholder="Phone"
+                      // style={{
+                      //   borderTop: firstName
+                      //     ? "1px solid #2096eb"
+                      //     : "2px solid #2096eb",
+                      //   borderLeft: firstName
+                      //     ? "1px solid #2096eb"
+                      //     : "2px solid #2096eb",
+                      // }}
+                    />
+                    <div className={style.verticalLine}></div>
+                  </div>
                 </div>
                 <textarea
                   className={style.textArea}

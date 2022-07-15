@@ -25,6 +25,18 @@ import {
   Ticket,
   SafetySeatIcon,
   HourlyIcon,
+  StartLocationIconMobile,
+  EndLocationIconMobile,
+  DateIconMobile,
+  RoundTripIconMobile,
+  PlaneIconMobile,
+  TicketMobile,
+  NumberOfPassengersIconMobile,
+  MeetAndGreetIconMobile,
+  LuggageIconMobile,
+  SafetySeatIconMobile,
+  HourlyIconMobile,
+  ReferalCodeIconMobile,
 } from "../../public/Assets"
 import { useDispatch, useSelector } from "react-redux"
 import {
@@ -51,6 +63,7 @@ import {
   setSafetySeatCount,
   setSafetySeatSwitch,
   setCaptcha,
+  setIsGateMeeting,
 } from "../../reduxToolkit/slices/formData"
 
 import {
@@ -60,6 +73,7 @@ import {
 import { CarInformationComponent } from "../WidgetFourthPage/CarInformationComponent"
 import ReCAPTCHA from "react-google-recaptcha"
 import { setCars } from "../../reduxToolkit/slices/fleetSlice"
+import { useMediaQuery } from "@mui/material"
 
 export const WidgetFirstPage = ({
   redBorderErrorForFromAddress,
@@ -125,10 +139,10 @@ export const WidgetFirstPage = ({
     console.log(refForMaskedTimeInput.current.value)
   }
 
-  const [
-    showSuccessfullyCreatedReservation,
-    setShowSuccessfullyCreatedReservation,
-  ] = useState(false)
+  // const [
+  //   showSuccessfullyCreatedReservation,
+  //   setShowSuccessfullyCreatedReservation,
+  // ] = useState(false)
 
   //   const { isHourlyCheckboxEnabled } = useAppSelector(
   //     (state) => state.createReservationReducer
@@ -524,6 +538,7 @@ export const WidgetFirstPage = ({
 
     // console.log(result)
     formData.orderAddressDetails[1].placeId &&
+      !carsFromStore.cars &&
       getFleet({
         captcha: formData.captcha,
         hours: formData.hours,
@@ -544,9 +559,11 @@ export const WidgetFirstPage = ({
   }, [formData.orderAddressDetails[1].placeId])
 
   useEffect(() => {
-    dispatch(setCars(result.data))
+    !carsFromStore.cars && dispatch(setCars(result.data))
     // console.log(result)
   }, [result])
+
+  const isMobile = useMediaQuery("(max-width: 900px)")
 
   return (
     <div className={style.inputsAndFleetBlockContainer}>
@@ -554,6 +571,7 @@ export const WidgetFirstPage = ({
         className={style.inputsBlockWithPaddingsToMakeScrollbarMoreVisible}
         style={{
           border:
+            !isMobile &&
             formData.captcha &&
             formData.orderAddressDetails[0].rideCheckPoint &&
             "2px solid #2096eb",
@@ -563,7 +581,9 @@ export const WidgetFirstPage = ({
               : "transparent",
         }}
       >
-        <div className={style.inputsBlock}>
+        <div
+          className={!isMobile ? style.inputsBlock : style.inputsBlockMobile}
+        >
           <PlacesAutocomplete
             value={formData.orderAddressDetails[0].rideCheckPoint}
             onChange={(address) => {
@@ -586,13 +606,28 @@ export const WidgetFirstPage = ({
               return (
                 <>
                   <div
-                    className={style.inputsBackgroundWithOpacity}
-                    style={{ position: "relative" }}
+                    className={
+                      !isMobile
+                        ? style.inputsBackgroundWithOpacity
+                        : style.inputsBackgroundWithOpacityMobile
+                    }
+                    style={{
+                      width:
+                        !isMobile &&
+                        !formData.captcha &&
+                        !formData.orderAddressDetails[0].rideCheckPoint &&
+                        "700px",
+                      position: "relative",
+                    }}
                     onClick={() => {
                       setShowRecaptcha(true)
                     }}
                   >
-                    <StartLocationIcon />
+                    {!isMobile ? (
+                      <StartLocationIcon />
+                    ) : (
+                      <StartLocationIconMobile />
+                    )}
                     <input
                       {...getInputProps()}
                       placeholder="Enter a Pickup Location"
@@ -601,6 +636,16 @@ export const WidgetFirstPage = ({
                         border: redBorderErrorForFromAddress
                           ? "1px solid red"
                           : "1px solid transparent",
+
+                        border:
+                          !isMobile &&
+                          !formData.captcha &&
+                          !formData.orderAddressDetails[0].rideCheckPoint &&
+                          "2px solid #2096eb",
+                        // background:
+                        //   formData.captcha && formData.orderAddressDetails[0].rideCheckPoint
+                        //     ? "white"
+                        //     : "transparent",
                       }}
                     />
                     <div
@@ -679,10 +724,16 @@ export const WidgetFirstPage = ({
                         <>
                           <div
                             className={
-                              style.inputsBackgroundWithOpacityToDestination
+                              !isMobile
+                                ? style.inputsBackgroundWithOpacityToDestination
+                                : style.inputsBackgroundWithOpacityToDestinationMobile
                             }
                           >
-                            <EndLocationIcon />
+                            {!isMobile ? (
+                              <EndLocationIcon />
+                            ) : (
+                              <EndLocationIconMobile />
+                            )}
                             <input
                               {...getInputProps()}
                               placeholder={`To ${index + 1}`}
@@ -791,10 +842,14 @@ export const WidgetFirstPage = ({
             </>
           )} */}
               <div
-                className={style.inputsBackgroundWithOpacityPickUpDateAndTime}
+                className={
+                  !isMobile
+                    ? style.inputsBackgroundWithOpacityPickUpDateAndTime
+                    : style.inputsBackgroundWithOpacityPickUpDateAndTimeMobile
+                }
                 style={{ position: "relative" }}
               >
-                <DateIcon />
+                {!isMobile ? <DateIcon /> : <DateIconMobile />}
                 <input
                   onClick={() => setShow(true)}
                   placeholder="Pick Up Date"
@@ -937,10 +992,14 @@ export const WidgetFirstPage = ({
                 </div>
               </div>
               <div
-                className={style.inputsBackgroundWithOpacityRoundTrip}
+                className={
+                  !isMobile
+                    ? style.inputsBackgroundWithOpacityRoundTrip
+                    : style.inputsBackgroundWithOpacityRoundTripMobile
+                }
                 style={{ position: "relative" }}
               >
-                <RoundTripIcon />
+                {!isMobile ? <RoundTripIcon /> : <RoundTripIconMobile />}
                 <div className={style.roundTripInput}>
                   <p className={style.roundTripPlaceholder}>Round Trip</p>
                   <div className={style.switchWrapper}>
@@ -983,8 +1042,18 @@ export const WidgetFirstPage = ({
                       console.log(suggestions)
                       return (
                         <>
-                          <div className={style.inputsBackgroundWithOpacity}>
-                            <StartLocationIcon />
+                          <div
+                            className={
+                              !isMobile
+                                ? style.inputsBackgroundWithOpacity
+                                : style.inputsBackgroundWithOpacityMobile
+                            }
+                          >
+                            {!isMobile ? (
+                              <StartLocationIcon />
+                            ) : (
+                              <StartLocationIconMobile />
+                            )}
                             <input
                               {...getInputProps()}
                               placeholder="Enter a Pickup Location"
@@ -1048,10 +1117,16 @@ export const WidgetFirstPage = ({
                             <>
                               <div
                                 className={
-                                  style.inputsBackgroundWithOpacityToDestination
+                                  !isMobile
+                                    ? style.inputsBackgroundWithOpacityToDestination
+                                    : style.inputsBackgroundWithOpacityToDestinationMobile
                                 }
                               >
-                                <EndLocationIcon />
+                                {!isMobile ? (
+                                  <EndLocationIcon />
+                                ) : (
+                                  <EndLocationIconMobile />
+                                )}
                                 <input
                                   {...getInputProps()}
                                   placeholder={`To ${index + 1}`}
@@ -1124,10 +1199,12 @@ export const WidgetFirstPage = ({
                   })}
                   <div
                     className={
-                      style.inputsBackgroundWithOpacityPickUpDateAndTime
+                      !isMobile
+                        ? style.inputsBackgroundWithOpacityPickUpDateAndTime
+                        : style.inputsBackgroundWithOpacityPickUpDateAndTimeMobile
                     }
                   >
-                    <DateIcon />
+                    {!isMobile ? <DateIcon /> : <DateIconMobile />}
                     <input
                       onClick={() => setShow(true)}
                       placeholder="Pick Up Date"
@@ -1238,11 +1315,15 @@ export const WidgetFirstPage = ({
                     options={airlines.map((airline) => airline.name)}
                     renderInput={(params) => (
                       <div
-                        className={style.inputsBackgroundWithOpacityAirlines}
+                        className={
+                          !isMobile
+                            ? style.inputsBackgroundWithOpacityAirlines
+                            : style.inputsBackgroundWithOpacityAirlinesMobile
+                        }
                         style={{ position: "relative" }}
                         ref={params.InputProps.ref}
                       >
-                        <PlaneIcon />
+                        {!isMobile ? <PlaneIcon /> : <PlaneIconMobile />}
                         <input
                           {...params.inputProps}
                           placeholder="Airlines"
@@ -1252,10 +1333,14 @@ export const WidgetFirstPage = ({
                     )}
                   />
                   <div
-                    className={style.inputsBackgroundWithOpacityFlightNumber}
+                    className={
+                      !isMobile
+                        ? style.inputsBackgroundWithOpacityFlightNumber
+                        : style.inputsBackgroundWithOpacityFlightNumberMobile
+                    }
                     style={{ position: "relative" }}
                   >
-                    <Ticket />
+                    {!isMobile ? <Ticket /> : <TicketMobile />}
                     <input
                       placeholder="Flight number"
                       className={style.flightNumberInput}
@@ -1269,10 +1354,18 @@ export const WidgetFirstPage = ({
                 </>
               )}
               <div
-                className={style.inputsBackgroundWithOpacityNumberOfPassengers}
+                className={
+                  !isMobile
+                    ? style.inputsBackgroundWithOpacityNumberOfPassengers
+                    : style.inputsBackgroundWithOpacityNumberOfPassengersMobile
+                }
                 style={{ position: "relative" }}
               >
-                <NumberOfPassengersIcon />
+                {!isMobile ? (
+                  <NumberOfPassengersIcon />
+                ) : (
+                  <NumberOfPassengersIconMobile />
+                )}
                 <div
                   placeholder="Number of Passengers"
                   className={style.numberOfPassengersInput}
@@ -1312,11 +1405,17 @@ export const WidgetFirstPage = ({
                 <>
                   <div
                     className={
-                      style.inputsBackgroundWithOpacityMeetAndGreetLuggageAssist
+                      !isMobile
+                        ? style.inputsBackgroundWithOpacityMeetAndGreetLuggageAssist
+                        : style.inputsBackgroundWithOpacityMeetAndGreetLuggageAssistMobile
                     }
                     style={{ position: "relative" }}
                   >
-                    <MeetAndGreetIcon />
+                    {!isMobile ? (
+                      <MeetAndGreetIcon />
+                    ) : (
+                      <MeetAndGreetIconMobile />
+                    )}
                     <div className={style.MeetAndGreetLuggageAssistSwitchInput}>
                       <p className={style.meetAndGreetLuggageAssistPlaceholder}>
                         Meet & Greet/Luggage Assist
@@ -1329,6 +1428,7 @@ export const WidgetFirstPage = ({
                           id={`switchMeetAndGreetLuggageAssist`}
                           defaultChecked={meetAndGreetLuggageAssistSwitch}
                           onClick={() => {
+                            dispatch(setIsGateMeeting(!formData.isGateMeeting))
                             setMeetAndGreetLuggageAssistSwitch(
                               !meetAndGreetLuggageAssistSwitch
                             )
@@ -1341,10 +1441,14 @@ export const WidgetFirstPage = ({
                     </div>
                   </div>
                   <div
-                    className={style.inputsBackgroundWithOpacityLuggageCount}
+                    className={
+                      !isMobile
+                        ? style.inputsBackgroundWithOpacityLuggageCount
+                        : style.inputsBackgroundWithOpacityLuggageCountMobile
+                    }
                     style={{ position: "relative" }}
                   >
-                    <LuggageIcon />
+                    {!isMobile ? <LuggageIcon /> : <LuggageIconMobile />}
                     <div className={style.luggageCountInput}>
                       <p className={style.luggageCountPlaceholder}>
                         Luggage Count
@@ -1387,10 +1491,14 @@ export const WidgetFirstPage = ({
               )}
 
               <div
-                className={style.inputsBackgroundWithOpacitySafetySeat}
+                className={
+                  !isMobile
+                    ? style.inputsBackgroundWithOpacitySafetySeat
+                    : style.inputsBackgroundWithOpacitySafetySeatMobile
+                }
                 style={{ position: "relative" }}
               >
-                <SafetySeatIcon />
+                {!isMobile ? <SafetySeatIcon /> : <SafetySeatIconMobile />}
                 <div className={style.safetySeatSwitchInput}>
                   <p className={style.safetySeatPlaceholder}>Safety Seat</p>
                   <div className={style.switchWrapper}>
@@ -1414,11 +1522,13 @@ export const WidgetFirstPage = ({
                 <>
                   <div
                     className={
-                      style.inputsBackgroundWithOpacityYouthBoosterSeat
+                      !isMobile
+                        ? style.inputsBackgroundWithOpacityYouthBoosterSeat
+                        : style.inputsBackgroundWithOpacityYouthBoosterSeatMobile
                     }
                     style={{ position: "relative" }}
                   >
-                    <SafetySeatIcon />
+                    {!isMobile ? <SafetySeatIcon /> : <SafetySeatIconMobile />}
                     <div className={style.youthBoosterSeatCountInput}>
                       <p className={style.youthBoosterSeatPlaceholder}>
                         Youth Booster Seat
@@ -1461,11 +1571,13 @@ export const WidgetFirstPage = ({
                   </div>
                   <div
                     className={
-                      style.inputsBackgroundWithOpacityInfantChildSafetySeat
+                      !isMobile
+                        ? style.inputsBackgroundWithOpacityInfantChildSafetySeat
+                        : style.inputsBackgroundWithOpacityInfantChildSafetySeatMobile
                     }
                     style={{ position: "relative" }}
                   >
-                    <SafetySeatIcon />
+                    {!isMobile ? <SafetySeatIcon /> : <SafetySeatIconMobile />}
                     <div className={style.infantChildSafetySeatCountInput}>
                       <p className={style.infantChildSafetySeatPlaceholder}>
                         Infant & Child Safety Seat
@@ -1515,12 +1627,16 @@ export const WidgetFirstPage = ({
                 </>
               )}
               <div
-                className={style.inputsBackgroundWithOpacityHourly}
+                className={
+                  !isMobile
+                    ? style.inputsBackgroundWithOpacityHourly
+                    : style.inputsBackgroundWithOpacityHourlyMobile
+                }
                 style={{
                   position: "relative",
                 }}
               >
-                <HourlyIcon />
+                {!isMobile ? <HourlyIcon /> : <HourlyIconMobile />}
                 <div className={style.hourlySwitchInput}>
                   <p className={style.hourlyPlaceholder}>Hourly</p>
                   <div className={style.switchWrapper}>
@@ -1541,10 +1657,14 @@ export const WidgetFirstPage = ({
               </div>
               {formData.hourly && (
                 <div
-                  className={style.inputsBackgroundWithOpacityHoursCount}
+                  className={
+                    !isMobile
+                      ? style.inputsBackgroundWithOpacityHoursCount
+                      : style.inputsBackgroundWithOpacityHoursCountMobile
+                  }
                   style={{ position: "relative" }}
                 >
-                  <HourlyIcon />
+                  {!isMobile ? <HourlyIcon /> : <HourlyIconMobile />}
                   <div className={style.hoursCountInput}>
                     <p className={style.hoursPlaceholder}>Hours</p>
                     <div className={style.counterContainer}>
@@ -1581,13 +1701,17 @@ export const WidgetFirstPage = ({
                 </div>
               )}
               <div
-                className={style.inputsBackgroundWithOpacityReferalCode}
+                className={
+                  !isMobile
+                    ? style.inputsBackgroundWithOpacityReferalCode
+                    : style.inputsBackgroundWithOpacityReferalCodeMobile
+                }
                 style={{
                   position: "relative",
                   // marginBottom: roundTripSwitch ? "" : "21px",
                 }}
               >
-                <ReferalCodeIcon />
+                {!isMobile ? <ReferalCodeIcon /> : <ReferalCodeIconMobile />}
                 {/* <EndLocationIcon /> */}
                 <input
                   // {...getInputProps()}
@@ -1606,25 +1730,27 @@ export const WidgetFirstPage = ({
       </div>
       {formData.captcha && formData.orderAddressDetails[0].rideCheckPoint && (
         // <div className={style.fleetBlockWithPaddingsToMakeScrollbarMoreVisible}>
-        <div
-          className={style.fleetBlock}
-          style={{
-            borderTop:
-              formData.captcha &&
-              formData.orderAddressDetails[0].rideCheckPoint &&
-              "2px solid #2096eb",
-            borderRight:
-              formData.captcha &&
-              formData.orderAddressDetails[0].rideCheckPoint &&
-              "2px solid #2096eb",
-            borderBottom:
-              formData.captcha &&
-              formData.orderAddressDetails[0].rideCheckPoint &&
-              "2px solid #2096eb",
-          }}
-        >
-          <div className={style.wrapperWithBlackBorder}>
-            {/* <button
+        <>
+          {!isMobile && (
+            <div
+              className={style.fleetBlock}
+              style={{
+                borderTop:
+                  formData.captcha &&
+                  formData.orderAddressDetails[0].rideCheckPoint &&
+                  "2px solid #2096eb",
+                borderRight:
+                  formData.captcha &&
+                  formData.orderAddressDetails[0].rideCheckPoint &&
+                  "2px solid #2096eb",
+                borderBottom:
+                  formData.captcha &&
+                  formData.orderAddressDetails[0].rideCheckPoint &&
+                  "2px solid #2096eb",
+              }}
+            >
+              <div className={style.wrapperWithBlackBorder}>
+                {/* <button
             onClick={() => {
               console.log(carsFromStore.cars)
             }}
@@ -1632,8 +1758,8 @@ export const WidgetFirstPage = ({
             Click meeee
           </button> */}
 
-            <div className={style.wrapper}>
-              {/* <button
+                <div className={style.wrapper}>
+                  {/* <button
           onClick={() => {
             console.log(cars.cars)
             var str = cars.cars[0]?.imageUrls[0]?.path
@@ -1645,52 +1771,56 @@ export const WidgetFirstPage = ({
         >
           Click me
         </button> */}
-              {cars.map((car, index) => {
-                // var str = cars?.cars[index]?.imageUrls[0]?.path
-                // var n = str?.lastIndexOf("/")
-                // var result = str?.substring(n + 1)
-                // console.log(result)
-                return (
-                  // <div>{index}</div>
-                  // <div className={style.carContainer}>
-                  //   <div className={style.typeAndImageContainer}>
-                  //     <p className={style.typeOfVehicle}>{car.typeOfVehicle}</p>
-                  //     <div className={style.carImage}>
-                  //       <Image
-                  //         loader={imageLoader}
-                  //         src={car.image}
-                  //         alt={car.typeOfVehicle}
-                  //         layout="fill"
-                  //       ></Image>
-                  //     </div>
-                  //   </div>
-                  //   <div className={style.detailsContainer}>
-                  //     <p className={style.carPrice}>{car.price} USD</p>
-                  //     <p className={style.carCapacity}>CAPACITY-{car.capacity}</p>
-                  //     <p className={style.carLuggage}>LUGGAGE-{car.luggage}</p>
-                  //   </div>
-                  // </div>
-                  <CarInformationComponent
-                    key={car.type}
-                    imageUrl={car.img}
-                    altTypeOfVehicle={car.type}
-                    carPrice={
-                      carsFromStore?.cars
-                        ? carsFromStore?.cars[index]?.price
-                        : 0
-                    }
-                    carCapacity={car.capacity}
-                    carLuggage={car?.luggage}
-                    carId={car?.id}
-                    selectedCar={selectedCar}
-                    setSelectedCar={setSelectedCar}
-                  />
-                )
-              })}
+                  {cars.map((car, index) => {
+                    // var str = cars?.cars[index]?.imageUrls[0]?.path
+                    // var n = str?.lastIndexOf("/")
+                    // var result = str?.substring(n + 1)
+                    // console.log(result)
+                    return (
+                      // <div>{index}</div>
+                      // <div className={style.carContainer}>
+                      //   <div className={style.typeAndImageContainer}>
+                      //     <p className={style.typeOfVehicle}>{car.typeOfVehicle}</p>
+                      //     <div className={style.carImage}>
+                      //       <Image
+                      //         loader={imageLoader}
+                      //         src={car.image}
+                      //         alt={car.typeOfVehicle}
+                      //         layout="fill"
+                      //       ></Image>
+                      //     </div>
+                      //   </div>
+                      //   <div className={style.detailsContainer}>
+                      //     <p className={style.carPrice}>{car.price} USD</p>
+                      //     <p className={style.carCapacity}>CAPACITY-{car.capacity}</p>
+                      //     <p className={style.carLuggage}>LUGGAGE-{car.luggage}</p>
+                      //   </div>
+                      // </div>
+                      <CarInformationComponent
+                        key={car.type}
+                        imageUrl={car.img}
+                        altTypeOfVehicle={car.type}
+                        carPrice={
+                          carsFromStore?.cars
+                            ? carsFromStore?.cars[index]?.price
+                            : 0
+                        }
+                        carCapacity={car.capacity}
+                        carLuggage={car?.luggage}
+                        carId={
+                          carsFromStore?.cars && carsFromStore?.cars[index]?.id
+                        }
+                        selectedCar={selectedCar}
+                        setSelectedCar={setSelectedCar}
+                      />
+                    )
+                  })}
+                </div>
+                {/* <button onClick={() => console.log(cars)}>asdfasdfasdfasd</button> */}
+              </div>
             </div>
-            {/* <button onClick={() => console.log(cars)}>asdfasdfasdfasd</button> */}
-          </div>
-        </div>
+          )}
+        </>
         // </div>
       )}
     </div>

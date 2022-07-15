@@ -62,11 +62,51 @@ const WidgetFifthPage = (props) => {
   }
 
   const selectedCarArr = cars?.filter((car) => car.id == formData.carInfo.id)
-  const selectedCar = selectedCarArr[0]
-  var str = selectedCar?.imageUrls[0]?.path
-  var n = str?.lastIndexOf("/")
-  var result = str?.substring(n + 1)
-  console.log(result)
+  const selectedCar = { ...selectedCarArr }
+  // var str = selectedCar?.imageUrls[0]?.path
+  // var n = str?.lastIndexOf("/")
+  // var result = str?.substring(n + 1)
+  // console.log(result)
+
+  const carsLocal = [
+    {
+      img: "sedan-min.png",
+      type: "sedan",
+      price: "0",
+      capacity: "6",
+      luggage: "2",
+      id: "1",
+    },
+    {
+      img: "suv-min.png",
+      type: "suv",
+      price: "0",
+      capacity: "6",
+      luggage: "2",
+      id: "2",
+    },
+    {
+      img: "mini-bus-min.png",
+      type: "mini-bus",
+      price: "",
+      capacity: "6",
+      luggage: "2",
+      id: "3",
+    },
+    {
+      img: "limousine-min.png",
+      type: "limousine",
+      price: "",
+      capacity: "6",
+      luggage: "2",
+      id: "4",
+    },
+  ]
+
+  const selectedCarArrLocal = carsLocal?.filter(
+    (car) => car.id == formData.carInfo.id
+  )
+  const selectedCarLocal = selectedCarArrLocal[0]
 
   const round = (n, dp) => {
     const h = +"1".padEnd(dp + 1, "0") // 10 or 100 or 1000 or etc
@@ -97,12 +137,12 @@ const WidgetFifthPage = (props) => {
         <div className={style.carWrapper}>
           {/* <CarInformationComponent /> */}
           <CarInformationComponent
-            imageUrl={result ? result : ""}
-            altTypeOfVehicle={selectedCar?.type}
+            imageUrl={selectedCarLocal?.img}
+            altTypeOfVehicle={selectedCarLocal?.type}
             carPrice={selectedCar?.price}
-            carCapacity={selectedCar?.capacity}
-            carLuggage={selectedCar?.luggage}
-            carId={selectedCar?.id}
+            carCapacity={selectedCarLocal?.capacity}
+            carLuggage={selectedCarLocal?.luggage}
+            carId={selectedCarLocal?.id}
             disableClickOnCardClick={true}
             // selectedCar={selectedCar}
             // setSelectedCar={setSelectedCar}
@@ -255,92 +295,96 @@ const WidgetFifthPage = (props) => {
           </div>
         </div>
 
-        <div className={style.youthBoosterSeatContainer}>
-          <span
-            className={style.personsTitle}
-            style={{
-              color: "black",
-            }}
-          >
-            Youth Booster Seat
-          </span>
-          <div className={style.reservationDetailsItemPointedLineContainer}>
-            <div
-              className={style.reservationDetailsItemPointedLineSelf}
-              // style={{
-              //   borderBottom: `2px dotted ${dotsLineColor}`,
-              // }}
-            />
-          </div>
-          <div className={style.youthBoosterSeatValueContainer}>
+        {formData.showCarsWithSafetySeat && formData.boosterSeatCount > 0 && (
+          <div className={style.youthBoosterSeatContainer}>
             <span
-              className={style.youthBoosterSeatValue}
+              className={style.personsTitle}
               style={{
                 color: "black",
               }}
             >
-              ${selectedCar?.boosterSeatPrice}
+              Youth Booster Seat
             </span>
+            <div className={style.reservationDetailsItemPointedLineContainer}>
+              <div
+                className={style.reservationDetailsItemPointedLineSelf}
+                // style={{
+                //   borderBottom: `2px dotted ${dotsLineColor}`,
+                // }}
+              />
+            </div>
+            <div className={style.youthBoosterSeatValueContainer}>
+              <span
+                className={style.youthBoosterSeatValue}
+                style={{
+                  color: "black",
+                }}
+              >
+                ${selectedCar?.boosterSeatPrice}
+              </span>
+            </div>
           </div>
-        </div>
-
-        <div className={style.infantAndChildSafetySeatContainer}>
-          <span
-            className={style.infantAndChildSafetySeatTitle}
-            style={{
-              color: "black",
-            }}
-          >
-            Infant & Child Safety Seat
-          </span>
-          <div className={style.reservationDetailsItemPointedLineContainer}>
-            <div
-              className={style.reservationDetailsItemPointedLineSelf}
-              // style={{
-              //   borderBottom: `2px dotted ${dotsLineColor}`,
-              // }}
-            />
-          </div>
-          <div className={style.infantAndChildSafetySeatValueContainer}>
+        )}
+        {formData.showCarsWithSafetySeat && formData.safetySeatCount > 0 && (
+          <div className={style.infantAndChildSafetySeatContainer}>
             <span
-              className={style.infantAndChildSafetySeatValue}
+              className={style.infantAndChildSafetySeatTitle}
               style={{
                 color: "black",
               }}
             >
-              ${selectedCar?.safetySeatPrice}
+              Infant & Child Safety Seat
             </span>
+            <div className={style.reservationDetailsItemPointedLineContainer}>
+              <div
+                className={style.reservationDetailsItemPointedLineSelf}
+                // style={{
+                //   borderBottom: `2px dotted ${dotsLineColor}`,
+                // }}
+              />
+            </div>
+            <div className={style.infantAndChildSafetySeatValueContainer}>
+              <span
+                className={style.infantAndChildSafetySeatValue}
+                style={{
+                  color: "black",
+                }}
+              >
+                ${selectedCar?.safetySeatPrice}
+              </span>
+            </div>
           </div>
-        </div>
-
-        <div className={style.meetAndGreetLuggageAssistContainer}>
-          <span
-            className={style.meetAndGreetLuggageAssistTitle}
-            style={{
-              color: "black",
-            }}
-          >
-            Meet & Great/Luggage Assist
-          </span>
-          <div className={style.reservationDetailsItemPointedLineContainer}>
-            <div
-              className={style.reservationDetailsItemPointedLineSelf}
-              // style={{
-              //   borderBottom: `2px dotted ${dotsLineColor}`,
-              // }}
-            />
-          </div>
-          <div className={style.meetAndGreetLuggageAssistValueContainer}>
+        )}
+        {formData.isGateMeeting && (
+          <div className={style.meetAndGreetLuggageAssistContainer}>
             <span
-              className={style.meetAndGreetLuggageAssistValue}
+              className={style.meetAndGreetLuggageAssistTitle}
               style={{
                 color: "black",
               }}
             >
-              ${selectedCar?.greetAndMeetPrice}
+              Meet & Great/Luggage Assist
             </span>
+            <div className={style.reservationDetailsItemPointedLineContainer}>
+              <div
+                className={style.reservationDetailsItemPointedLineSelf}
+                // style={{
+                //   borderBottom: `2px dotted ${dotsLineColor}`,
+                // }}
+              />
+            </div>
+            <div className={style.meetAndGreetLuggageAssistValueContainer}>
+              <span
+                className={style.meetAndGreetLuggageAssistValue}
+                style={{
+                  color: "black",
+                }}
+              >
+                ${selectedCar?.greetAndMeetPrice}
+              </span>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* <div className={style.preferenceContainer}>
           <span
@@ -370,84 +414,103 @@ const WidgetFifthPage = (props) => {
             </span>
           </div>
         </div> */}
-
-        <div className={style.tipsContainer}>
-          <span
-            className={style.tipsTitle}
-            style={{
-              color: "black",
-            }}
-          >
-            Tips
-          </span>
-          <div className={style.reservationDetailsItemPointedLineContainer}>
-            <div
-              className={style.reservationDetailsItemPointedLineSelf}
-              // style={{
-              //   borderBottom: `2px dotted ${dotsLineColor}`,
-              // }}
-            />
-          </div>
-          <div className={style.tipsValueContainer}>
-            {/* <span
-              className={style.tipsValue}
+        {/* <div className={style.tipsContainer}>
+            <span
+              className={style.tipsTitle}
               style={{
                 color: "black",
               }}
             >
-              
-            </span> */}
-            <div
-              className={style.tipsValueInput}
-              onClick={() => {
-                setShowTipsDropdown(!showTipsDropdown)
-              }}
-            >
-              <span className={style.tipsValue}>{tipsDropdownValue}</span>
-              <DropDownArrowIcon />
+              Tips
+            </span>
+            <div className={style.reservationDetailsItemPointedLineContainer}>
+              <div
+                className={style.reservationDetailsItemPointedLineSelf}
+                // style={{
+                //   borderBottom: `2px dotted ${dotsLineColor}`,
+                // }}
+              />
             </div>
-            {showTipsDropdown && (
-              <div className={style.dropDownContainer}>
-                <span
-                  onClick={(event) => {
-                    setTipsDropdownValue(event.target.innerText)
-                    dispatch(setTips(event.target.innerText))
-                    console.log(event.target.innerText)
-                  }}
-                >
-                  5%
-                </span>
-                <span
-                  onClick={(event) => {
-                    setTipsDropdownValue(event.target.innerText)
-                    dispatch(setTips(event.target.innerText))
-                    console.log(event.target.innerText)
-                  }}
-                >
-                  10%
-                </span>
-                <span
-                  onClick={(event) => {
-                    setTipsDropdownValue(event.target.innerText)
-                    dispatch(setTips(event.target.innerText))
-                    console.log(event.target.innerText)
-                  }}
-                >
-                  15%
-                </span>
-                <span
-                  onClick={(event) => {
-                    setTipsDropdownValue(event.target.innerText)
-                    dispatch(setTips(event.target.innerText))
-                    console.log(event.target.innerText)
-                  }}
-                >
-                  Custom
-                </span>
-              </div>
-            )}
-          </div>
-        </div>
+            <div className={style.tipsValueContainer}>
+              
+              {customTipsInput ? (
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <input
+                    className={style.tipsValueInput}
+                    type="number"
+                    onChange={(event) => {
+                      // if (event.target.value == Number){
+                      dispatch(setTips(event.target.value))
+                      // }
+                    }}
+                  />
+                  <span>%</span>
+                </div>
+              ) : (
+                <>
+                  <div
+                    className={style.tipsValueInput}
+                    onClick={() => {
+                      setShowTipsDropdown(!showTipsDropdown)
+                    }}
+                  >
+                    <span className={style.tipsValue}>{tipsDropdownValue}</span>
+                    <DropDownArrowIcon />
+                  </div>
+                  {showTipsDropdown && (
+                    <div className={style.dropDownContainer}>
+                      <span
+                        onClick={(event) => {
+                          setTipsDropdownValue(event.target.innerText)
+                          dispatch(setTips(event.target.innerText))
+                          console.log(event.target.innerText)
+                        }}
+                      >
+                        0%
+                      </span>
+                      <span
+                        onClick={(event) => {
+                          setTipsDropdownValue(event.target.innerText)
+                          dispatch(setTips(event.target.innerText))
+                          console.log(event.target.innerText)
+                        }}
+                      >
+                        5%
+                      </span>
+                      <span
+                        onClick={(event) => {
+                          setTipsDropdownValue(event.target.innerText)
+                          dispatch(setTips(event.target.innerText))
+                          console.log(event.target.innerText)
+                        }}
+                      >
+                        10%
+                      </span>
+                      <span
+                        onClick={(event) => {
+                          setTipsDropdownValue(event.target.innerText)
+                          dispatch(setTips(event.target.innerText))
+                          console.log(event.target.innerText)
+                        }}
+                      >
+                        15%
+                      </span>
+                      <span
+                        onClick={(event) => {
+                          // setTipsDropdownValue(event.target.innerText)
+                          // dispatch(setTips(event.target.innerText))
+                          // console.log(event.target.innerText)
+                          setCustomTipsInput(true)
+                        }}
+                      >
+                        Custom
+                      </span>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div> */}
 
         <div className={style.transactionFeeContainer}>
           <span
