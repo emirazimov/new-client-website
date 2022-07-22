@@ -77,7 +77,7 @@ export const HTMLWrapper = ({ children, keywords }) => {
         ></meta>
         <meta
           property="og:image"
-          content="https://landing-page-nextjs.s3.us-east-2.amazonaws.com/CompanyImageForSocialNetworkPreview.jpg"
+          content="https://new-client-website.s3.us-east-2.amazonaws.com/preview-image.jpg"
         ></meta>
 
         {/*TWITTER*/}
@@ -90,10 +90,10 @@ export const HTMLWrapper = ({ children, keywords }) => {
           property="twitter:description"
           content="Bookinglane provides solutions that connect your business with clients and affiliates, and support your business in the long run - all in your smartphone."
         ></meta>
-        {/* <meta
+        <meta
           property="twitter:image"
-          content="https://landing-page-nextjs.s3.us-east-2.amazonaws.com/CompanyImageForSocialNetworkPreview.jpg"
-        ></meta> */}
+          content="https://new-client-website.s3.us-east-2.amazonaws.com/preview-image.jpg"
+        ></meta>
         <meta property="twitter:card" content="summary_large_image"></meta>
 
         {/* <script>

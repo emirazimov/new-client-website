@@ -4,6 +4,7 @@ import Image from "next/image"
 import { Drawer, useMediaQuery } from "@mui/material"
 import { useState } from "react"
 import { BurgerMenu } from "../../public/Assets"
+import Link from "react-scroll/modules/components/Link"
 
 function imageLoader({ src, width, height }) {
   // const relativeSrc = (src) => src.split("/").pop()
@@ -32,7 +33,7 @@ export const Header = () => {
   }
 
   return (
-    <div className={style.wrapper}>
+    <header className={style.wrapper}>
       {!isMobile ? (
         <div className={style.wrapperWithSideMargin}>
           <div className={style.logo}>
@@ -60,30 +61,45 @@ export const Header = () => {
             </li>
 
             <li>
-              <a
-                // href="https://b2b.bookinglane.com/"
+              <Link
+                activeClass="active"
+                className="Solutions"
+                to="Solutions"
+                spy={true}
+                smooth={true}
+                duration={500}
                 style={{ textDecoration: "none" }}
               >
                 Solutions
-              </a>
+              </Link>
             </li>
 
             <li>
-              <a
-                // href="https://b2b.bookinglane.com/"
+              <Link
+                activeClass="active"
+                className="AboutUs"
+                to="AboutUs"
+                spy={true}
+                smooth={true}
+                duration={500}
                 style={{ textDecoration: "none" }}
               >
                 About Us
-              </a>
+              </Link>
             </li>
 
             <li>
-              <a
-                // href="https://b2b.bookinglane.com/"
+              <Link
+                activeClass="active"
+                className="ContactUs"
+                to="ContactUs"
+                spy={true}
+                smooth={true}
+                duration={500}
                 style={{ textDecoration: "none" }}
               >
                 Contact Us
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -121,9 +137,45 @@ export const Header = () => {
                     For B2B
                   </a>
                 </li>
-                <li>Solutions</li>
-                <li>About Us</li>
-                <li>Contact Us</li>
+                <li>
+                  <Link
+                    activeClass="active"
+                    className="Solutions"
+                    to="Solutions"
+                    spy={true}
+                    smooth={true}
+                    duration={500}
+                    style={{ textDecoration: "none" }}
+                  >
+                    Solutions
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    activeClass="active"
+                    className="AboutUs"
+                    to="AboutUs"
+                    spy={true}
+                    smooth={true}
+                    duration={500}
+                    style={{ textDecoration: "none" }}
+                  >
+                    About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    activeClass="active"
+                    className="ContactUs"
+                    to="ContactUs"
+                    spy={true}
+                    smooth={true}
+                    duration={500}
+                    style={{ textDecoration: "none" }}
+                  >
+                    Contact Us
+                  </Link>
+                </li>
               </ul>
             </nav>
           </Drawer>
@@ -131,6 +183,6 @@ export const Header = () => {
       )}
 
       {/* </div> */}
-    </div>
+    </header>
   )
 }

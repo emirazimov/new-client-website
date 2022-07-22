@@ -40,6 +40,7 @@
   list-style-type: none;
   color: white;
   & > li {
+    cursor: pointer;
     margin-right: 32px;
     &:last-child {
       margin-right: 0;

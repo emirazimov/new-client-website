@@ -8,7 +8,7 @@ import {
 } from "../../reduxToolkit/services/fleetApi"
 import { useSelector } from "react-redux"
 
-export const WidgetFourthPage = ({ result }) => {
+export const WidgetFourthPage = () => {
   function imageLoader({ src, width, height }) {
     // const relativeSrc = (src) => src.split("/").pop()
 
@@ -134,7 +134,9 @@ export const WidgetFourthPage = ({ result }) => {
               carPrice={
                 carsFromStore?.cars ? carsFromStore?.cars[index]?.price : 0
               }
-              carCapacity={car.capacity}
+              carCapacity={
+                carsFromStore?.cars && carsFromStore?.cars[index]?.capacity
+              }
               carLuggage={car?.luggage}
               carId={carsFromStore?.cars && carsFromStore?.cars[index]?.id}
               selectedCar={selectedCar}

@@ -62,7 +62,7 @@ const WidgetFifthPage = (props) => {
   }
 
   const selectedCarArr = cars?.filter((car) => car.id == formData.carInfo.id)
-  const selectedCar = { ...selectedCarArr }
+  const selectedCar = selectedCarArr[0]
   // var str = selectedCar?.imageUrls[0]?.path
   // var n = str?.lastIndexOf("/")
   // var result = str?.substring(n + 1)
@@ -75,7 +75,7 @@ const WidgetFifthPage = (props) => {
       price: "0",
       capacity: "6",
       luggage: "2",
-      id: "1",
+      id: "243",
     },
     {
       img: "suv-min.png",
@@ -83,7 +83,7 @@ const WidgetFifthPage = (props) => {
       price: "0",
       capacity: "6",
       luggage: "2",
-      id: "2",
+      id: "108",
     },
     {
       img: "mini-bus-min.png",
@@ -91,7 +91,7 @@ const WidgetFifthPage = (props) => {
       price: "",
       capacity: "6",
       luggage: "2",
-      id: "3",
+      id: "286",
     },
     {
       img: "limousine-min.png",
@@ -99,7 +99,7 @@ const WidgetFifthPage = (props) => {
       price: "",
       capacity: "6",
       luggage: "2",
-      id: "4",
+      id: "309",
     },
   ]
 
@@ -137,10 +137,10 @@ const WidgetFifthPage = (props) => {
         <div className={style.carWrapper}>
           {/* <CarInformationComponent /> */}
           <CarInformationComponent
-            imageUrl={selectedCarLocal?.img}
+            imageUrl={selectedCarLocal.img}
             altTypeOfVehicle={selectedCarLocal?.type}
             carPrice={selectedCar?.price}
-            carCapacity={selectedCarLocal?.capacity}
+            carCapacity={selectedCar?.capacity}
             carLuggage={selectedCarLocal?.luggage}
             carId={selectedCarLocal?.id}
             disableClickOnCardClick={true}

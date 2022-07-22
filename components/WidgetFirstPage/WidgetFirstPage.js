@@ -191,13 +191,13 @@ export const WidgetFirstPage = ({
       fromLocation?.rideCheckPoint?.match(/(^|\W)Airport($|\W)/)
 
     if (firstAirline) {
-      setIsAirline(true)
+      // setIsAirline(true)
       // setBookingType(3)
       dispatch(setBookingType(3))
       // fetchAirlines()
       // setDisableHourly(true)
     } else {
-      setIsAirline(false)
+      // setIsAirline(false)
       //   setDisableHourly(false)
     }
   }
@@ -381,25 +381,15 @@ export const WidgetFirstPage = ({
     fetchAirlines()
   }, [])
 
-  useEffect(() => {
-    // if (firstAirline) {
-    //   setIsAirline(true)
-    //   // setBookingType(3)
-    //   dispatch(setBookingType(3))
-    //   // fetchAirlines()
-    //   // setDisableHourly(true)
-    // } else {
-    //   setIsAirline(false)
-    //   //   setDisableHourly(false)
-    // }
-  }, [firstAirline])
+  const [bookingTypeLocal, setBookingTypeLocal] = useState(1) //CREATING LOCAL STATE BECAUSE CAN'T TAKE IMMEDIATLEY NEW VALUE FROM GLOBAL STORE
+
   useEffect(() => {
     if (hourly) {
-      if (firstAirline) {
-        dispatch(setBookingType(3))
-      } else {
-        dispatch(setBookingType(2))
-      }
+      // if (firstAirline) {
+      // dispatch(setBookingType(3))
+      // } else {
+      dispatch(setBookingType(2))
+      // }
 
       // setDisableHourly(true)
     } else {
@@ -409,7 +399,8 @@ export const WidgetFirstPage = ({
         dispatch(setBookingType(1))
       }
     }
-  })
+    console.log(formData.bookingType)
+  }, [firstAirline, hourly, formData.hourly])
 
   const [meetAndGreetLuggageAssistSwitch, setMeetAndGreetLuggageAssistSwitch] =
     useState(false)
@@ -430,39 +421,18 @@ export const WidgetFirstPage = ({
   }
 
   // const [bookingType, setBookingType] = useState(1)
-  useEffect(() => {
-    fetchAirlines()
-  }, [])
 
-  useEffect(() => {
-    if (firstAirline) {
-      setIsAirline(true)
-      setBookingType(3)
-      // fetchAirlines()
-      // setDisableHourly(true)
-    } else {
-      setIsAirline(false)
-      //   setDisableHourly(false)
-    }
-  }, [firstAirline])
-  useEffect(() => {
-    // if (hourly) {
-    //   if (firstAirline) {
-    //     setBookingType(3)
-    //   } else {
-    //     setBookingType(2)
-    //   }
-    //   // setDisableHourly(true)
-    // } else {
-    //   if (firstAirline) {
-    //     setBookingType(3)
-    //   } else {
-    //     setBookingType(1)
-    //   }
-    // }
-  })
-
-  console.log(formData.orderAddressDetails)
+  // useEffect(() => {
+  //   if (firstAirline) {
+  //     setIsAirline(true)
+  //     setBookingType(3)
+  //     // fetchAirlines()
+  //     // setDisableHourly(true)
+  //   } else {
+  //     setIsAirline(false)
+  //     //   setDisableHourly(false)
+  //   }
+  // }, [firstAirline])
 
   const cars = [
     {
@@ -538,7 +508,7 @@ export const WidgetFirstPage = ({
 
     // console.log(result)
     formData.orderAddressDetails[1].placeId &&
-      !carsFromStore.cars &&
+      // !carsFromStore.cars &&
       getFleet({
         captcha: formData.captcha,
         hours: formData.hours,
@@ -563,6 +533,122 @@ export const WidgetFirstPage = ({
     // console.log(result)
   }, [result])
 
+  useEffect(() => {
+    formData.bookingType == 2 &&
+      formData.hourly &&
+      formData.hours > 0 &&
+      getFleet({
+        captcha: formData.captcha,
+        hours: formData.hours,
+        isGateMeeting: formData.isGateMeeting,
+        airlines: formData.airlines,
+        orderAddressDetails: formData.orderAddressDetails,
+        page: formData.page,
+        typeId: 1,
+        bookingType: formData.bookingType,
+        passengersQuantity: formData.passengersQuantity,
+        isAirportPickupIncluded: formData.isAirportPickupIncluded,
+        boosterSeatCount: formData.boosterSeatCount,
+        safetySeatCount: formData.safetySeatCount,
+        luggageCount: formData.luggageCount,
+      })
+
+    !formData.hourly &&
+      getFleet({
+        captcha: formData.captcha,
+        hours: formData.hours - formData.hours,
+        isGateMeeting: formData.isGateMeeting,
+        airlines: formData.airlines,
+        orderAddressDetails: formData.orderAddressDetails,
+        page: formData.page,
+        typeId: 1,
+        bookingType: formData.bookingType,
+        passengersQuantity: formData.passengersQuantity,
+        isAirportPickupIncluded: formData.isAirportPickupIncluded,
+        boosterSeatCount: formData.boosterSeatCount,
+        safetySeatCount: formData.safetySeatCount,
+        luggageCount: formData.luggageCount,
+      })
+  }, [formData.bookingType, formData.hourly, formData.hours])
+  useEffect(() => {
+    dispatch(setCars(result.data))
+  }, [result, formData.hourly, formData.hours])
+
+  useEffect(() => {
+    formData.showCarsWithSafetySeat &&
+      getFleet({
+        captcha: formData.captcha,
+        hours: formData.hours,
+        isGateMeeting: formData.isGateMeeting,
+        airlines: formData.airlines,
+        orderAddressDetails: formData.orderAddressDetails,
+        page: formData.page,
+        typeId: 1,
+        bookingType: formData.bookingType,
+        passengersQuantity: formData.passengersQuantity,
+        isAirportPickupIncluded: formData.isAirportPickupIncluded,
+        boosterSeatCount: formData.boosterSeatCount,
+        safetySeatCount: formData.safetySeatCount,
+        luggageCount: formData.luggageCount,
+      })
+
+    !formData.showCarsWithSafetySeat &&
+      getFleet({
+        captcha: formData.captcha,
+        hours: formData.hours,
+        isGateMeeting: formData.isGateMeeting,
+        airlines: formData.airlines,
+        orderAddressDetails: formData.orderAddressDetails,
+        page: formData.page,
+        typeId: 1,
+        bookingType: formData.bookingType,
+        passengersQuantity: formData.passengersQuantity,
+        isAirportPickupIncluded: formData.isAirportPickupIncluded,
+        boosterSeatCount: formData.boosterSeatCount - formData.boosterSeatCount,
+        safetySeatCount: formData.safetySeatCount - formData.safetySeatCount,
+        luggageCount: formData.luggageCount,
+      })
+  }, [
+    formData.safetySeatCount,
+    formData.boosterSeatCount,
+    formData.showCarsWithSafetySeat,
+  ])
+
+  useEffect(() => {
+    formData.isGateMeeting &&
+      getFleet({
+        captcha: formData.captcha,
+        hours: formData.hours,
+        isGateMeeting: formData.isGateMeeting,
+        airlines: formData.airlines,
+        orderAddressDetails: formData.orderAddressDetails,
+        page: formData.page,
+        typeId: 1,
+        bookingType: formData.bookingType,
+        passengersQuantity: formData.passengersQuantity,
+        isAirportPickupIncluded: formData.isAirportPickupIncluded,
+        boosterSeatCount: formData.boosterSeatCount - formData.boosterSeatCount,
+        safetySeatCount: formData.safetySeatCount - formData.safetySeatCount,
+        luggageCount: formData.luggageCount,
+      })
+    !formData.isGateMeeting &&
+      getFleet({
+        captcha: formData.captcha,
+        hours: formData.hours,
+        isGateMeeting: formData.isGateMeeting,
+        airlines: formData.airlines,
+        orderAddressDetails: formData.orderAddressDetails,
+        page: formData.page,
+        typeId: 1,
+        bookingType: formData.bookingType,
+        passengersQuantity: formData.passengersQuantity,
+        isAirportPickupIncluded: formData.isAirportPickupIncluded,
+        boosterSeatCount: formData.boosterSeatCount - formData.boosterSeatCount,
+        safetySeatCount: formData.safetySeatCount - formData.safetySeatCount,
+        luggageCount: formData.luggageCount,
+      })
+  }, [formData.isGateMeeting])
+
   const isMobile = useMediaQuery("(max-width: 900px)")
 
   return (
@@ -572,13 +658,11 @@ export const WidgetFirstPage = ({
         style={{
           border:
             !isMobile &&
-            formData.captcha &&
             formData.orderAddressDetails[0].rideCheckPoint &&
             "2px solid #2096eb",
-          background:
-            formData.captcha && formData.orderAddressDetails[0].rideCheckPoint
-              ? "white"
-              : "transparent",
+          background: formData.orderAddressDetails[0].rideCheckPoint
+            ? "white"
+            : "transparent",
         }}
       >
         <div
@@ -614,7 +698,6 @@ export const WidgetFirstPage = ({
                     style={{
                       width:
                         !isMobile &&
-                        !formData.captcha &&
                         !formData.orderAddressDetails[0].rideCheckPoint &&
                         "700px",
                       position: "relative",
@@ -639,7 +722,6 @@ export const WidgetFirstPage = ({
 
                         border:
                           !isMobile &&
-                          !formData.captcha &&
                           !formData.orderAddressDetails[0].rideCheckPoint &&
                           "2px solid #2096eb",
                         // background:
@@ -680,15 +762,15 @@ export const WidgetFirstPage = ({
               )
             }}
           </PlacesAutocomplete>
-          {showRecaptcha && !formData.captcha && (
-            <div style={{ marginBottom: "21px" }}>
+          {/* {showRecaptcha && !formData.captcha && (
+            <div style={{ marginBottom: '21px' }}>
               <ReCAPTCHA
-                sitekey="6LeuP3weAAAAAHoe3aaP27xmYorD1s1vXK7XdlPk"
+                sitekey='6LeuP3weAAAAAHoe3aaP27xmYorD1s1vXK7XdlPk'
                 onChange={onChangeRecaptcha}
               />
             </div>
-          )}
-          {formData.captcha && formData.orderAddressDetails[0].rideCheckPoint && (
+          )} */}
+          {formData.orderAddressDetails[0].rideCheckPoint && (
             <>
               {toLocations.map((toDestination, index) => {
                 return (
@@ -991,7 +1073,7 @@ export const WidgetFirstPage = ({
                   </div>
                 </div>
               </div>
-              <div
+              {/* <div
                 className={
                   !isMobile
                     ? style.inputsBackgroundWithOpacityRoundTrip
@@ -1016,7 +1098,7 @@ export const WidgetFirstPage = ({
                     <label htmlFor={`roundTrip`}></label>
                   </div>
                 </div>
-              </div>
+              </div> */}
               {/* <div className={style.referalCode}> */}
               {/* </div> */}
               {roundTripSwitch && (
@@ -1304,7 +1386,7 @@ export const WidgetFirstPage = ({
                 </>
               )}
 
-              {formData.bookingType === 3 && (
+              {firstAirline && (
                 <>
                   <Autocomplete
                     disablePortal
@@ -1401,7 +1483,7 @@ export const WidgetFirstPage = ({
                   </div>
                 </div>
               </div>
-              {formData.bookingType == 3 && (
+              {firstAirline && (
                 <>
                   <div
                     className={
@@ -1418,7 +1500,9 @@ export const WidgetFirstPage = ({
                     )}
                     <div className={style.MeetAndGreetLuggageAssistSwitchInput}>
                       <p className={style.meetAndGreetLuggageAssistPlaceholder}>
-                        Meet & Greet/Luggage Assist
+                        {!isMobile
+                          ? "Meet & Greet/Luggage Assist"
+                          : "Meet & Greet"}
                       </p>
                       <div className={style.switchWrapper}>
                         <input
@@ -1646,8 +1730,9 @@ export const WidgetFirstPage = ({
                       className={style.switchSelf}
                       id={`switchHourly`}
                       defaultChecked={formData.hourly}
+                      value={formData.hourly}
                       onClick={() => {
-                        // setHourlySwitch(!hourlySwitch)
+                        setHourly(!hourly)
                         dispatch(setHourlySwitch(!formData.hourly))
                       }}
                     />
@@ -1700,22 +1785,22 @@ export const WidgetFirstPage = ({
                   </div>
                 </div>
               )}
-              <div
+              {/* <div
                 className={
                   !isMobile
                     ? style.inputsBackgroundWithOpacityReferalCode
                     : style.inputsBackgroundWithOpacityReferalCodeMobile
                 }
                 style={{
-                  position: "relative",
+                  position: 'relative',
                   // marginBottom: roundTripSwitch ? "" : "21px",
                 }}
               >
                 {!isMobile ? <ReferalCodeIcon /> : <ReferalCodeIconMobile />}
-                {/* <EndLocationIcon /> */}
+              
                 <input
                   // {...getInputProps()}
-                  placeholder="Referal Code"
+                  placeholder='Referal Code'
                   className={style.referalCodeInput}
                   // style={{
                   //   border: redBorderErrorForToAddress
@@ -1723,12 +1808,12 @@ export const WidgetFirstPage = ({
                   //     : "1px solid transparent",
                   // }}
                 />
-              </div>
+              </div> */}
             </>
           )}
         </div>
       </div>
-      {formData.captcha && formData.orderAddressDetails[0].rideCheckPoint && (
+      {formData.orderAddressDetails[0].rideCheckPoint && (
         // <div className={style.fleetBlockWithPaddingsToMakeScrollbarMoreVisible}>
         <>
           {!isMobile && (
@@ -1736,15 +1821,15 @@ export const WidgetFirstPage = ({
               className={style.fleetBlock}
               style={{
                 borderTop:
-                  formData.captcha &&
+                  // formData.captcha &&
                   formData.orderAddressDetails[0].rideCheckPoint &&
                   "2px solid #2096eb",
                 borderRight:
-                  formData.captcha &&
+                  // formData.captcha &&
                   formData.orderAddressDetails[0].rideCheckPoint &&
                   "2px solid #2096eb",
                 borderBottom:
-                  formData.captcha &&
+                  // formData.captcha &&
                   formData.orderAddressDetails[0].rideCheckPoint &&
                   "2px solid #2096eb",
               }}
@@ -1805,7 +1890,10 @@ export const WidgetFirstPage = ({
                             ? carsFromStore?.cars[index]?.price
                             : 0
                         }
-                        carCapacity={car.capacity}
+                        carCapacity={
+                          carsFromStore?.cars &&
+                          carsFromStore?.cars[index]?.capacity
+                        }
                         carLuggage={car?.luggage}
                         carId={
                           carsFromStore?.cars && carsFromStore?.cars[index]?.id

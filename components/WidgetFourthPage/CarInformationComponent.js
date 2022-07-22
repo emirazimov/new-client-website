@@ -39,7 +39,7 @@ export const CarInformationComponent = ({
       }}
       style={{
         pointerEvents: disableClickOnCardClick ? "none" : "auto",
-        background: disableClickOnCardClick && "fafafa",
+        background: disableClickOnCardClick && "#fafafa",
       }}
     >
       <div className={style.orSimilar}>or similar</div>
@@ -63,7 +63,7 @@ export const CarInformationComponent = ({
         </p>
         {/* { doesClientHaveReferalCode && <p className={style.carPriceWithDiscount}>1 USD</p>} */}
         <p className={style.carCapacity}>CAPACITY-{carCapacity}</p>
-        <p className={style.carLuggage}>LUGGAGE-2</p>
+        {/* <p className={style.carLuggage}>LUGGAGE-2</p> */}
       </div>
     </div>
   )

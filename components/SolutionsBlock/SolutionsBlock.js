@@ -7,6 +7,7 @@ export const SolutionsBlock = () => {
       <div className={style.b2cAndB2bContainer}>
         <div className={style.b2cBlockContainer}>
           <strong className={style.b2cTitle}>B2C</strong>
+          <br />
           <strong className={style.b2cStrongText}>
             Looking for executive car service?
           </strong>
@@ -19,6 +20,7 @@ export const SolutionsBlock = () => {
         </div>
         <div className={style.b2bBlockContainer}>
           <strong className={style.b2bTitle}>B2B</strong>
+          <br />
           <strong className={style.b2bStrongText}>
             Are you an executive car service provider?
           </strong>

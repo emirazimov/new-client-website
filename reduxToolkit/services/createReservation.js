@@ -22,7 +22,7 @@ export const createReservationApi = createApi({
       query: ({ accessKeyFromWindow, ...body }) => {
         // const { captcha, ...body } = dataForm
         return {
-          url: `reservation/web/14862f6b-0e7a-47d0-810a-06a348fd9ec1`,
+          url: `reservation/web/6129164e-d0b0-48ee-85c3-26733cf42806`,
           method: `POST`,
           //   headers: {
           //     captcha: `${captcha}`,

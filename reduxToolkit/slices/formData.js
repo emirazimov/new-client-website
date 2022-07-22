@@ -250,6 +250,9 @@ export const formDataSlice = createSlice({
     setIsGateMeeting: (state, action) => {
       state.isGateMeeting = action.payload
     },
+    // setOrderType: (state, action) => {
+    //   state.orderType = action.payload
+    // },
   },
 })
 
@@ -295,6 +298,7 @@ export const {
   setNotes,
   setTips,
   setIsGateMeeting,
+  // setOrderType,
 } = formDataSlice.actions
 
 export default formDataSlice.reducer

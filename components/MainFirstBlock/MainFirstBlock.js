@@ -146,6 +146,9 @@ const MainFirstBlock = () => {
     formData.timeForDefaultValueAMPMalignment.ampm,
   ])
 
+  const [createReservationInteractive, setCreateReservationInteractive] =
+    useState(false)
+
   // useEffect(() => {
   //   // if (
   //   //   formData.orderAddressDetails[0].rideCheckpoint &&
@@ -191,6 +194,8 @@ const MainFirstBlock = () => {
             setIAgreeWithTransactionFeeNonrefundableChecked={
               setIAgreeWithTransactionFeeNonrefundableChecked
             }
+            createReservationInteractive={createReservationInteractive}
+            setCreateReservationInteractive={setCreateReservationInteractive}
           />
         )
 
@@ -281,6 +286,8 @@ const MainFirstBlock = () => {
             setIAgreeWithTransactionFeeNonrefundableChecked={
               setIAgreeWithTransactionFeeNonrefundableChecked
             }
+            createReservationInteractive={createReservationInteractive}
+            setCreateReservationInteractive={setCreateReservationInteractive}
           />
         )
       //  case 5:
@@ -304,7 +311,7 @@ const MainFirstBlock = () => {
       </button>
       <h2>{count}</h2> */}
 
-      <div className={style.wrapperToLimitContentWidth}>
+      <main className={style.wrapperToLimitContentWidth}>
         <h1 className={style.findExecutiveCar}>
           Find executive car & chauffeur service
         </h1>
@@ -329,121 +336,121 @@ const MainFirstBlock = () => {
             )} */}
             {!isMobile ? (
               <>
-                {formData.captcha &&
-                  formData.orderAddressDetails[0].rideCheckPoint && (
-                    <div className={style.buttonsContainer}>
-                      {activeStep == 2 ? (
-                        <>
-                          <button
-                            className={style.backButton}
-                            onClick={() => {
-                              if (activeStep == 1) {
-                                return
-                              }
-                              setActiveStep(activeStep - 1)
-                            }}
-                          >
-                            BACK
-                          </button>
-                          <button
-                            className={
-                              termsAndPrivacyPolicyChecked &&
-                              iAgreeWithTransactionFeeNonrefundableChecked
-                                ? style.payButton
-                                : style.payButtonDisabled
-                            }
-                            onClick={() => {
-                              createReservation(formData)
-                            }}
-                          >
-                            PAY
-                          </button>
-                        </>
-                      ) : (
+                {formData.orderAddressDetails[0].rideCheckPoint && (
+                  <div className={style.buttonsContainer}>
+                    {activeStep == 2 ? (
+                      <>
                         <button
-                          className={
-                            activeStep == 1 && formData.carInfo.id == 0
-                              ? style.nextButtonDisabled
-                              : style.nextButton
-                          }
-                          disabled={
-                            activeStep == 1 && formData.carInfo.id == 0
-                              ? true
-                              : false
-                          }
+                          className={style.backButton}
                           onClick={() => {
-                            // if (
-                            //   formData.orderAddressDetails[0].rideCheckpoint &&
-                            //   formData.orderAddressDetails[1].rideCheckpoint
-                            // ) {
-                            //   setDisableNextButton(false)
-                            // }
                             if (activeStep == 1) {
-                              ifFirstPageAddressDetailsDateAndTimeFilled()
-                              // ifSecondPageNumberOfPassengersFilled()
-                              dispatch(
-                                setOrderDateTime(
-                                  `${formData.dateValue} ${formData.timeValue} ${formData.timeForDefaultValueAMPMalignment.ampm}`
-                                )
-                              )
+                              return
                             }
-                            // if (activeStep == 2) {
-                            // }
-
-                            // if (activeStep == 3) {
-                            //   setShowRecaptcha(true)
-                            //   formData.captcha && setActiveStep(activeStep + 1)
-                            //   !cars &&
-                            //     getFleet({
-                            //       captcha: formData.captcha,
-                            //       hours: formData.hours,
-                            //       isGateMeeting: formData.isGateMeeting,
-                            //       airlines: formData.airlines,
-                            //       orderAddressDetails: formData.orderAddressDetails,
-                            //       page: formData.page,
-                            //       typeId: formData.typeId,
-                            //       bookingType: formData.bookingType,
-                            //       passengersQuantity: formData.passengersQuantity,
-                            //       isAirportPickupIncluded:
-                            //         formData.isAirportPickupIncluded,
-                            //       boosterSeatCount: formData.boosterSeatCount,
-                            //       safetySeatCount: formData.safetySeatCount,
-                            //       luggageCount: formData.luggageCount,
-                            //     })
-                            //   // result.success && dispatch(setCars(result.data))
-
-                            //   // console.log(formData.captcha)
-                            // }
-                            // if (activeStep == 4) {
-                            //   setActiveStep(activeStep + 1)
-                            // }
-                            // if (activeStep == 5) {
-                            //   setActiveStep(activeStep + 1)
-                            // }
-                            // formData.captcha && setShowRecaptcha(false)
-                            // else {
-                            //   if (
-                            //     formData.orderAddressDetails[0].placeId &&
-                            //     formData.orderAddressDetails[1].placeId
-                            //   ) {
-                            //     setActiveStep(activeStep + 1)
-                            //   } else {
-                            //     !formData.orderAddressDetails[0].placeId &&
-                            //       setRedBorderErrorForFromAddress(true)
-
-                            //     !formData.orderAddressDetails[1].placeId &&
-                            //       setRedBorderErrorForToAddress(true)
-                            //   }
-                            // }
-
-                            // setActiveStep(activeStep + 1)
+                            setActiveStep(activeStep - 1)
                           }}
                         >
-                          NEXT
+                          BACK
                         </button>
-                      )}
+                        <button
+                          className={
+                            termsAndPrivacyPolicyChecked &&
+                            iAgreeWithTransactionFeeNonrefundableChecked
+                              ? style.payButton
+                              : style.payButtonDisabled
+                          }
+                          onClick={() => {
+                            createReservation(formData)
+                            setCreateReservationInteractive(true)
+                          }}
+                        >
+                          PAY
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        className={
+                          activeStep == 1 && formData.carInfo.id == 0
+                            ? style.nextButtonDisabled
+                            : style.nextButton
+                        }
+                        disabled={
+                          activeStep == 1 && formData.carInfo.id == 0
+                            ? true
+                            : false
+                        }
+                        onClick={() => {
+                          // if (
+                          //   formData.orderAddressDetails[0].rideCheckpoint &&
+                          //   formData.orderAddressDetails[1].rideCheckpoint
+                          // ) {
+                          //   setDisableNextButton(false)
+                          // }
+                          if (activeStep == 1) {
+                            ifFirstPageAddressDetailsDateAndTimeFilled()
+                            // ifSecondPageNumberOfPassengersFilled()
+                            dispatch(
+                              setOrderDateTime(
+                                `${formData.dateValue} ${formData.timeValue} ${formData.timeForDefaultValueAMPMalignment.ampm}`
+                              )
+                            )
+                          }
+                          // if (activeStep == 2) {
+                          // }
 
-                      {/* <button
+                          // if (activeStep == 3) {
+                          //   setShowRecaptcha(true)
+                          //   formData.captcha && setActiveStep(activeStep + 1)
+                          //   !cars &&
+                          //     getFleet({
+                          //       captcha: formData.captcha,
+                          //       hours: formData.hours,
+                          //       isGateMeeting: formData.isGateMeeting,
+                          //       airlines: formData.airlines,
+                          //       orderAddressDetails: formData.orderAddressDetails,
+                          //       page: formData.page,
+                          //       typeId: formData.typeId,
+                          //       bookingType: formData.bookingType,
+                          //       passengersQuantity: formData.passengersQuantity,
+                          //       isAirportPickupIncluded:
+                          //         formData.isAirportPickupIncluded,
+                          //       boosterSeatCount: formData.boosterSeatCount,
+                          //       safetySeatCount: formData.safetySeatCount,
+                          //       luggageCount: formData.luggageCount,
+                          //     })
+                          //   // result.success && dispatch(setCars(result.data))
+
+                          //   // console.log(formData.captcha)
+                          // }
+                          // if (activeStep == 4) {
+                          //   setActiveStep(activeStep + 1)
+                          // }
+                          // if (activeStep == 5) {
+                          //   setActiveStep(activeStep + 1)
+                          // }
+                          // formData.captcha && setShowRecaptcha(false)
+                          // else {
+                          //   if (
+                          //     formData.orderAddressDetails[0].placeId &&
+                          //     formData.orderAddressDetails[1].placeId
+                          //   ) {
+                          //     setActiveStep(activeStep + 1)
+                          //   } else {
+                          //     !formData.orderAddressDetails[0].placeId &&
+                          //       setRedBorderErrorForFromAddress(true)
+
+                          //     !formData.orderAddressDetails[1].placeId &&
+                          //       setRedBorderErrorForToAddress(true)
+                          //   }
+                          // }
+
+                          // setActiveStep(activeStep + 1)
+                        }}
+                      >
+                        NEXT
+                      </button>
+                    )}
+
+                    {/* <button
                 onClick={() => {
                   dispatch(setCars(result.data))
                   console.log(cars)
@@ -453,8 +460,8 @@ const MainFirstBlock = () => {
               >
                 Click me
               </button> */}
-                    </div>
-                  )}
+                  </div>
+                )}
               </>
             ) : (
               <>
@@ -492,6 +499,7 @@ const MainFirstBlock = () => {
                         }
                         onClick={() => {
                           createReservation(formData)
+                          setCreateReservationInteractive(true)
                         }}
                       >
                         PAY
@@ -526,26 +534,27 @@ const MainFirstBlock = () => {
                             )
                           }
                           if (activeStep == 2) {
-                            setShowRecaptcha(true)
-                            formData.captcha && setActiveStep(activeStep + 1)
-                            !cars &&
-                              getFleet({
-                                captcha: formData.captcha,
-                                hours: formData.hours,
-                                isGateMeeting: formData.isGateMeeting,
-                                airlines: formData.airlines,
-                                orderAddressDetails:
-                                  formData.orderAddressDetails,
-                                page: formData.page,
-                                typeId: formData.typeId,
-                                bookingType: formData.bookingType,
-                                passengersQuantity: formData.passengersQuantity,
-                                isAirportPickupIncluded:
-                                  formData.isAirportPickupIncluded,
-                                boosterSeatCount: formData.boosterSeatCount,
-                                safetySeatCount: formData.safetySeatCount,
-                                luggageCount: formData.luggageCount,
-                              })
+                            // setShowRecaptcha(true)
+                            // formData.captcha &&
+                            setActiveStep(activeStep + 1)
+                            // !cars &&
+                            //   getFleet({
+                            //     captcha: formData.captcha,
+                            //     hours: formData.hours,
+                            //     isGateMeeting: formData.isGateMeeting,
+                            //     airlines: formData.airlines,
+                            //     orderAddressDetails:
+                            //       formData.orderAddressDetails,
+                            //     page: formData.page,
+                            //     typeId: formData.typeId,
+                            //     bookingType: formData.bookingType,
+                            //     passengersQuantity: formData.passengersQuantity,
+                            //     isAirportPickupIncluded:
+                            //       formData.isAirportPickupIncluded,
+                            //     boosterSeatCount: formData.boosterSeatCount,
+                            //     safetySeatCount: formData.safetySeatCount,
+                            //     luggageCount: formData.luggageCount,
+                            //   })
                           }
 
                           if (activeStep == 3) {
@@ -560,7 +569,7 @@ const MainFirstBlock = () => {
                           // if (activeStep == 5) {
 
                           // }
-                          formData.captcha && setShowRecaptcha(false)
+                          // formData.captcha && setShowRecaptcha(false)
                           // else {
                           //   if (
                           //     formData.orderAddressDetails[0].placeId &&
@@ -599,7 +608,7 @@ const MainFirstBlock = () => {
             )}
           </div>
         </div>
-      </div>
+      </main>
     </div>
   )
 }

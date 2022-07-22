@@ -20,7 +20,7 @@ export const AboutUsBlock = () => {
         business management for business owners and simplifies booking process
         for their clients. Our platform connects transportation business owners
         with future clients and each other across the globe using our latest
-        technologies. Welcome to the Bookiglane family!
+        technologies. Welcome to the Bookinglane family!
       </p>
     </div>
   )

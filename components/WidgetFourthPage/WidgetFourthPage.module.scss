@@ -39,4 +39,7 @@
   border-radius: 4.78722px;
   padding: 11px;
   background: white;
+  @media (max-width: 420px) {
+    height: 473.59px;
+  }
 }

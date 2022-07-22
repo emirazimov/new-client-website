@@ -11,6 +11,8 @@ import styles from "../styles/Home.module.css"
 import dynamic from "next/dynamic"
 import { store } from "../reduxToolkit/store"
 import { Provider } from "react-redux"
+import { useEffect } from "react"
+import { Element, Events } from "react-scroll"
 
 const MainFirstBlock = dynamic(
   () => import("../components/MainFirstBlock/MainFirstBlock"),
@@ -18,14 +20,32 @@ const MainFirstBlock = dynamic(
 )
 
 export default function Home() {
+  useEffect(() => {
+    Events.scrollEvent.register("begin", function () {
+      console.log("begin", arguments)
+    })
+
+    Events.scrollEvent.register("end", function () {
+      console.log("end", arguments)
+    })
+  }, [])
+
   return (
     <Provider store={store}>
       <HTMLWrapper>
         <div className={styles.container}>
           <MainFirstBlock />
-          <SolutionsBlock />
-          <AboutUsBlock />
-          <ContactUsBlock />
+          <main>
+            <Element name="Solutions" className="element">
+              <SolutionsBlock />
+            </Element>
+            <Element name="AboutUs" className="element">
+              <AboutUsBlock />
+            </Element>
+            <Element name="ContactUs" className="element">
+              <ContactUsBlock />
+            </Element>
+          </main>
           <Footer />
         </div>
       </HTMLWrapper>

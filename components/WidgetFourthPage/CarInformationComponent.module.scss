@@ -14,6 +14,10 @@
   &:hover {
     background: #666666;
   }
+  @media (max-width: 420px) {
+    height: 102.48px;
+    padding-top: 23px;
+  }
 }
 .carContainerSelected {
   width: 100%;
@@ -27,6 +31,10 @@
   background: #666666;
   border-radius: 7.08571px;
   border: 0.590476px solid #dadada;
+  @media (max-width: 420px) {
+    height: 102.48px;
+    padding-top: 23px;
+  }
 }
 .orSimilar {
   position: absolute;
@@ -76,6 +84,9 @@
   // line-height: 7px;
   margin-bottom: 3px;
   color: #000000;
+  @media (max-width: 420px) {
+    font-size: 16px;
+  }
   // &:after {
   //   content: "";
   //   position: absolute;
@@ -106,6 +117,9 @@
   // line-height: 14px;
   margin-bottom: 4px;
   color: #000000;
+  @media (max-width: 420px) {
+    font-size: 12px;
+  }
 }
 .carLuggage {
   font-weight: 600;
